@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+    table,
+    th,
+    td {
+      border: 2px solid black;
+    }
+    html {
+      zoom: 0.55;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  </style>
+  <body>
+    <div style="margin-left: 15px">
+      <div style="text-align: right; margin-right: 50px; margin-top: 120px">
+        Внимание! Оплата данного счета означает согласие с условиями поставки
+        товара. Уведомление <br />об оплате обязательно, товар на производство
+        отправляется только после прихода денег на р/с <br />
+        Поставщика
+      </div>
+      <div style="margin-left: 40px; margin-bottom: 15px">
+        Образец платежного поручения
+      </div>
+      <table style="width: 80%; margin-left: 40px">
+        <tr>
+          <th style="text-align: left; font-size: 15px">
+            Бенефицар: <br /><%-reportdata.IP%> <br />ИИН : <%-reportdata.bin%>
+          </th>
+          <th style="font-size: 15x">ИИК <br /><%-reportdata.IIK%></th>
+          <th style="font-size: 15px">Кбе <br /><%-reportdata.kbe%></th>
+        </tr>
+        <tr>
+          <td style="font-size: 15px">
+            Банк бенефициара:<br /><%-reportdata.bank%>
+          </td>
+          <td style="text-align: center; font-size: 15px">
+            БИК <br /><%-reportdata.bik%>
+          </td>
+          <td style="text-align: center; font-size: 15px">
+            Код назначения платежа <br />
+            <%-reportdata.cod%>
+          </td>
+        </tr>
+      </table>
+      <div style="margin-top: 20px; margin-left: 40px">
+        <div
+          style="
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 10px;
+            color: black;
+          ">
+          Счет на оплату № <%-reportdata.nomer%> от <%-reportdata.today%>
+          <hr style="background-color: black" />
+        </div>
+
+        <div style="margin-top: 10px">
+          <span style="font-weight: bold; font-size: 12px">Поставщик :</span>
+          <span style="font-size: 12px"
+            >БИН/ИИН <%-reportdata.bin%> <%-reportdata.IP%>
+            <%-reportdata.address%>
+          </span>
+        </div>
+        <div style="margin-top: 10px">
+          <span style="font-weight: bold; font-size: 12px"> Покупатель :</span>
+
+          <span style="font-size: 12px"
+            >БИН/ИИН <%-reportdata.bin2%> <%-reportdata.nameFirmy%>
+            <%-reportdata.address2%>
+          </span>
+        </div>
+        <div style="margin-top: 10px">
+          <span style="font-weight: bold; font-size: 12px"> Договор : </span>
+          <span style="font-size: 12px"><%-reportdata.dogovor%> </span>
+          <% if (reportdata.data != 'undefined-undefined-undefined') { %>
+          <span style="font-size: 12px">от <%= reportdata.data %></span>
+          <% } %>
+        </div>
+      </div>
+
+      <table
+        style="
+          width: 90%;
+          margin-left: 35px;
+          text-align: left;
+          margin-top: 50px;
+        ">
+        <tr style="height: 40px">
+          <th
+            style="
+              font-size: 20px;
+              font-weight: bold;
+              color: black;
+              padding: 5px;
+            ">
+            №
+          </th>
+          <th
+            style="
+              font-size: 20px;
+              font-weight: bold;
+              color: black;
+              padding: 5px;
+            ">
+            Наименование
+          </th>
+          <th
+            style="
+              font-size: 20px;
+              font-weight: bold;
+              color: black;
+              padding: 5px;
+            ">
+            Кол-во
+          </th>
+          <th
+            style="
+              font-size: 20px;
+              font-weight: bold;
+              color: black;
+              padding: 5px;
+            ">
+            Цена
+          </th>
+          <th
+            style="
+              font-size: 20px;
+              font-weight: bold;
+              color: black;
+              padding: 5px;
+            ">
+            Сумма
+          </th>
+        </tr>
+        <% reportdata.esf.forEach(function(es) { %>
+        <tr style="height: 40px; width: 200px">
+          <td style="font-size: 15px; padding: 5px"><%= es.n %></td>
+          <td style="font-size: 15px; padding: 5px"><%= es.Наименование %></td>
+          <td style="font-size: 15px; padding: 5px"><%= es.kol_vo %> шт</td>
+          <td style="font-size: 15px; padding: 5px"><%= es.efs1 %> тнг</td>
+          <td style="font-size: 15px; padding: 5px"><%= es.summa %> тнг</td>
+        </tr>
+        <% }) %>
+      </table>
+
+      <div
+        class="itogo"
+        style="
+          position: absolute;
+          right: 0;
+          font-size: 15px;
+          margin-right: 270px;
+          margin-top: 175px;
+          display: flex;
+        ">
+        <div>Итого: <br />Без НДС</div>
+      </div>
+      <div
+        style="
+          position: absolute;
+          right: 0;
+          font-size: 17px;
+          border: 2px solid;
+          width: 200px;
+          height: 45px;
+          margin-right: 38px;
+          margin-top: 175px;
+          display: flex;
+        ">
+        <div style="margin-top: 2px; margin-left: 6px">
+          <%-reportdata.itogoEsf%> тг
+        </div>
+      </div>
+      <div
+        style="
+          position: absolute;
+
+          margin-left: 40px;
+          margin-top: 220px;
+          width: 100%;
+        ">
+        <div>
+          Всего наименований <%-reportdata.col%> на сумму
+          <%-reportdata.itogoEsf%> KZT
+        </div>
+        <div style="font-weight: bold; margin-top: 10px">
+          Всего к оплате:
+          <span style="margin-left: 5px"><%-reportdata.itogoEsf%> тг</span>
+        </div>
+        <hr style="color: black; margin-top: 10px; width: 100%" />
+      </div>
+      <div
+        style="
+          margin-top: 320px;
+          position: absolute;
+          font-weight: bold;
+          margin-left: 40px;
+        ">
+        <div>
+          Руководитель: _______________________ /<%-reportdata.rukovaditel%>/
+        </div>
+        <img
+          src="<%-reportdata.pechat%>"
+          style="
+            width: 180px;
+            height: 160px;
+            position: absolute;
+            margin-left: 440px;
+          " />
+        <img
+          style="
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            bottom: 1px;
+            margin-left: 185px;
+          "
+          src="<%-reportdata.rospis%>" />
+      </div>
+      <div
+        style="
+          margin-top: 360px;
+          position: absolute;
+          font-weight: bold;
+          margin-left: 40px;
+        ">
+        <br />Главный бухгалтер: не предусмотрен
+      </div>
+    </div>
+  </body>
+</html>
+
+<head>
+  <link rel="stylesheet" href="css/template.css" />
+</head>
