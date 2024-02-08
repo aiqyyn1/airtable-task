@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .div {
+        font-size: 10px;
+      }
+      .div1 {
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="margin-top: 70px">
+      <div
+        style="
+          display: -webkit-flex;
+
+          -webkit-justify-content: space-between;
+        ">
+        <div class="div">Заказчик</div>
+        <div class="div1"><%- reportdata.nameOfFirm %></div>
+      </div>
+      <div
+        style="
+          display: -webkit-flex;
+
+          -webkit-justify-content: space-between;
+        ">
+        <div class="div">Испольнитель</div>
+        <div class="div1"><%-reportdata.ip%></div>
+      </div>
+      <div>Договор (контракт)</div>
+    </div>
+  </body>
+</html>

@@ -12,19 +12,19 @@ const getFirsController = async (req, res) => {
   const recordID = req.query.recordID;
   try {
     const record = await findRecord(recordID);
-    //  console.log(record)
+
     const esf = await fetchRecords(recordID);
 
     const name = record.get('Name');
-    // console.log('lox',name);
+
     const IP = record.get('ИП имя (from ИП)');
-    // console.log(IP);
+
     const iik = record.get('счет (from ИП)');
-    // console.log(iik);
+
     const kbe = record.get('кбе (from ИП)');
-    // console.log(kbe);
+
     const bank = record.get('банк (from ИП)');
-    // console.log(bank);
+
     const bik = record.get('БИК (from ИП)');
     const pechat = record.get('печать (from ИП)')[0].url;
     const rospis = record.get('роспись (from ИП)')[0].url;
@@ -46,7 +46,7 @@ const getFirsController = async (req, res) => {
     const date2 = data ? String(data).split('-') : '';
 
     const date1 = date2[2] + '-' + date2[1] + '-' + date2[0];
-    console.log(date1);
+
     const date = String(record.get('today')).split('-');
     const today = date[2] + '-' + date[1] + '-' + date[0];
     const itogoEsf = record.get('итого ЭСФ').toLocaleString();
@@ -98,7 +98,7 @@ const getFirsController = async (req, res) => {
             height: '20mm',
           },
         };
-    
+
         pdf.create(data, options).toFile(filename, function (err, data) {
           if (err) {
             console.log('Error creating PDF ' + err);
