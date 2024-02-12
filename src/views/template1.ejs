@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      body {
+        margin: 0;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        font-size: 8px;
+      }
       .div {
         font-size: 8px;
       }
@@ -23,7 +36,7 @@
         position: absolute;
         left: 0;
         height: 0;
-        width: 150%;
+        width: 300px;
         border-bottom: 1px solid gray;
         transition: width 0.3s ease;
       }
@@ -57,33 +70,70 @@
           <div class="border_div"><%-reportdata.iinBiin%></div>
         </div>
       </div>
-    </div>
-    <div style="display: -webkit-flex; margin-top: 30px">
-      <div>
-        <div class="div">Заказчик</div>
-      </div>
-      <div style="margin-left: 70px; position: relative">
-        <div class="div1"><%- reportdata.nameOfFirm %></div>
-        <div class="div2"></div>
-        <div class="polnoe">
-          Полное наименование, адрес, данные о средствах связи
+
+      <div style="display: -webkit-flex; margin-top: 30px">
+        <div>
+          <div class="div">Заказчик</div>
+        </div>
+        <div style="margin-left: 70px; position: relative">
+          <div class="div1"><%- reportdata.nameOfFirm %></div>
+          <div class="div2"></div>
+          <div class="polnoe">
+            Полное наименование, адрес, данные о средствах связи
+          </div>
+        </div>
+        <div style="position: absolute; right: 20px">
+          <div class="border_div"><%-reportdata.biin%></div>
         </div>
       </div>
-      <div style="position: absolute; right: 20px">
-        <div class="border_div"><%-reportdata.biin%></div>
-      </div>
-    </div>
-    <div style="display: -webkit-flex; margin-top: 30px">
-      <div>
-        <div class="div">Заказчик</div>
-      </div>
-      <div style="margin-left: 70px; position: relative">
-        <div class="div1"><%- reportdata.nameOfFirm %></div>
-        <div class="div2"></div>
-        <div class="polnoe">
-          Полное наименование, адрес, данные о средствах связи
+      <div style="display: -webkit-flex; margin-top: 30px">
+        <div>
+          <div class="div">Заказчик</div>
+        </div>
+        <div style="position: relative; margin-left: 70px">
+          <div class="div1"><%-reportdata.date%></div>
+          <div class="div2"></div>
+        </div>
+        <div style="position: absolute; right: 60px">
+          <table style="width: 100%">
+            <tr>
+              <th>
+                Номер <br />
+                документа
+              </th>
+              <th>Дата <br />составления</th>
+            </tr>
+            <tr>
+              <td><%-reportdata.avr%></td>
+              <td><%-reportdata.avrDate%></td>
+            </tr>
+          </table>
         </div>
       </div>
+    </div>
+    <div>
+      <div class="div1">АКТ ВЫПОЛНЕННЫХ РАБОТ (ОКАЗАННЫХ УСЛУГ)</div>
+      <table style="width: 100%">
+        <tr>
+          <th>Номер по порядку</th>
+          <th>
+            Наименование работ (услуг) (в разрезе их подвидов в соответствии с
+            технической спецификацией, заданием, графиком выполнения работ
+            (услуг) при их наличии)
+          </th>
+          <th>Дата выполнения работ (оказания услуг)</th>
+          <th>
+            Сведения об отчете о научных исследованиях, маркетинговых,
+            консультационных и прочих услугах (дата, номер, количество страниц)
+            (при их наличии)
+          </th>
+          <th>Единица измерения</th>
+          <th>
+            Выполнено работ (оказано услуг)
+            
+          </th>
+        </tr>
+      </table>
     </div>
   </body>
 </html>
