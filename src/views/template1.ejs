@@ -50,6 +50,21 @@
 
         font-size: 10px;
       }
+      .margin-check {
+        display: inline-block;
+        position: relative;
+      }
+
+      .margin-check:after {
+        position: absolute;
+        content: '';
+        border-left: 1px solid black;
+        width: 70%;
+        transform: translateX(-50%);
+        bottom: -15px;
+        top: 0;
+        left: 10px;
+      }
     </style>
   </head>
   <body>
@@ -111,26 +126,50 @@
         </div>
       </div>
     </div>
-    <div>
+    <div style="margin-top: 30px">
       <div class="div1">АКТ ВЫПОЛНЕННЫХ РАБОТ (ОКАЗАННЫХ УСЛУГ)</div>
-      <table style="width: 100%">
+      <table style="border-collapse: collapse">
         <tr>
           <th>Номер по порядку</th>
-          <th>
+          <th style="width: 20px">
             Наименование работ (услуг) (в разрезе их подвидов в соответствии с
             технической спецификацией, заданием, графиком выполнения работ
             (услуг) при их наличии)
           </th>
           <th>Дата выполнения работ (оказания услуг)</th>
-          <th>
+          <th style="width: 20px">
             Сведения об отчете о научных исследованиях, маркетинговых,
             консультационных и прочих услугах (дата, номер, количество страниц)
             (при их наличии)
           </th>
-          <th>Единица измерения</th>
-          <th>
-            Выполнено работ (оказано услуг)
-            
+          <th style="width: 20px">Единица измерения</th>
+          <th style="width: 150px">
+            <div style="border-left: 0; border-top: 0; border-width: 100%">
+              Выполнено работ (оказано услуг)
+            </div>
+            <div style="display: -webkit-flex">
+              <span
+                style="
+                  border-left: 0;
+                  border-bottom: 0;
+                  border-top: 1px solid black;
+        
+                ">
+                количество
+              </span>
+              <span style="   border-top: 1px solid black;       border-left: 2px solid black;  border-right: 1px solid black;">цена за единицу</span>
+              <span
+                style="
+                  border-left: 0;
+   
+                  border-bottom: 0;
+
+                  border-top: 1px solid black;
+                ">
+                стоимость
+              </span>
+              </div>
+            </div>
           </th>
         </tr>
       </table>
