@@ -13,7 +13,7 @@
         color: black;
         position: relative;
         text-transform: uppercase;
-        left: 50px;
+        left: 15px;
         font-size: 30;
         font-family: oswald;
         text-decoration: none;
@@ -23,7 +23,7 @@
         position: absolute;
         left: 0;
         height: 0;
-        width: 100%;
+        width: 150%;
         border-bottom: 1px solid gray;
         transition: width 0.3s ease;
       }
@@ -32,7 +32,10 @@
       }
       .border_div {
         border: 1px solid black;
-        width: 50px;
+        width: 100%;
+        height: 20px;
+
+        font-size: 10px;
       }
     </style>
   </head>
@@ -42,16 +45,16 @@
         <div>
           <div class="div">Заказчик</div>
         </div>
-        <div style="margin-left: 40px; position: relative">
+        <div style="margin-left: 70px; position: relative">
           <div class="div1"><%- reportdata.nameOfFirm %></div>
           <div class="div2"></div>
           <div class="polnoe">
             Полное наименование, адрес, данные о средствах связи
           </div>
         </div>
-        <div>
-          <div style="margin-left: 100px">ИИН/БИН</div>
-          <div class="border_div"><%-reportdata.iinbiin%></div>
+        <div style="position: absolute; right: 20px">
+          <div class="div">ИИН/БИН</div>
+          <div class="border_div"><%-reportdata.iinBiin%></div>
         </div>
       </div>
     </div>
@@ -59,19 +62,22 @@
       <div>
         <div class="div">Заказчик</div>
       </div>
-      <div style="margin-left: 40px; position: relative">
+      <div style="margin-left: 70px; position: relative">
         <div class="div1"><%- reportdata.nameOfFirm %></div>
         <div class="div2"></div>
         <div class="polnoe">
           Полное наименование, адрес, данные о средствах связи
         </div>
       </div>
+      <div style="position: absolute; right: 20px">
+        <div class="border_div"><%-reportdata.biin%></div>
+      </div>
     </div>
     <div style="display: -webkit-flex; margin-top: 30px">
       <div>
         <div class="div">Заказчик</div>
       </div>
-      <div style="margin-left: 40px; position: relative">
+      <div style="margin-left: 70px; position: relative">
         <div class="div1"><%- reportdata.nameOfFirm %></div>
         <div class="div2"></div>
         <div class="polnoe">
