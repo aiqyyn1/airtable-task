@@ -14,12 +14,15 @@ const getSecondController = async (req, res) => {
     // заказы общее
     const blanks = await getGeneral(recordID);
     const nameOfFirm = blanks.get('название фирмы 3');
-    const ip = blanks.get('ИП');
+    const ip = blanks.get('ИП имя (from ИП)');
+
     const dogovor = blanks.get('договор для счет оплаты');
     const date = blanks.get('дата договора');
     const avr = blanks.get('номер АВР');
     const avrDate = blanks.get('дата АВР');
-    const iinBiin = blanks.get('ИИНБИН 3');
+
+    const iinBiin = blanks.get('ИИН/БИН 3');
+    console.log(iinBiin);
     const biin = blanks.get('БИН (from ИП)');
     const pechat = blanks.get('печать (from ИП)');
     const rospis = blanks.get('роспись (from ИП)');

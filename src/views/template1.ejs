@@ -6,34 +6,78 @@
     <title>Document</title>
     <style>
       .div {
-        font-size: 10px;
+        font-size: 8px;
       }
       .div1 {
-        font-size: 13px;
+        font-size: 8px;
+        color: black;
+        position: relative;
+        text-transform: uppercase;
+        left: 50px;
+        font-size: 30;
+        font-family: oswald;
+        text-decoration: none;
+      }
+      .div2 {
+        content: '';
+        position: absolute;
+        left: 0;
+        height: 0;
+        width: 100%;
+        border-bottom: 1px solid gray;
+        transition: width 0.3s ease;
+      }
+      .polnoe {
+        font-size: 7px;
+      }
+      .border_div {
+        border: 1px solid black;
+        width: 50px;
       }
     </style>
   </head>
   <body>
     <div style="margin-top: 70px">
-      <div
-        style="
-          display: -webkit-flex;
-
-          -webkit-justify-content: space-between;
-        ">
+      <div style="display: -webkit-flex">
+        <div>
+          <div class="div">Заказчик</div>
+        </div>
+        <div style="margin-left: 40px; position: relative">
+          <div class="div1"><%- reportdata.nameOfFirm %></div>
+          <div class="div2"></div>
+          <div class="polnoe">
+            Полное наименование, адрес, данные о средствах связи
+          </div>
+        </div>
+        <div>
+          <div style="margin-left: 100px">ИИН/БИН</div>
+          <div class="border_div"><%-reportdata.iinbiin%></div>
+        </div>
+      </div>
+    </div>
+    <div style="display: -webkit-flex; margin-top: 30px">
+      <div>
         <div class="div">Заказчик</div>
+      </div>
+      <div style="margin-left: 40px; position: relative">
         <div class="div1"><%- reportdata.nameOfFirm %></div>
+        <div class="div2"></div>
+        <div class="polnoe">
+          Полное наименование, адрес, данные о средствах связи
+        </div>
       </div>
-      <div
-        style="
-          display: -webkit-flex;
-
-          -webkit-justify-content: space-between;
-        ">
-        <div class="div">Испольнитель</div>
-        <div class="div1"><%-reportdata.ip%></div>
+    </div>
+    <div style="display: -webkit-flex; margin-top: 30px">
+      <div>
+        <div class="div">Заказчик</div>
       </div>
-      <div>Договор (контракт)</div>
+      <div style="margin-left: 40px; position: relative">
+        <div class="div1"><%- reportdata.nameOfFirm %></div>
+        <div class="div2"></div>
+        <div class="polnoe">
+          Полное наименование, адрес, данные о средствах связи
+        </div>
+      </div>
     </div>
   </body>
 </html>
