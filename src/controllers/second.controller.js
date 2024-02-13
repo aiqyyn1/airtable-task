@@ -45,6 +45,7 @@ const getSecondController = async (req, res) => {
       itogo: itogo,
       details: details,
     };
+    console.log(details)
     const filename = nameOfFirm + '.pdf';
     const templatePath = path.resolve(__dirname, '../views/template1.ejs');
     ejs.renderFile(templatePath, { reportdata: airtableData }, (err, data) => {

@@ -50,6 +50,21 @@
 
         font-size: 10px;
       }
+      .td_border1 {
+        border-left: 0;
+        border-bottom: 0;
+        border-top: 1px solid black;
+      }
+      .td_border2 {
+        border-top: 1px solid black;
+        border-left: 2px solid black;
+        border-right: 1px solid black;
+      }
+      .td_border3 {
+        border-left: 0;
+        border-bottom: 0;
+        border-top: 1px solid black;
+      }
       .margin-check {
         display: inline-block;
         position: relative;
@@ -148,29 +163,38 @@
               Выполнено работ (оказано услуг)
             </div>
             <div style="display: -webkit-flex">
-              <span
-                style="
-                  border-left: 0;
-                  border-bottom: 0;
-                  border-top: 1px solid black;
-        
-                ">
-                количество
-              </span>
-              <span style="   border-top: 1px solid black;       border-left: 2px solid black;  border-right: 1px solid black;">цена за единицу</span>
-              <span
-                style="
-                  border-left: 0;
-   
-                  border-bottom: 0;
-
-                  border-top: 1px solid black;
-                ">
-                стоимость
-              </span>
-              </div>
+              <span class="td_border1">количество</span>
+              <span class="td_border2">цена за единицу</span>
+              <span class="td_border3">стоимость</span>
             </div>
           </th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>
+            <div
+              style="
+                display: -webkit-flex;
+                -webkit-justify-content: space-between;
+                width: 130px;
+              ">
+              <span class="td_border1"> 6 </span>
+              <span class="td_border2"> 7 </span>
+              <span class="td_border3"> 8 </span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th><%-reportdata.details[0].n%></th>
+          <th>Изготовление <%-reportdata.details[0].Наименование%></th>
+          <th></th>
+          <th></th>
+          <th>Одна <br />Услуга</th>
+          <th
         </tr>
       </table>
     </div>
