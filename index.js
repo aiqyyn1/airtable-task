@@ -7,7 +7,7 @@ app.set('view engine', 'ejs');
 
 app.set('views', './src/views/');
 const router = require('./src/routes/router');
-const router1 = require('./src/controllers/second.controller');
+const router1 = require('./src/routes/avr');
 app.get('/blanks', router);
 app.get('/blanks1', router1);
 

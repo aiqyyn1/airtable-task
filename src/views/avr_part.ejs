@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div style="margin-top: 30px">
+      <div class="div1">АКТ ВЫПОЛНЕННЫХ РАБОТ (ОКАЗАННЫХ УСЛУГ)</div>
+      <table style="border-collapse: collapse">
+        <tr>
+          <th>Номер по порядку</th>
+          <th style="width: 20px">
+            Наименование работ (услуг) (в разрезе их подвидов в соответствии с
+            технической спецификацией, заданием, графиком выполнения работ
+            (услуг) при их наличии)
+          </th>
+          <th>Дата выполнения работ (оказания услуг)</th>
+          <th style="width: 20px">
+            Сведения об отчете о научных исследованиях, маркетинговых,
+            консультационных и прочих услугах (дата, номер, количество страниц)
+            (при их наличии)
+          </th>
+          <th style="width: 20px">Единица измерения</th>
+          <th style="width: 150px">
+            <div style="border-left: 0; border-top: 0; margin-top: 10px">
+              Выполнено работ (оказано услуг)
+            </div>
+            <div style="display: -webkit-flex">
+              <span class="td_border1" style="height: 80px">количество</span>
+              <span class="td_border2">цена за единицу</span>
+              <span class="td_border3">стоимость</span>
+            </div>
+          </th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>
+            <div
+              style="
+                display: -webkit-flex;
+                -webkit-justify-content: space-between;
+                margin-left: 17px;
+                width: 130px;
+              ">
+              <span class="td_border1" style="border-top: 0"> 6 </span>
+              <span class="td_border2" style="border-top: 0; width: 75px"
+                >7
+              </span>
+              <span class="td_border3" style="border-top: 0">8 </span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th><%-reportdata.details[0].n%></th>
+          <th>Изготовление <%-reportdata.details[0].Наименование%></th>
+          <th></th>
+          <th></th>
+          <th>Одна <br />Услуга</th>
+          <th>
+            <div
+              style="
+                display: -webkit-flex;
+                margin-left: 17px;
+                -webkit-justify-content: space-between;
+                width: 130px;
+              ">
+              <span class="td_border1" style="border-top: 0">
+                <%-reportdata.details[0].kol_vo%>
+              </span>
+              <span
+                class="td_border2"
+                style="border-top: 0; width: 75px; height: 50px">
+                x
+              </span>
+              <span class="td_border3" style="border-top: 0">
+                <%-reportdata.details[0].summa%>
+              </span>
+            </div>
+          </th>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
