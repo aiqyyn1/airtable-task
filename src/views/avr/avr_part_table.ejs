@@ -8,7 +8,13 @@
   <body>
     <div style="margin-top: 30px">
       <div class="div1">АКТ ВЫПОЛНЕННЫХ РАБОТ (ОКАЗАННЫХ УСЛУГ)</div>
-      <table style="border-collapse: collapse">
+      <table
+        style="
+          border-collapse: collapse;
+          border: none;
+          width: 95%;
+          margin-left: 10px;
+        ">
         <tr>
           <th>Номер по порядку</th>
           <th style="width: 20px">
@@ -24,17 +30,17 @@
           </th>
           <th style="width: 20px">Единица измерения</th>
           <th style="width: 150px">
-            <div style="border-left: 0; border-top: 0; margin-top: 10px">
+            <div style="border-left: 0; border-top: 0; margin-top: 30px">
               Выполнено работ (оказано услуг)
             </div>
-            <div style="display: -webkit-flex">
+            <div style="display: -webkit-flex; margin-top: 20px">
               <span class="td_border1" style="height: 80px">количество</span>
               <span class="td_border2">цена за единицу</span>
               <span class="td_border3">стоимость</span>
             </div>
           </th>
         </tr>
-        <tr>
+        <tr style="text-align: center">
           <td>1</td>
           <td>2</td>
           <td>3</td>
@@ -56,12 +62,14 @@
             </div>
           </td>
         </tr>
-        <tr>
+        <% reportdata.details.forEach(function(detail) { %>
+        <tr style="text-align: center">
           <th><%-reportdata.details[0].n%></th>
           <th>Изготовление <%-reportdata.details[0].Наименование%></th>
           <th></th>
           <th></th>
           <th>Одна <br />Услуга</th>
+
           <th>
             <div
               style="
@@ -73,7 +81,7 @@
               <span
                 class="td_border1"
                 style="border-top: 0; text-align: center">
-                <%-reportdata.details[0].kol_vo%>
+                <%= detail.kol_vo %>
               </span>
               <span
                 class="td_border2"
@@ -83,15 +91,51 @@
                   height: 50px;
                   text-align: center;
                 ">
-                <%-reportdata.details[0].efs1%>
+                <%= detail.efs1 %>
               </span>
               <span
                 class="td_border3"
                 style="border-top: 0; text-align: center">
-                <%-reportdata.details[0].summa%>
+                <%= detail.summa %>
               </span>
             </div>
           </th>
+        </tr>
+        <% }); %>
+        <tr style="text-align: center">
+          <td style="border: none"></td>
+          <td style="border: none"></td>
+          <td style="border: none"></td>
+          <td style="border: none"></td>
+          <td style="border: none">Итого</td>
+          <td>
+            <div
+              style="
+                display: -webkit-flex;
+                margin-left: 17px;
+                -webkit-justify-content: space-between;
+                width: 130px;
+              ">
+              <div
+                class="td_border1"
+                style="border-top: 0; text-align: center"></div>
+              <span
+                class="td_border2"
+                style="
+                  border-top: 0;
+                  width: 75px;
+                  height: 50px;
+                  text-align: center;
+                ">
+                x
+              </span>
+              <span
+                class="td_border3"
+                style="border-top: 0; text-align: center">
+                <%-reportdata.itogo%>
+              </span>
+            </div>
+          </td>
         </tr>
       </table>
     </div>
