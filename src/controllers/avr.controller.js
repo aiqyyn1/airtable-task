@@ -24,9 +24,10 @@ const getSecondController = async (req, res) => {
     const iinBiin = blanks.get('ИИН/БИН 3');
 
     const biin = blanks.get('БИН (from ИП)');
-    const pechat = blanks.get('печать (from ИП)');
-    const rospis = blanks.get('роспись (from ИП)');
+    const pechat = blanks.get('печать (from ИП)')[0].url;
+    const rospis = blanks.get('роспись (from ИП)')[0].url;
     const rukovaditel = blanks.get('руководитель (from ИП)');
+    console.log('==>', rukovaditel);
     const itogo = blanks.get('итого');
     // заказы подробно
     const details = await getInDetail(recordID);
@@ -41,7 +42,7 @@ const getSecondController = async (req, res) => {
       biin: biin,
       pechat: pechat,
       rospis: rospis,
-      rukovaditel: rukovaditel,
+      rukovaditel: rukovaditel[0],
       itogo: itogo,
       details: details,
     };
