@@ -12,71 +12,97 @@
     .rukovoditel {
       text-decoration: underline;
     }
+    .main {
+      margin-left: 10px;
+    }
   </style>
   <body>
-    <div style="display: -webkit-flex; margin-top: 20px">
-      <div style="font-size: 8px">
-        Сведения об использовании запасов, полученных от заказчика
-      </div>
-      <div style="margin-left: 20px">
-        <hr style="width: 315px" />
-        <div style="font-size: 8px; text-align: center">
-          наименование, количество, стоимость
+    <div class="main">
+      <div style="display: -webkit-flex; margin-top: 20px">
+        <div style="font-size: 8px">
+          Сведения об использовании запасов, полученных от заказчика
+        </div>
+        <div style="margin-left: 20px">
+          <hr style="width: 305px" />
+          <div style="font-size: 8px; text-align: center">
+            наименование, количество, стоимость
+          </div>
         </div>
       </div>
-    </div>
-    <div style="margin-top: 10px">
-      <div>
-        Приложение: Перечень документации, в том числе отчет(ы) о маркетинговых,
-        научных исследованиях, консультационных и прочих услугах (обязательны
-        при его
-      </div>
-      <div style="display: -webkit-flex">
-        <div style="margin-left: 90px">
-          <div>(их) наличии) на</div>
+      <div style="margin-top: 10px">
+        <div>
+          Приложение: Перечень документации, в том числе отчет(ы) о
+          маркетинговых, научных исследованиях, консультационных и прочих
+          услугах (обязательны при его
         </div>
-        <div style="width: 40px; margin-left: 2px"><hr /></div>
-        <div style="margin-left: 5px">страниц</div>
-        <div style="width: 355px; margin-left: 10px"><hr /></div>
+        <div style="display: -webkit-flex">
+          <div style="margin-left: 90px">
+            <div>(их) наличии) на</div>
+          </div>
+          <div style="width: 40px; margin-left: 2px"><hr /></div>
+          <div style="margin-left: 5px">страниц</div>
+          <div style="width: 340px; margin-left: 20px"><hr /></div>
+        </div>
       </div>
-    </div>
-    <div style="margin-top: 40px; display: -webkit-flex">
-      <div>Сдал (Исполнитель)</div>
-      <div style="margin-left: 20px">
-        <div class="rukovoditel">Руководитель</div>
+      <div style="margin-top: 40px; display: -webkit-flex">
+        <div>Сдал (Исполнитель)</div>
+        <div style="margin-left: 20px">
+          <div class="rukovoditel">Руководитель</div>
 
-        <div style="margin-top: 3px">должность</div>
+          <div style="margin-top: 3px">должность</div>
+        </div>
+        <div>/</div>
+        <div style="margin-left: 20px; position: relative">
+          <div>
+            <img
+              src="<%-reportdata.rospis%>"
+              width="20"
+              height="20"
+              style="position: absolute; top: -15px; text-align: center" />
+          </div>
+          <div>_____________</div>
+          <div style="margin-top: 3px">должность</div>
+        </div>
+        <div>/</div>
+        <div style="margin-left: 20px">
+          <div class="rukovoditel"><%-reportdata.rukovaditel%></div>
+
+          <div style="margin-top: 3px">должность</div>
+        </div>
+        <div>/</div>
+        <div style="margin-left: 20px">Принял (Заказчик)</div>
+        <div style="margin-left: 20px">
+          <div>_____________</div>
+          <div style="margin-top: 3px">должность</div>
+        </div>
+        <div>/</div>
+        <div style="margin-left: 20px">
+          <div>_____________</div>
+          <div style="margin-top: 3px">должность</div>
+        </div>
+        <div>/</div>
       </div>
-      <div>/</div>
-      <div style="margin-left: 20px; position: relative">
+
+      <div
+        style="
+          position: relative;
+          display: -webkit-flex;
+          -webkit-justify-content: space-between;
+          width: 800px;
+        ">
         <div>
           <img
-            src="<%-reportdata.rospis%>"
-            width="20"
-            height="20"
-            style="position: absolute; top: -15px; text-align: center" />
+            style="position: absolute"
+            src="<%-reportdata.pechat%>"
+            width="110"
+            height="100" />
         </div>
-        <div>_____________</div>
-        <div style="margin-top: 3px">должность</div>
-      </div>
-      <div>/</div>
-      <div style="margin-left: 20px">
-        <div class="rukovoditel"><%-reportdata.rukovaditel%></div>
+        <div style="margin-top: 20px">
+          Дата подписания (принятия) работ (услуг)
+        </div>
 
-        <div style="margin-top: 3px">должность</div>
+        <div><%-reportdata.avrDate%></div>
       </div>
-      <div>/</div>
-      <div style="margin-left: 20px">Принял (Заказчик)</div>
-      <div style="margin-left: 20px">
-        <div>_____________</div>
-        <div style="margin-top: 3px">должность</div>
-      </div>
-      <div>/</div>
-      <div style="margin-left: 20px">
-        <div>_____________</div>
-        <div style="margin-top: 3px">должность</div>
-      </div>
-      <div>/</div>
     </div>
   </body>
 </html>

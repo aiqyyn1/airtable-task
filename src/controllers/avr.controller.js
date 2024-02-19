@@ -27,8 +27,8 @@ const getSecondController = async (req, res) => {
     const pechat = blanks.get('печать (from ИП)')[0].url;
     const rospis = blanks.get('роспись (from ИП)')[0].url;
     const rukovaditel = blanks.get('руководитель (from ИП)');
-    console.log('==>', rukovaditel);
     const itogo = blanks.get('итого');
+
     // заказы подробно
     const details = await getInDetail(recordID);
     let airtableData = {
@@ -46,7 +46,6 @@ const getSecondController = async (req, res) => {
       itogo: itogo,
       details: details,
     };
-    console.log(details);
     const filename = nameOfFirm + '.pdf';
     const templatePath = path.resolve(__dirname, '../views/avr/avr.ejs');
     ejs.renderFile(templatePath, { reportdata: airtableData }, (err, data) => {
