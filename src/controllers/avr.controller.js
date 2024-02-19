@@ -19,7 +19,7 @@ const getSecondController = async (req, res) => {
     const dogovor = blanks.get('договор для счет оплаты');
     const date = blanks.get('дата договора');
     const avr = blanks.get('номер АВР');
-    const avrDate = blanks.get('дата АВР');
+    const avrDate = blanks.get('дата АВР') ? blanks.get('дата АВР') : '';
 
     const iinBiin = blanks.get('ИИН/БИН 3');
 

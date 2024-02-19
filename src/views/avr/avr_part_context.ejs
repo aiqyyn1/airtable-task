@@ -88,21 +88,26 @@
           position: relative;
           display: -webkit-flex;
           -webkit-justify-content: space-between;
-          width: 800px;
+          /* width: 800px; */
         ">
-        <div>
-          <img
-            style="position: absolute"
-            src="<%-reportdata.pechat%>"
-            width="110"
-            height="100" />
+        <div style="position: absolute">
+          <img src="<%-reportdata.pechat%>" width="110" height="100" />
         </div>
-        <div style="margin-top: 20px">
-          Дата подписания (принятия) работ (услуг)
+        <div
+          style="
+            position: absolute;
+            right: 50px;
+            top: 20px;
+            display: -webkit-flex;
+          ">
+          <div>Дата подписания (принятия) работ (услуг)</div>
+          <div style="margin-left: 5px">
+            <div><%-reportdata.avrDate%></div>
+            <div>__________________________</div>
+          </div>
         </div>
-
-        <div><%-reportdata.avrDate%></div>
       </div>
+      <div style="position: absolute; right: 50px">М.Л</div>
     </div>
   </body>
 </html>
