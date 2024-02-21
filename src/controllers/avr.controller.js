@@ -55,6 +55,7 @@ const getSecondController = async (req, res) => {
       } else {
         const options = {
           format: 'A4',
+          orientation: 'landscape',
           base: 'file:///' + __dirname,
 
           header: {
