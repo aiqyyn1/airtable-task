@@ -20,7 +20,7 @@
         font-size: 5px;
       }
       .div {
-        font-size: 8px;
+        font-size: 5px;
       }
       .div1 {
         font-size: 5px;
@@ -47,8 +47,8 @@
       .border_div {
         border: 1px solid black;
         width: 100%;
-        height: 20px;
-        font-size: 10px;
+        height: 10px;
+        font-size: 5px;
       }
       .td_border1,
       .td_border2,
@@ -92,12 +92,12 @@
     </style>
   </head>
   <body>
-    <div style="position: absolute; right: 10px; font-size: 8px; top: 0">
+    <div style="position: absolute; right: 65px; font-size: 8px; top: 0">
       Приложение 50 <br />
       к приказу Министра финансов <br />
       Республики Казахстан <br />от 20 декабря 2012 года № 562
     </div>
-    <div style="position: absolute; right: 10px; font-size: 8px; top: 50px">
+    <div style="position: absolute; right: 50px; font-size: 8px; top: 50px">
       Форма Р-1
     </div>
     <div style="margin-top: 90px; margin-left: 10px">
@@ -105,14 +105,14 @@
         <div>
           <div class="div">Заказчик</div>
         </div>
-        <div style="margin-left: 70px; position: relative">
+        <div style="margin-left: 40px; position: relative">
           <div class="div1"><%- reportdata.nameOfFirm %></div>
           <div class="div2"></div>
           <div class="polnoe">
             Полное наименование, адрес, данные о средствах связи
           </div>
         </div>
-        <div style="position: absolute; right: 20px">
+        <div style="position: absolute; right: 130px">
           <div class="div">ИИН/БИН</div>
           <div class="border_div"><%-reportdata.iinBiin%></div>
         </div>
@@ -122,14 +122,14 @@
         <div>
           <div class="div">Испольнитель</div>
         </div>
-        <div style="margin-left: 70px; position: relative">
+        <div style="margin-left: 40px; position: relative">
           <div class="div1"><%- reportdata.nameOfFirm %></div>
           <div class="div2"></div>
           <div class="polnoe">
             Полное наименование, адрес, данные о средствах связи
           </div>
         </div>
-        <div style="position: absolute; right: 20px">
+        <div style="position: absolute; right: 130px">
           <div class="border_div"><%-reportdata.biin%></div>
         </div>
       </div>
@@ -137,11 +137,11 @@
         <div>
           <div class="div">Договор (контракт)</div>
         </div>
-        <div style="position: relative; margin-left: 70px">
+        <div style="position: relative; margin-left: 40px">
           <div class="div1"><%-reportdata.date%></div>
-          <div class="div2"></div>
+          <div class="div2" style="margin-top: 8px"></div>
         </div>
-        <div style="position: absolute; right: 60px">
+        <div style="position: absolute; right: 250px">
           <table style="width: 100%">
             <tr>
               <th>
