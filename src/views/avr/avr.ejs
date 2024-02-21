@@ -47,8 +47,8 @@
       .border_div {
         border: 1px solid black;
         width: 100%;
-        height: 10px;
-        font-size: 5px;
+        height: 5px;
+        font-size: 8px;
       }
       .td_border1,
       .td_border2,
@@ -59,19 +59,12 @@
       }
 
       .td_border1 {
-        /* width: 50px; */
         border-left: 0;
       }
 
       .td_border2 {
-        /* width: 50px; */
         border-right: 1px solid black;
-
         border-left: 1px solid black;
-      }
-
-      .td_border3 {
-        /* width: 50px; */
       }
 
       .margin-check {
@@ -97,7 +90,7 @@
       к приказу Министра финансов <br />
       Республики Казахстан <br />от 20 декабря 2012 года № 562
     </div>
-    <div style="position: absolute; right: 50px; font-size: 8px; top: 50px">
+    <div style="position: absolute; right: 70px; font-size: 8px; top: 50px">
       Форма Р-1
     </div>
     <div style="margin-top: 90px; margin-left: 10px">
@@ -112,28 +105,44 @@
             Полное наименование, адрес, данные о средствах связи
           </div>
         </div>
-        <div style="position: absolute; right: 130px">
+        <div
+          style="
+            position: absolute;
+            right: 170px;
+            font-size: 8px;
+            height: 15px;
+          ">
           <div class="div">ИИН/БИН</div>
-          <div class="border_div"><%-reportdata.iinBiin%></div>
+          <div class="border_div" style="height: 15px">
+            <%-reportdata.iinBiin%>
+          </div>
         </div>
       </div>
 
-      <div style="display: -webkit-flex; margin-top: 30px">
+      <div style="display: -webkit-flex; margin-top: 15px">
         <div>
           <div class="div">Испольнитель</div>
         </div>
         <div style="margin-left: 40px; position: relative">
-          <div class="div1"><%- reportdata.nameOfFirm %></div>
+          <div class="div1"><%- reportdata.ip %></div>
           <div class="div2"></div>
           <div class="polnoe">
             Полное наименование, адрес, данные о средствах связи
           </div>
         </div>
-        <div style="position: absolute; right: 130px">
-          <div class="border_div"><%-reportdata.biin%></div>
+        <div
+          style="
+            position: absolute;
+            right: 170px;
+            font-size: 8px;
+            margin-top: 10px;
+          ">
+          <div class="border_div" style="height: 15px">
+            <%-reportdata.biin%>
+          </div>
         </div>
       </div>
-      <div style="display: -webkit-flex; margin-top: 30px">
+      <div style="display: -webkit-flex; margin-top: 15px">
         <div>
           <div class="div">Договор (контракт)</div>
         </div>

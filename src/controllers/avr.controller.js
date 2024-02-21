@@ -28,12 +28,12 @@ const getSecondController = async (req, res) => {
     const rospis = blanks.get('роспись (from ИП)')[0].url;
     const rukovaditel = blanks.get('руководитель (from ИП)');
     const itogo = blanks.get('итого');
-
+   
     // заказы подробно
     const details = await getInDetail(recordID);
     let airtableData = {
       nameOfFirm: nameOfFirm,
-      ip: ip,
+      ip: ip[0],
       dogovor: dogovor,
       date: date,
       avr: avr,
