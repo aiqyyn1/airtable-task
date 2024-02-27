@@ -141,7 +141,7 @@
           ">
           <div
             class="border_div"
-            style="height: 15px; padding-left: 2px; padding-top: 2px    ">
+            style="height: 15px; padding-left: 2px; padding-top: 2px">
             <%-reportdata.biin%>
           </div>
         </div>
@@ -151,8 +151,11 @@
           <div class="div">Договор (контракт)</div>
         </div>
         <div style="position: relative; margin-left: 40px">
-          <div class="div1"><%-reportdata.date%></div>
-          <div class="div2" style="margin-top: 8px"></div>
+          <div class="div1">
+            <% if (!reportdata.date) {%> <%=reportdata.dogovor%> <%} else{ %>
+            <%-reportdata.dogovor%> от <%-reportdata.date%> <%}%>
+          </div>
+          <div class="div2" style="margin-top: 4px"></div>
         </div>
         <div style="position: absolute; right: 250px">
           <table style="width: 100%">

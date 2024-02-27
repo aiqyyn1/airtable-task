@@ -34,6 +34,7 @@ const getSecondController = async (req, res) => {
     } else {
       date = blanks.get('дата договора');
     }
+
     // заказы подробно
     const details = await getInDetail(recordID);
     let airtableData = {
