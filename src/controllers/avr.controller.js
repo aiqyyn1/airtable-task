@@ -17,7 +17,7 @@ const getSecondController = async (req, res) => {
     const ip = blanks.get('ИП имя (from ИП)');
 
     const dogovor = blanks.get('договор для счет оплаты');
-    const date = blanks.get('дата договора');
+
     const avr = blanks.get('номер АВР');
     const avrDate = blanks.get('дата АВР') ? blanks.get('дата АВР') : '';
 
@@ -28,7 +28,12 @@ const getSecondController = async (req, res) => {
     const rospis = blanks.get('роспись (from ИП)')[0].url;
     const rukovaditel = blanks.get('руководитель (from ИП)');
     const itogo = blanks.get('итого');
-   
+    let date;
+    if (dogovor === 'БЕЗ ДОГОВОРА') {
+      date = '';
+    } else {
+      date = blanks.get('дата договора');
+    }
     // заказы подробно
     const details = await getInDetail(recordID);
     let airtableData = {
@@ -126,13 +131,15 @@ const getInDetail = (recordID) => {
               const kol_vo = item.get('Кол-во');
 
               let summa = item.get('ЭСФ Сумма').toLocaleString();
-
+              let sum = 0;
+              sum += kol_vo;
               esf.push({
                 Наименование: naimenovanie,
                 n: n,
                 efs1: esfCena,
                 kol_vo: kol_vo,
                 summa: summa,
+                itogo: sum,
               });
             });
 
