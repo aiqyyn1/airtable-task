@@ -36,21 +36,26 @@ const getSecondController = async (req, res) => {
     }
 
     // заказы подробно
-    const details = await getInDetail(recordID);
+    const { arr, esf } = await getInDetail(recordID);
+    let sum = 0;
+    for (let i = 0; i < arr.length; i++) {
+      sum += arr[i];
+    }
     let airtableData = {
       nameOfFirm: nameOfFirm,
-      ip: ip[0],
+      ip: String(ip),
       dogovor: dogovor,
       date: date,
       avr: avr,
       avrDate: avrDate,
-      iinBiin: iinBiin[0],
+      iinBiin: String(iinBiin),
       biin: biin,
       pechat: pechat,
       rospis: rospis,
       rukovaditel: rukovaditel[0],
       itogo: itogo,
-      details: details,
+      details: esf,
+      sum: sum,
     };
     const filename = nameOfFirm + '.pdf';
     const templatePath = path.resolve(__dirname, '../views/avr/avr.ejs');
@@ -109,6 +114,8 @@ const getGeneral = (recordID) => {
 };
 const getInDetail = (recordID) => {
   let esf = [];
+  let arr = [];
+
   return new Promise((resolve, reject) => {
     base('заказы подробно')
       .select({
@@ -119,44 +126,38 @@ const getInDetail = (recordID) => {
         function page(records, fetchNextPage) {
           try {
             records.forEach((item) => {
-              const id = item.get('record_id (from заказ номер)');
+              const kol_vo = item.get('Кол-во');
 
-              const n = item.get('№');
-
-              const naimenovanie = item.get('Наименование1');
+              arr.push(kol_vo);
 
               const esfCena = item.get('ЭСФ цена')
                 ? item.get('ЭСФ цена').toLocaleString()
                 : '';
+              const summa = item.get('ЭСФ Сумма').toLocaleString();
 
-              const kol_vo = item.get('Кол-во');
-
-              let summa = item.get('ЭСФ Сумма').toLocaleString();
-              let sum = 0;
-              sum += kol_vo;
               esf.push({
-                Наименование: naimenovanie,
-                n: n,
+                Наименование: item.get('Наименование1'),
+                n: item.get('№'),
                 efs1: esfCena,
                 kol_vo: kol_vo,
                 summa: summa,
-                itogo: sum,
               });
             });
 
             fetchNextPage();
           } catch (error) {
-            reject(error); // Reject if an error occurs within the try block
+            reject(error);
           }
         },
         function done(err) {
           if (err) {
-            reject(err); // Reject if there's an error when fetching pages
+            reject(err);
           } else {
-            resolve(esf); // Resolve with the collected data when done
+            resolve({ arr, esf });
           }
         }
       );
   });
 };
+
 module.exports = getSecondController;
