@@ -126,6 +126,8 @@ const getInDetail = (recordID) => {
         function page(records, fetchNextPage) {
           try {
             records.forEach((item) => {
+              const avr = item.get('АВР');
+              if (avr){
               const kol_vo = item.get('Кол-во');
 
               arr.push(kol_vo);
@@ -142,9 +144,14 @@ const getInDetail = (recordID) => {
                 kol_vo: kol_vo,
                 summa: summa,
               });
+            }
             });
+    
+
+          
 
             fetchNextPage();
+          
           } catch (error) {
             reject(error);
           }

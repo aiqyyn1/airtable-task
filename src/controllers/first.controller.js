@@ -135,7 +135,8 @@ const fetchRecords = (recordID) => {
           try {
             records.forEach((item) => {
               const id = item.get('record_id (from заказ номер)');
-
+             const nak = item.get('Накладная')
+             if (nak){
               const n = item.get('№');
 
               const naimenovanie = item.get('Наименование1');
@@ -155,6 +156,7 @@ const fetchRecords = (recordID) => {
                 kol_vo: kol_vo,
                 summa: summa,
               });
+            }
             });
 
             fetchNextPage();
