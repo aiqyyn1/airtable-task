@@ -115,7 +115,7 @@ const getGeneral = (recordID) => {
 const getInDetail = (recordID) => {
   let esf = [];
   let arr = [];
-
+  let avrCounter = 1;
   return new Promise((resolve, reject) => {
     base('заказы подробно')
       .select({
@@ -127,31 +127,27 @@ const getInDetail = (recordID) => {
           try {
             records.forEach((item) => {
               const avr = item.get('АВР');
-              if (avr){
-              const kol_vo = item.get('Кол-во');
+              if (avr) {
+                const kol_vo = item.get('Кол-во');
 
-              arr.push(kol_vo);
+                arr.push(kol_vo);
 
-              const esfCena = item.get('ЭСФ цена')
-                ? item.get('ЭСФ цена').toLocaleString()
-                : '';
-              const summa = item.get('ЭСФ Сумма').toLocaleString();
-
-              esf.push({
-                Наименование: item.get('Наименование1'),
-                n: item.get('№'),
-                efs1: esfCena,
-                kol_vo: kol_vo,
-                summa: summa,
-              });
-            }
+                const esfCena = item.get('ЭСФ цена')
+                  ? item.get('ЭСФ цена').toLocaleString()
+                  : '';
+                const summa = item.get('ЭСФ Сумма').toLocaleString();
+                console.log(summa)
+                esf.push({
+                  Наименование: item.get('Наименование1'),
+                  n: avrCounter++,
+                  efs1: esfCena,
+                  kol_vo: kol_vo,
+                  summa: summa,
+                });
+              }
             });
-    
-
-          
 
             fetchNextPage();
-          
           } catch (error) {
             reject(error);
           }
