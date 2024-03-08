@@ -61,7 +61,7 @@ async function mergeAndModifyPDFs(pdfUrls) {
     const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
     pages.forEach((page, index) => {
       const { width, height } = page.getSize();
-      const text = `Text added to page ${index + 1}`;
+      const text = `Qadamloft ${index + 1}`;
       page.drawText(text, {
         x: 50,
         y: height - 50,
