@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
-const { PDFDocument } = require('pdf-lib');
-const {base}  = require('../../airtable')
+const { PDFDocument, rgb, degrees, StandardFonts } = require('pdf-lib');
+const { base } = require('../../airtable');
+
 async function pdfMergerController(req, res) {
   const recordID = req.query.recordID;
 
@@ -10,9 +11,8 @@ async function pdfMergerController(req, res) {
 
     // Set the response headers
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'inline; filename=modified.pdf'); 
+    res.setHeader('Content-Disposition', 'attachment; filename=modified.pdf'); // Fix the Content-Disposition header
 
- 
     res.send(Buffer.from(modifiedPdfBytes));
   } catch (error) {
     console.error('Error:', error);
@@ -52,12 +52,26 @@ async function fetchData(recordID) {
 
 async function mergeAndModifyPDFs(pdfUrls) {
   const mergedPdf = await PDFDocument.create();
+  const helveticaFont = await mergedPdf.embedFont(StandardFonts.Helvetica);
 
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
+
     const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
-    pages.forEach((page) => mergedPdf.addPage(page));
+    pages.forEach((page, index) => {
+      const { width, height } = page.getSize();
+      const text = `Text added to page ${index + 1}`;
+      page.drawText(text, {
+        x: 50,
+        y: height - 50,
+        font: helveticaFont,
+        size: 12,
+        color: rgb(0, 0, 0),
+      });
+
+      mergedPdf.addPage(page);
+    });
   }
 
   return await mergedPdf.save();
