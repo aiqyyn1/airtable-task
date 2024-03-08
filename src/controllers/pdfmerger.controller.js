@@ -67,7 +67,6 @@ async function mergeAndModifyPDFs(pdfUrls) {
         y: height - 50,
         font: helveticaFont,
         size: 12,
-        color: rgb(0, 0, 0),
       });
 
       mergedPdf.addPage(page);
