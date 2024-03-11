@@ -19,7 +19,8 @@ const getSecondController = async (req, res) => {
     const pechat = blanks.get('печать (from ИП)')[0].url;
     const rospis = blanks.get('роспись (from ИП)')[0].url;
     const rukovaditel = blanks.get('руководитель (from ИП)');
-    const itogo = blanks.get('итого');
+    const itogo = blanks.get('итого АВР').toLocaleString();
+    console.log(itogo)
     let date;
     if (dogovor === 'БЕЗ ДОГОВОРА') {
       date = '';
