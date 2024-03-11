@@ -12,7 +12,9 @@ const getSecondController = async (req, res) => {
 
     const avr = blanks.get('номер АВР');
     const avrDate = blanks.get('дата АВР') ? blanks.get('дата АВР') : '';
-
+    const dateSplit = String(avrDate).split('-')
+    const dateAVR = dateSplit[2] + '.' + dateSplit[1] + '.' + dateSplit[0]
+    console.log(dateAVR)
     const iinBiin = blanks.get('ИИН/БИН 3');
 
     const biin = blanks.get('БИН (from ИП)');
@@ -40,7 +42,7 @@ const getSecondController = async (req, res) => {
       dogovor: dogovor,
       date: date,
       avr: avr,
-      avrDate: avrDate,
+      avrDate: dateAVR,
       iinBiin: String(iinBiin),
       biin: biin,
       pechat: pechat,
