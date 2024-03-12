@@ -7,7 +7,7 @@ async function pdfMergerController(req, res) {
 
   try {
     const pdfUrls = await fetchData(recordID);
-    const modifiedPdfBytes = await mergeAndModifyPDFs(pdfUrls);
+    const modifiedPdfBytes = await mergeAndModifyPDFs(pdfUrls, recordID);
 
     // Set the response headers
     res.setHeader('Content-Type', 'application/pdf');
@@ -49,11 +49,28 @@ async function fetchData(recordID) {
       );
   });
 }
+findRecord = (recordID) => {
+  return new Promise((resolve, reject) => {
+    base('заказы общее').find(recordID, (err, record) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(record);
+      }
+    });
+  });
+};
 
-async function mergeAndModifyPDFs(pdfUrls) {
+async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const mergedPdf = await PDFDocument.create();
   const helveticaFont = await mergedPdf.embedFont(StandardFonts.Helvetica);
-
+  const data = await findRecord(recordID)
+  const aty_from_client = String(data.get('Аты (from клиент)'))
+// const url = 'https://pdf-lib.js.org/assets/with_update_sections.pdf'
+// 		const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
+// 		// Загружаем шрифт с поддержкой русского языка, в данном случае это Microsoft Sans Serif
+// 		const url2 = 'https://db.onlinewebfonts.com/t/643e59524d730ce6c6f2384eebf945f8.ttf'
+// 		const fontBytes = await fetch(url2).then(res => res.arrayBuffer())
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -63,61 +80,36 @@ async function mergeAndModifyPDFs(pdfUrls) {
       const { width, height } = page.getSize();
       const modifiedPage = mergedPdf.addPage(page);
 
-      // Define table properties
-      const tableX = 50;
-      const tableY = height - 150;
-      const cellWidth = 100;
-      const cellHeight = 30;
-      const tableGap = 10;
+    
 
-      // Draw table header
-      modifiedPage.drawText('Header 1', {
-        x: tableX,
-        y: tableY,
-        font: helveticaFont,
-        size: 12,
-        color: rgb(0, 0, 0),
-      });
 
-      modifiedPage.drawText('Header 2', {
-        x: tableX + cellWidth + tableGap,
-        y: tableY,
-        font: helveticaFont,
-        size: 12,
-        color: rgb(0, 0, 0),
-      });
 
-      modifiedPage.drawText('Header 3', {
-        x: tableX + 2 * (cellWidth + tableGap),
-        y: tableY,
-        font: helveticaFont,
-        size: 12,
-        color: rgb(0, 0, 0),
-      });
+      const fontSize = 12;
+  
+      const textWidth = helveticaFont.widthOfTextAtSize('s', fontSize);
+      const textHeight = helveticaFont.heightAtSize(fontSize);
+ 
+    
 
-      // Draw table content
-      const tableContent = [
-        ['Cell 1', 'Cell 2', 'Cell 3'],
-        ['Cell 4', 'Cell 5', 'Cell 6'],
-        // Add more rows as needed
-      ];
-
-      tableContent.forEach((row, rowIndex) => {
-        row.forEach((cell, colIndex) => {
-          modifiedPage.drawText(cell, {
-            x: tableX + colIndex * (cellWidth + tableGap),
-            y: tableY - (rowIndex + 1) * (cellHeight + tableGap),
-            font: helveticaFont,
-            size: 10,
-            color: rgb(0, 0, 0),
-          });
+      // Add a new page after each PDF file
+      if (index < pages.length - 1) {
+        const newPage = mergedPdf.addPage([width, height]);
+        const textXNewPage = (newPage.getWidth() - textWidth) / 2;
+        const textYNewPage = (newPage.getHeight() - textHeight) / 2;
+        newPage.drawText('s', {
+          x: textXNewPage,
+          y: textYNewPage,
+          size: fontSize,
+          font: helveticaFont,
+          color: rgb(0, 0, 0), // Black color
         });
-      });
+      }
     });
   }
 
   return await mergedPdf.save();
 }
+
 
 
 module.exports = pdfMergerController;
