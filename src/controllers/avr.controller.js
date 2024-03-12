@@ -14,7 +14,6 @@ const getSecondController = async (req, res) => {
     const avrDate = blanks.get('дата АВР') ? blanks.get('дата АВР') : '';
     const dateSplit = String(avrDate).split('-')
     const dateAVR = dateSplit[2] + '.' + dateSplit[1] + '.' + dateSplit[0]
-    console.log(dateAVR)
     const iinBiin = blanks.get('ИИН/БИН 3');
 
     const biin = blanks.get('БИН (from ИП)');
