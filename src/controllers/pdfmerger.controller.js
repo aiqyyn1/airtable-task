@@ -71,7 +71,8 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const customFont = await mergedPdf.embedFont(fontBytes)
 
   const data = await findRecord(recordID)
-  const aty_from_client = String(data.get('Аты (from клиент)'))
+  const aty_from_client ='Аты' +' ' + String(data.get('Аты (from клиент)'))
+  const tel2_from_client ='Тел' + ' ' + String(data.get('тел2 (from клиент)'))
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -85,24 +86,29 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
 
       const fontSize = 12;
   
-      const widthHeight =customFont.widthOfTextAtSize(aty_from_client, fontSize)
-      const textHeight = customFont.heightAtSize( fontSize);
  
     
 
       // Add a new page after each PDF file
       if (index < pages.length - 1) {
         const newPage = mergedPdf.addPage([width, height]);
-        const textXNewPage = (newPage.getWidth() - widthHeight) / 2;
-        const textYNewPage = (newPage.getHeight() - textHeight) / 2;
+        // const textXNewPage = (newPage.getWidth() - widthHeight) / 2;
+        // const textYNewPage = (newPage.getHeight() - textHeight) / 2;
 
         newPage.drawText(aty_from_client, {
-          x: textXNewPage,
-          y: textYNewPage,
+          x: 50,
+          y: 510,
           size: fontSize,
           font: customFont,
           color: rgb(0,0,0,0), // Black color
         });
+        newPage.drawText(tel2_from_client, {
+          x: 50,
+          y:520,
+          size: fontSize,
+          font: customFont,
+          color: rgb(0,0,0,0),
+        })
       }
     });
   }
