@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const { PDFDocument, rgb, degrees, StandardFonts } = require('pdf-lib');
+const fontkit = require('@pdf-lib/fontkit')
 const { base } = require('../../airtable');
 
 async function pdfMergerController(req, res) {
@@ -61,16 +62,16 @@ findRecord = (recordID) => {
   });
 };
 
+
 async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const mergedPdf = await PDFDocument.create();
-  const helveticaFont = await mergedPdf.embedFont(StandardFonts.Helvetica);
+  const fontBytes = await fetch('https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf').then((res) => res.arrayBuffer())
+
+  mergedPdf.registerFontkit(fontkit)
+  const customFont = await mergedPdf.embedFont(fontBytes)
+
   const data = await findRecord(recordID)
   const aty_from_client = String(data.get('Аты (from клиент)'))
-// const url = 'https://pdf-lib.js.org/assets/with_update_sections.pdf'
-// 		const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
-// 		// Загружаем шрифт с поддержкой русского языка, в данном случае это Microsoft Sans Serif
-// 		const url2 = 'https://db.onlinewebfonts.com/t/643e59524d730ce6c6f2384eebf945f8.ttf'
-// 		const fontBytes = await fetch(url2).then(res => res.arrayBuffer())
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -80,28 +81,27 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       const { width, height } = page.getSize();
       const modifiedPage = mergedPdf.addPage(page);
 
-    
-
-
+  
 
       const fontSize = 12;
   
-      const textWidth = helveticaFont.widthOfTextAtSize('s', fontSize);
-      const textHeight = helveticaFont.heightAtSize(fontSize);
+      const widthHeight =customFont.widthOfTextAtSize(aty_from_client, fontSize)
+      const textHeight = customFont.heightAtSize( fontSize);
  
     
 
       // Add a new page after each PDF file
       if (index < pages.length - 1) {
         const newPage = mergedPdf.addPage([width, height]);
-        const textXNewPage = (newPage.getWidth() - textWidth) / 2;
+        const textXNewPage = (newPage.getWidth() - widthHeight) / 2;
         const textYNewPage = (newPage.getHeight() - textHeight) / 2;
-        newPage.drawText('s', {
+
+        newPage.drawText(aty_from_client, {
           x: textXNewPage,
           y: textYNewPage,
           size: fontSize,
-          font: helveticaFont,
-          color: rgb(0, 0, 0), // Black color
+          font: customFont,
+          color: rgb(0,0,0,0), // Black color
         });
       }
     });
@@ -109,7 +109,6 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
 
   return await mergedPdf.save();
 }
-
 
 
 module.exports = pdfMergerController;
