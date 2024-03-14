@@ -21,13 +21,17 @@ const getSecondController = async (req, res) => {
     const rospis = blanks.get('роспись (from ИП)')[0].url;
     const rukovaditel = blanks.get('руководитель (from ИП)');
     const itogo = blanks.get('итого АВР').toLocaleString();
-    console.log(itogo)
+ 
     let date;
     if (dogovor === 'БЕЗ ДОГОВОРА') {
       date = '';
     } else {
       date = blanks.get('дата договора');
-    }
+    } 
+    console.log(date)
+    const split_date = date && String(date).split('-');
+    console.log(split_date)
+    const new_date =split_date ? split_date[2] + '.' + split_date[1] +'.' + dateSplit[0] : ''
 
     // заказы подробно
     const { arr, esf } = await getInDetail(recordID);
@@ -39,7 +43,7 @@ const getSecondController = async (req, res) => {
       nameOfFirm: nameOfFirm,
       ip: String(ip),
       dogovor: dogovor,
-      date: date,
+      date: new_date,
       avr: avr,
       avrDate: dateAVR,
       iinBiin: String(iinBiin),
