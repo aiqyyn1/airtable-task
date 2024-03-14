@@ -28,13 +28,12 @@ const getSecondController = async (req, res) => {
     } else {
       date = blanks.get('дата договора');
     } 
-    console.log(date)
+
     const split_date = date && String(date).split('-');
-    console.log(split_date)
     const new_date =split_date ? split_date[2] + '.' + split_date[1] +'.' + dateSplit[0] : ''
 
     // заказы подробно
-    const { arr, esf } = await getInDetail(recordID);
+    const { arr, esf, nomer_zakaz } = await getInDetail(recordID);
     let sum = 0;
     for (let i = 0; i < arr.length; i++) {
       sum += arr[i];
@@ -55,7 +54,8 @@ const getSecondController = async (req, res) => {
       details: esf,
       sum: sum,
     };
-    const filename = nameOfFirm + '.pdf';
+
+    const filename = String(nomer_zakaz) + '-' +nameOfFirm + '-' + 'АЖА' + '.pdf';
     const templatePath = path.resolve(__dirname, '../views/avr/avr.ejs');
     ejs.renderFile(templatePath, { reportdata: airtableData }, (err, data) => {
       if (err) {
@@ -114,6 +114,7 @@ const getInDetail = (recordID) => {
   let esf = [];
   let arr = [];
   let avrCounter = 1;
+  let nomer_zakaz
   return new Promise((resolve, reject) => {
     base('заказы подробно')
       .select({
@@ -124,6 +125,8 @@ const getInDetail = (recordID) => {
         function page(records, fetchNextPage) {
           try {
             records.forEach((item) => {
+             nomer_zakaz = item.get('номер заказа')
+             console.log(nomer_zakaz)
               const avr = item.get('АВР');
               if (avr) {
                 const kol_vo = item.get('Кол-во');
@@ -134,7 +137,7 @@ const getInDetail = (recordID) => {
                   ? item.get('ЭСФ цена').toLocaleString()
                   : '';
                 const summa = item.get('ЭСФ Сумма').toLocaleString();
-                console.log(summa)
+             
                 esf.push({
                   Наименование: item.get('Наименование1'),
                   n: avrCounter++,
@@ -154,7 +157,7 @@ const getInDetail = (recordID) => {
           if (err) {
             reject(err);
           } else {
-            resolve({ arr, esf });
+            resolve({ arr, esf,  nomer_zakaz });
           }
         }
       );
