@@ -1,3 +1,5 @@
+const {base, path, pdf, ejs } = require('../../airtable')
+
 const getFirsController = async (req, res) => {
   const recordID = req.query.recordID;
   try {
