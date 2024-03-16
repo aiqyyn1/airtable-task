@@ -1,5 +1,4 @@
-
-const {base, path, pdf, ejs } = require('../../airtable')
+const { base, path, pdf, ejs } = require('../../airtable');
 const getSecondController = async (req, res) => {
   const recordID = req.query.recordID;
   try {
@@ -12,8 +11,8 @@ const getSecondController = async (req, res) => {
 
     const avr = blanks.get('номер АВР');
     const avrDate = blanks.get('дата АВР') ? blanks.get('дата АВР') : '';
-    const dateSplit = String(avrDate).split('-')
-    const dateAVR = dateSplit[2] + '.' + dateSplit[1] + '.' + dateSplit[0]
+    const dateSplit = String(avrDate).split('-');
+    const dateAVR = dateSplit[2] + '.' + dateSplit[1] + '.' + dateSplit[0];
     const iinBiin = blanks.get('ИИН/БИН 3');
 
     const biin = blanks.get('БИН (from ИП)');
@@ -21,16 +20,16 @@ const getSecondController = async (req, res) => {
     const rospis = blanks.get('роспись (from ИП)')[0].url;
     const rukovaditel = blanks.get('руководитель (from ИП)');
     const itogo = blanks.get('итого АВР').toLocaleString();
- 
+
     let date;
     if (dogovor === 'БЕЗ ДОГОВОРА') {
       date = '';
     } else {
       date = blanks.get('дата договора');
-    } 
+    }
 
     const split_date = date && String(date).split('-');
-    const new_date =split_date ? split_date[2] + '.' + split_date[1] +'.' + dateSplit[0] : ''
+    const new_date = split_date ? split_date[2] + '.' + split_date[1] + '.' + dateSplit[0] : '';
 
     // заказы подробно
     const { arr, esf, nomer_zakaz } = await getInDetail(recordID);
@@ -55,7 +54,7 @@ const getSecondController = async (req, res) => {
       sum: sum,
     };
 
-    const filename = String(nomer_zakaz) + '-' +nameOfFirm + '-' + 'АЖА' + '.pdf';
+    const filename = String(nomer_zakaz) + '-' + nameOfFirm + '-' + 'АЖА' + '.pdf';
     const templatePath = path.resolve(__dirname, '../views/avr/avr.ejs');
     ejs.renderFile(templatePath, { reportdata: airtableData }, (err, data) => {
       if (err) {
@@ -114,7 +113,7 @@ const getInDetail = (recordID) => {
   let esf = [];
   let arr = [];
   let avrCounter = 1;
-  let nomer_zakaz
+  let nomer_zakaz;
   return new Promise((resolve, reject) => {
     base('заказы подробно')
       .select({
@@ -125,19 +124,18 @@ const getInDetail = (recordID) => {
         function page(records, fetchNextPage) {
           try {
             records.forEach((item) => {
-             nomer_zakaz = item.get('номер заказа')
-             console.log(nomer_zakaz)
+              nomer_zakaz = item.get('номер заказа');
+              console.log(nomer_zakaz);
               const avr = item.get('АВР');
+              console.log(avr);
               if (avr) {
                 const kol_vo = item.get('Кол-во');
 
                 arr.push(kol_vo);
 
-                const esfCena = item.get('ЭСФ цена')
-                  ? item.get('ЭСФ цена').toLocaleString()
-                  : '';
+                const esfCena = item.get('ЭСФ цена') ? item.get('ЭСФ цена').toLocaleString() : '';
                 const summa = item.get('ЭСФ Сумма').toLocaleString();
-             
+
                 esf.push({
                   Наименование: item.get('Наименование1'),
                   n: avrCounter++,
@@ -157,7 +155,7 @@ const getInDetail = (recordID) => {
           if (err) {
             reject(err);
           } else {
-            resolve({ arr, esf,  nomer_zakaz });
+            resolve({ arr, esf, nomer_zakaz });
           }
         }
       );

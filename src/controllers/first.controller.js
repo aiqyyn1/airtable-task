@@ -1,4 +1,4 @@
-const {base, path, pdf, ejs } = require('../../airtable')
+const { base, path, pdf, ejs } = require('../../airtable');
 
 const getFirsController = async (req, res) => {
   const recordID = req.query.recordID;
@@ -127,28 +127,28 @@ const fetchRecords = (recordID) => {
           try {
             records.forEach((item) => {
               const id = item.get('record_id (from заказ номер)');
-             const nak = item.get('Накладная')
-             if (nak){
-              const n = item.get('№');
 
-              const naimenovanie = item.get('Наименование1');
+              const nak = item.get('Накладная');
+         
+              if (nak) {
+                const n = item.get('№');
 
-              const esfCena = item.get('ЭСФ цена')
-                ? item.get('ЭСФ цена').toLocaleString()
-                : '';
+                const naimenovanie = item.get('Наименование1');
 
-              const kol_vo = item.get('Кол-во');
+                const esfCena = item.get('ЭСФ цена') ? item.get('ЭСФ цена').toLocaleString() : '';
 
-              let summa = item.get('ЭСФ Сумма').toLocaleString();
+                const kol_vo = item.get('Кол-во');
 
-              esf.push({
-                Наименование: naimenovanie,
-                n: n,
-                efs1: esfCena,
-                kol_vo: kol_vo,
-                summa: summa,
-              });
-            }
+                let summa = item.get('ЭСФ Сумма').toLocaleString();
+
+                esf.push({
+                  Наименование: naimenovanie,
+                  n: n,
+                  efs1: esfCena,
+                  kol_vo: kol_vo,
+                  summa: summa,
+                });
+              }
             });
 
             fetchNextPage();
