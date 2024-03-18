@@ -112,7 +112,19 @@ function tapsyrysZholdary(recordID) {
       });
   });
 }
-
+function dostavkaData(recordID) {
+  const data = [];
+  const dostavka = 'доставка';
+  return new Promise((resolve, reject) => {
+    base(dostavka).find(recordID, (err, record) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(record);
+      }
+    });
+  });
+}
 async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const mergedPdf = await PDFDocument.create();
   const fontBytes = await fetch('https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf').then((res) =>
@@ -124,7 +136,15 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
 
   const data = await findRecord(recordID);
   const aikyn_chertezh = await tapsyrysZholdary(recordID);
-  console.log(aikyn_chertezh);
+  const dostavka = await dostavkaData(recordID);
+  //dostavka data
+  const address = dostavka.get('адрес');
+  const kol_vo_reisov = dostavka.get('кол-во рейсов');
+  const vygruzka = dostavka.get('выгрузка');
+  const ustanovka = dostavka.get('установка');
+  const komment = dostavka.get('комментарий');
+  console.log('==>', address, kol_vo_reisov, vygruzka, ustanovka, komment)
+  // zakazy obwee data
   const nomer = String(data[0].get('номер'));
   const manager = String(data[0].get('Менеджер'));
   const srochno = String(data[0].get('Срочно'));
@@ -176,7 +196,8 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
 
     // Вставьте этот код для добавления данных из aikyn_chertezh на страницу
     aikyn_chertezh.forEach((dataItem, index) => {
-      if (index < pages.length) { // Убедимся, что есть достаточно страниц для добавления данных
+      if (index < pages.length) {
+        // Убедимся, что есть достаточно страниц для добавления данных
         const textToDraw = `${dataItem.n}. ${dataItem.naimenovanie}, ${dataItem.kol_vo}, ${dataItem.postavshik}, ${dataItem.kraska_metal}`;
         pages[index].drawText(textToDraw, {
           x: 50,
