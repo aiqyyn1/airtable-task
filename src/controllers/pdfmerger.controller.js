@@ -58,6 +58,7 @@ function findRecord(recordID) {
         filterByFormula: `{record_id} = '${recordID}'`,
       })
       .eachPage(function page(records, fetchNextPage) {
+        console.log(records);
         resolve(records); // Resolve inside the callback
         fetchNextPage();
       })
@@ -78,37 +79,73 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
 
   const data = await findRecord(recordID);
   const nomer = String(data[0].get('номер'));
-
+  const manager = String(data[0].get('Менеджер'));
+  const srochno = String(data[0].get('Срочно'));
   const aty_from_client = 'Аты' + ' ' + String(data[0].get('Аты (from клиент)'));
   const tel2_from_client = 'Тел' + ' ' + String(data[0].get('тел2 (from клиент)'));
-  console.log(tel2_from_client);
+
+  const fontSize = 12;
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
 
     const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+
+    pages[0].drawText(aty_from_client, {
+      x: 50,
+      y: 510,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0, 0),
+    });
+    pages[0].drawText(tel2_from_client, {
+      x: 50,
+      y: 520,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0, 0),
+    });
+    pages[0].drawText(manager, {
+      x: 50,
+      y: 530,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0, 0),
+    });
+    pages[0].drawText(nomer, {
+      x: 50,
+      y: 540,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0, 0),
+    });
+    pages[0].drawText(srochno, {
+      x: 50,
+      y: 550,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0, 0),
+    });
     pages.forEach((page, index) => {
       const { width, height } = page.getSize();
       const modifiedPage = mergedPdf.addPage(page);
 
-      const fontSize = 12;
-
       // Add a new page after each PDF file
 
-      page.drawText(aty_from_client, {
-        x: 50,
-        y: 510,
-        size: fontSize,
-        font: customFont,
-        color: rgb(0, 0, 0, 0),
-      });
-      page.drawText(tel2_from_client, {
-        x: 50,
-        y: 520,
-        size: fontSize,
-        font: customFont,
-        color: rgb(0, 0, 0, 0),
-      });
+      // page.drawText(aty_from_client, {
+      //   x: 50,
+      //   y: 510,
+      //   size: fontSize,
+      //   font: customFont,
+      //   color: rgb(0, 0, 0, 0),
+      // });
+      // page.drawText(tel2_from_client, {
+      //   x: 50,
+      //   y: 520,
+      //   size: fontSize,
+      //   font: customFont,
+      //   color: rgb(0, 0, 0, 0),
+      // });
     });
   }
 
