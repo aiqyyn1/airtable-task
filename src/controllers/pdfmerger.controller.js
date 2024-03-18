@@ -23,8 +23,9 @@ async function pdfMergerController(req, res) {
 
 async function fetchData(recordID) {
   let pdfUrls = [];
+  const zakazy_podrobno = 'заказы подробно'
   return new Promise((resolve, reject) => {
-    base('заказы подробно')
+    base(zakazy_podrobno)
       .select({
         view: 'Aikyn',
         filterByFormula: `{record_id (from заказ номер)} = '${recordID}'`,
@@ -51,8 +52,9 @@ async function fetchData(recordID) {
   });
 }
 function findRecord(recordID) {
+  const zakazy_obwee = 'заказы общее'
   return new Promise((resolve, reject) => {
-    base('заказы общее')
+    base(zakazy_obwee)
       .select({
         view: 'Aikyn1 чертеж',
         filterByFormula: `{record_id} = '${recordID}'`,
