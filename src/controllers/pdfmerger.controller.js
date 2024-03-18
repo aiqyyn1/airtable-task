@@ -23,7 +23,7 @@ async function pdfMergerController(req, res) {
 
 async function fetchData(recordID) {
   let pdfUrls = [];
-  const zakazy_podrobno = 'заказы подробно'
+  const zakazy_podrobno = 'заказы подробно';
   return new Promise((resolve, reject) => {
     base(zakazy_podrobno)
       .select({
@@ -51,8 +51,9 @@ async function fetchData(recordID) {
       );
   });
 }
+
 function findRecord(recordID) {
-  const zakazy_obwee = 'заказы общее'
+  const zakazy_obwee = 'заказы общее';
   return new Promise((resolve, reject) => {
     base(zakazy_obwee)
       .select({
@@ -60,12 +61,54 @@ function findRecord(recordID) {
         filterByFormula: `{record_id} = '${recordID}'`,
       })
       .eachPage(function page(records, fetchNextPage) {
-        console.log(records);
         resolve(records); // Resolve inside the callback
         fetchNextPage();
       })
       .catch((err) => {
         reject(err); // Handle rejection here
+      });
+  });
+}
+
+function tapsyrysZholdary(recordID) {
+  const zakazy_podrobno = 'заказы подробно';
+  let data = [];
+  return new Promise((resolve, reject) => {
+    base(zakazy_podrobno)
+      .select({
+        view: 'Aikyn чертеж',
+        filterByFormula: `{record_id (from заказ номер)} = '${recordID}'`,
+      })
+      .eachPage(function page(records, fetchNextPage) {
+        try {
+          records.forEach((item) => {
+            const n = item.get('№');
+            const naimenovanie = item.get('Наименование1');
+            const kol_vo = item.get('Кол-во');
+            const postavshik = item.get('поставшик');
+
+            const kraska_metal = item.get('краска метал');
+            const url = item.get('чертеж');
+
+            data.push({
+              n: n,
+              naimenovanie: naimenovanie,
+              kol_vo: kol_vo,
+              postavshik: String(postavshik),
+              kraska_metal: kraska_metal,
+              url: url && url[0].url,
+            });
+          });
+          fetchNextPage();
+        } catch (e) {
+          reject(e); // Reject if an error occurs during processing
+        }
+      })
+      .then(() => {
+        resolve(data); // Resolve with the data after processing is complete
+      })
+      .catch((error) => {
+        reject(error); // Reject if an error occurs during querying
       });
   });
 }
@@ -80,6 +123,8 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const customFont = await mergedPdf.embedFont(fontBytes);
 
   const data = await findRecord(recordID);
+  const aikyn_chertezh = await tapsyrysZholdary(recordID);
+  console.log(aikyn_chertezh);
   const nomer = String(data[0].get('номер'));
   const manager = String(data[0].get('Менеджер'));
   const srochno = String(data[0].get('Срочно'));
@@ -128,26 +173,24 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       font: customFont,
       color: rgb(0, 0, 0, 0),
     });
+
+    // Вставьте этот код для добавления данных из aikyn_chertezh на страницу
+    aikyn_chertezh.forEach((dataItem, index) => {
+      if (index < pages.length) { // Убедимся, что есть достаточно страниц для добавления данных
+        const textToDraw = `${dataItem.n}. ${dataItem.naimenovanie}, ${dataItem.kol_vo}, ${dataItem.postavshik}, ${dataItem.kraska_metal}`;
+        pages[index].drawText(textToDraw, {
+          x: 50,
+          y: 480 - index * 20,
+          size: fontSize,
+          font: customFont,
+          color: rgb(0, 0, 0, 0),
+        });
+      }
+    });
     pages.forEach((page, index) => {
       const { width, height } = page.getSize();
       const modifiedPage = mergedPdf.addPage(page);
-
       // Add a new page after each PDF file
-
-      // page.drawText(aty_from_client, {
-      //   x: 50,
-      //   y: 510,
-      //   size: fontSize,
-      //   font: customFont,
-      //   color: rgb(0, 0, 0, 0),
-      // });
-      // page.drawText(tel2_from_client, {
-      //   x: 50,
-      //   y: 520,
-      //   size: fontSize,
-      //   font: customFont,
-      //   color: rgb(0, 0, 0, 0),
-      // });
     });
   }
 
