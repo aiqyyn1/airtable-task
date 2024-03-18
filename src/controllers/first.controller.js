@@ -116,7 +116,7 @@ const getFirsController = async (req, res) => {
 };
 const fetchRecords = (recordID) => {
   let esf = [];
-  const t = true;
+  let count = 1;
   return new Promise((resolve, reject) => {
     base('заказы подробно')
       .select({
@@ -141,7 +141,7 @@ const fetchRecords = (recordID) => {
 
                 esf.push({
                   Наименование: naimenovanie,
-                  n: n,
+                  n: count++,
                   efs1: esfCena,
                   kol_vo: kol_vo,
                   summa: summa,
