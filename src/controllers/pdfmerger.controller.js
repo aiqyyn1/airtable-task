@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const { PDFDocument, rgb, degrees, StandardFonts } = require('pdf-lib');
-const fontkit = require('@pdf-lib/fontkit')
+const fontkit = require('@pdf-lib/fontkit');
 const { base } = require('../../airtable');
 
 async function pdfMergerController(req, res) {
@@ -50,29 +50,38 @@ async function fetchData(recordID) {
       );
   });
 }
-findRecord = (recordID) => {
+function findRecord(recordID) {
   return new Promise((resolve, reject) => {
-    base('заказы общее').find(recordID, (err, record) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(record);
-      }
-    });
+    base('заказы общее')
+      .select({
+        view: 'Aikyn1 чертеж',
+        filterByFormula: `{record_id} = '${recordID}'`,
+      })
+      .eachPage(function page(records, fetchNextPage) {
+        resolve(records); // Resolve inside the callback
+        fetchNextPage();
+      })
+      .catch((err) => {
+        reject(err); // Handle rejection here
+      });
   });
-};
-
+}
 
 async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const mergedPdf = await PDFDocument.create();
-  const fontBytes = await fetch('https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf').then((res) => res.arrayBuffer())
+  const fontBytes = await fetch('https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf').then((res) =>
+    res.arrayBuffer()
+  );
 
-  mergedPdf.registerFontkit(fontkit)
-  const customFont = await mergedPdf.embedFont(fontBytes)
+  mergedPdf.registerFontkit(fontkit);
+  const customFont = await mergedPdf.embedFont(fontBytes);
 
-  const data = await findRecord(recordID)
-  const aty_from_client ='Аты' +' ' + String(data.get('Аты (from клиент)'))
-  const tel2_from_client ='Тел' + ' ' + String(data.get('тел2 (from клиент)'))
+  const data = await findRecord(recordID);
+  const nomer = String(data[0].get('номер'));
+
+  const aty_from_client = 'Аты' + ' ' + String(data[0].get('Аты (from клиент)'));
+  const tel2_from_client = 'Тел' + ' ' + String(data[0].get('тел2 (from клиент)'));
+  console.log(tel2_from_client);
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -82,39 +91,28 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       const { width, height } = page.getSize();
       const modifiedPage = mergedPdf.addPage(page);
 
-  
-
       const fontSize = 12;
-  
- 
-    
 
       // Add a new page after each PDF file
-      if (index < pages.length - 1) {
-        const newPage = mergedPdf.addPage([width, height]);
-        // const textXNewPage = (newPage.getWidth() - widthHeight) / 2;
-        // const textYNewPage = (newPage.getHeight() - textHeight) / 2;
 
-        newPage.drawText(aty_from_client, {
-          x: 50,
-          y: 510,
-          size: fontSize,
-          font: customFont,
-          color: rgb(0,0,0,0), // Black color
-        });
-        newPage.drawText(tel2_from_client, {
-          x: 50,
-          y:520,
-          size: fontSize,
-          font: customFont,
-          color: rgb(0,0,0,0),
-        })
-      }
+      page.drawText(aty_from_client, {
+        x: 50,
+        y: 510,
+        size: fontSize,
+        font: customFont,
+        color: rgb(0, 0, 0, 0),
+      });
+      page.drawText(tel2_from_client, {
+        x: 50,
+        y: 520,
+        size: fontSize,
+        font: customFont,
+        color: rgb(0, 0, 0, 0),
+      });
     });
   }
 
   return await mergedPdf.save();
 }
-
 
 module.exports = pdfMergerController;
