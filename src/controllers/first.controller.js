@@ -116,10 +116,10 @@ const getFirsController = async (req, res) => {
 };
 const fetchRecords = (recordID) => {
   let esf = [];
+  const t = true;
   return new Promise((resolve, reject) => {
     base('заказы подробно')
       .select({
-        view: 'Aikyn',
         filterByFormula: `{record_id (from заказ номер)} = '${recordID}'`,
       })
       .eachPage(
@@ -127,10 +127,8 @@ const fetchRecords = (recordID) => {
           try {
             records.forEach((item) => {
               const id = item.get('record_id (from заказ номер)');
-
-              const nak = item.get('Накладная');
-         
-              if (nak) {
+              const esf1 = item.get('эсф1');
+              if (esf1) {
                 const n = item.get('№');
 
                 const naimenovanie = item.get('Наименование1');

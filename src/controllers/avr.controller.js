@@ -127,7 +127,6 @@ const getInDetail = (recordID) => {
               nomer_zakaz = item.get('номер заказа');
               console.log(nomer_zakaz);
               const avr = item.get('АВР');
-              console.log(avr);
               if (avr) {
                 const kol_vo = item.get('Кол-во');
 
