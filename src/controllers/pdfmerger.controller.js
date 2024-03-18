@@ -131,7 +131,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const aty_from_client = 'Аты' + ' ' + String(data[0].get('Аты (from клиент)'));
   const tel2_from_client = 'Тел' + ' ' + String(data[0].get('тел2 (from клиент)'));
 
-  const fontSize = 12;
+  const fontSize = 16;
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
