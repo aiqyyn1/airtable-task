@@ -113,18 +113,32 @@ function tapsyrysZholdary(recordID) {
   });
 }
 function dostavkaData(recordID) {
-  const data = [];
-  const dostavka = 'доставка';
+  const dostavka = 'доставки';
   return new Promise((resolve, reject) => {
-    base(dostavka).find(recordID, (err, record) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(record);
-      }
-    });
+    base(dostavka)
+      .select({
+        view: 'Aikyn чертеж',
+        filterByFormula: `{record_id (from заказ)} = '${recordID}'`,
+      })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          try {
+            console.log('==>', dostavka);
+            resolve(records); // Resolve with records
+            fetchNextPage();
+          } catch (e) {
+            reject(e);
+          }
+        },
+        function done(err) {
+          if (err) {
+            reject(err); // Reject if there's an error
+          }
+        }
+      );
   });
 }
+
 async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const mergedPdf = await PDFDocument.create();
   const fontBytes = await fetch('https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf').then((res) =>
@@ -137,13 +151,14 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const data = await findRecord(recordID);
   const aikyn_chertezh = await tapsyrysZholdary(recordID);
   const dostavka = await dostavkaData(recordID);
+  // console.log(dostavka);
   //dostavka data
-  const address = dostavka.get('адрес');
-  const kol_vo_reisov = dostavka.get('кол-во рейсов');
-  const vygruzka = dostavka.get('выгрузка');
-  const ustanovka = dostavka.get('установка');
-  const komment = dostavka.get('комментарий');
-  console.log('==>', address, kol_vo_reisov, vygruzka, ustanovka, komment)
+  // const address = dostavka.get('адрес');
+  // const kol_vo_reisov = dostavka.get('кол-во рейсов');
+  // const vygruzka = dostavka.get('выгрузка');
+  // const ustanovka = dostavka.get('установка');
+  // const komment = dostavka.get('комментарий');
+  // console.log('==>', address, kol_vo_reisov, vygruzka, ustanovka, komment);
   // zakazy obwee data
   const nomer = String(data[0].get('номер'));
   const manager = String(data[0].get('Менеджер'));
