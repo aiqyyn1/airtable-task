@@ -10,7 +10,8 @@ TODO: rename hardcode data to variables
 const tapsyrys_header = 'заказы общее';
 const tapsyrys_lines = 'заказы подробно';
 */
-
+const tapsyrys_header = 'заказы общее'
+const tapsyrys_lines = 'заказы подробно'
 const getFirsController = async (req, res) => {
   const recordID = req.query.recordID;
   try {
@@ -130,7 +131,7 @@ const fetchRecords = (recordID) => {
   let esf = [];
   let count = 1;
   return new Promise((resolve, reject) => {
-    base('заказы подробно')
+    base(tapsyrys_lines)
       .select({
         filterByFormula: `{record_id (from заказ номер)} = '${recordID}'`,
       })
@@ -179,7 +180,7 @@ const fetchRecords = (recordID) => {
 
 findRecord = (recordID) => {
   return new Promise((resolve, reject) => {
-    base('заказы общее').find(recordID, (err, record) => {
+    base(tapsyrys_header).find(recordID, (err, record) => {
       if (err) {
         reject(err);
       } else {
