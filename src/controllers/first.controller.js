@@ -1,5 +1,16 @@
 const { base, path, pdf, ejs } = require('../../airtable');
 
+/* 
+this code generates PDF document 
+for tolemshot_rus
+*/
+
+/*
+TODO: rename hardcode data to variables
+const tapsyrys_header = 'заказы общее';
+const tapsyrys_lines = 'заказы подробно';
+*/
+
 const getFirsController = async (req, res) => {
   const recordID = req.query.recordID;
   try {
