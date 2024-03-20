@@ -29,8 +29,7 @@ const getSecondController = async (req, res) => {
     }
 
     const split_date = date && String(date).split('-');
-    const new_date = split_date ? split_date[2] + '.' + split_date[1] + '.' + dateSplit[0] : '';
-
+    const new_date = split_date ? split_date[2] + '.' + split_date[1] + '.' + split_date[0] : '';
     // заказы подробно
     const { arr, esf, nomer_zakaz } = await getInDetail(recordID);
     let sum = 0;
