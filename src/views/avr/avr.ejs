@@ -82,17 +82,18 @@
         top: 0;
         left: 10px;
       }
+      body {
+        margin-left: 20px;
+      }
     </style>
   </head>
   <body>
-    <div style="position: absolute; right: 65px; font-size: 8px; top: 0">
+    <div style="position: absolute; right: 65px; font-size: 8px; top: 40px">
       Приложение 50 <br />
       к приказу Министра финансов <br />
       Республики Казахстан <br />от 20 декабря 2012 года № 562
     </div>
-    <div style="position: absolute; right: 70px; font-size: 8px; top: 50px">
-      Форма Р-1
-    </div>
+    <div style="position: absolute; right: 70px; font-size: 8px; top: 90px">Форма Р-1</div>
     <div style="margin-top: 90px; margin-left: 10px">
       <div style="display: -webkit-flex">
         <div>
@@ -101,21 +102,11 @@
         <div style="margin-left: 40px; position: relative">
           <div class="div1"><%- reportdata.nameOfFirm %></div>
           <div class="div2"></div>
-          <div class="polnoe">
-            Полное наименование, адрес, данные о средствах связи
-          </div>
+          <div class="polnoe">Полное наименование, адрес, данные о средствах связи</div>
         </div>
-        <div
-          style="
-            position: absolute;
-            right: 170px;
-            font-size: 8px;
-            height: 15px;
-          ">
+        <div style="position: absolute; right: 170px; font-size: 8px; height: 15px">
           <div class="div">ИИН/БИН</div>
-          <div
-            class="border_div"
-            style="height: 15px; padding-left: 2px; padding-top: 2px">
+          <div class="border_div" style="height: 15px; padding-left: 2px; padding-top: 2px">
             <%-reportdata.iinBiin%>
           </div>
         </div>
@@ -128,20 +119,10 @@
         <div style="margin-left: 40px; position: relative">
           <div class="div1"><%- reportdata.ip %></div>
           <div class="div2"></div>
-          <div class="polnoe">
-            Полное наименование, адрес, данные о средствах связи
-          </div>
+          <div class="polnoe">Полное наименование, адрес, данные о средствах связи</div>
         </div>
-        <div
-          style="
-            position: absolute;
-            right: 170px;
-            font-size: 8px;
-            margin-top: 10px;
-          ">
-          <div
-            class="border_div"
-            style="height: 15px; padding-left: 2px; padding-top: 2px">
+        <div style="position: absolute; right: 170px; font-size: 8px; margin-top: 10px">
+          <div class="border_div" style="height: 15px; padding-left: 2px; padding-top: 2px">
             <%-reportdata.biin%>
           </div>
         </div>
