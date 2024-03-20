@@ -1,6 +1,8 @@
 const { base, path, pdf, ejs } = require('../../airtable');
 const getSecondController = async (req, res) => {
   const recordID = req.query.recordID;
+  const path_endpoint = req.path === '/avr_rus_scan';
+  console.log(path_endpoint);
   try {
     // заказы общее
     const blanks = await getGeneral(recordID);
@@ -16,8 +18,12 @@ const getSecondController = async (req, res) => {
     const iinBiin = blanks.get('ИИН/БИН 3');
 
     const biin = blanks.get('БИН (from ИП)');
-    const pechat = blanks.get('печать (from ИП)')[0].url;
-    const rospis = blanks.get('роспись (from ИП)')[0].url;
+    let pechat = '';
+    let rospis = '';
+    if (!path_endpoint) {
+      pechat = blanks.get('печать (from ИП)')[0].url;
+      rospis = blanks.get('роспись (from ИП)')[0].url;
+    }
     const rukovaditel = blanks.get('руководитель (from ИП)');
     const itogo = blanks.get('итого АВР').toLocaleString();
     const col_client_address = 'адрес 3';
@@ -57,6 +63,7 @@ const getSecondController = async (req, res) => {
       sum: sum,
       client_address2: client_address2,
       provider_address: provider_address,
+      path_endpoint: path_endpoint,
     };
 
     const filename = String(nomer_zakaz) + '-' + nameOfFirm + '-' + 'АЖА' + '.pdf';

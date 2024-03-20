@@ -88,21 +88,16 @@
   <body>
     <div class="main">
       <div style="display: -webkit-flex; margin-top: 20px">
-        <div style="font-size: 5px">
-          Сведения об использовании запасов, полученных от заказчика
-        </div>
+        <div style="font-size: 5px">Сведения об использовании запасов, полученных от заказчика</div>
         <div style="margin-left: 20px">
           <hr style="width: 305px" />
-          <div style="font-size: 5px; text-align: center">
-            наименование, количество, стоимость
-          </div>
+          <div style="font-size: 5px; text-align: center">наименование, количество, стоимость</div>
         </div>
       </div>
       <div style="margin-top: 10px">
         <div>
-          Приложение: Перечень документации, в том числе отчет(ы) о
-          маркетинговых, научных исследованиях, консультационных и прочих
-          услугах (обязательны при его
+          Приложение: Перечень документации, в том числе отчет(ы) о маркетинговых, научных
+          исследованиях, консультационных и прочих услугах (обязательны при его
         </div>
         <div style="display: -webkit-flex">
           <div style="margin-left: 90px">
@@ -115,22 +110,29 @@
       </div>
       <div style="margin-top: 40px; display: -webkit-flex; position: relative">
         <div>Сдал (Исполнитель)</div>
+        <%- !reportdata.path_endpoint ? `
         <div style="position: absolute; left: 0; top: -80px">
-          <img src="<%-reportdata.pechat%>" width="110" height="100" />
+          <img src="${reportdata.pechat}" width="110" height="100" />
         </div>
+        ` : '' %>
+
         <div style="margin-left: 40px">
           <div class="rukovoditel">Руководитель</div>
           <div style="margin-top: 3px">должность</div>
         </div>
         <div>/</div>
         <div style="margin-left: 40px; position: relative">
+          <%- !reportdata.path_endpoint ? `
           <div>
             <img
-              src="<%-reportdata.rospis%>"
+              src="${reportdata.rospis}"
               width="20"
               height="20"
-              style="position: absolute; top: -15px; text-align: center" />
+              style="position: absolute; top: -15px; text-align: center"
+            />
           </div>
+          ` : '' %>
+
           <div>_____________</div>
           <div style="margin-top: 3px">должность</div>
         </div>
@@ -158,20 +160,15 @@
           display: -webkit-flex;
           -webkit-justify-content: space-between;
           /* width: 800px; */
-        ">
+        "
+      >
         <div style="position: absolute"></div>
-        <div
-          style="
-            position: absolute;
-            right: 170px;
-            top: 20px;
-            display: -webkit-flex;
-          ">
+        <div style="position: absolute; right: 170px; top: 20px; display: -webkit-flex">
           <div>Дата подписания (принятия) работ (услуг)</div>
           <div style="margin-left: 5px">
             <div><%-reportdata.avrDate%></div>
             <div>__________________________</div>
-            <div style="margin-right: 20px; position: absolute; top: 10px; left: 0;">М.П</div>
+            <div style="margin-right: 20px; position: absolute; top: 10px; left: 0">М.П</div>
           </div>
         </div>
       </div>
