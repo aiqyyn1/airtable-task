@@ -20,7 +20,11 @@ const getSecondController = async (req, res) => {
     const rospis = blanks.get('роспись (from ИП)')[0].url;
     const rukovaditel = blanks.get('руководитель (from ИП)');
     const itogo = blanks.get('итого АВР').toLocaleString();
+    const col_client_address = 'адрес 3';
+    const col_provider_address = 'адрес (from ИП)';
 
+    const client_address2 = blanks.get(col_client_address);
+    const provider_address = blanks.get(col_provider_address);
     let date;
     if (dogovor === 'БЕЗ ДОГОВОРА') {
       date = '';
@@ -51,6 +55,8 @@ const getSecondController = async (req, res) => {
       itogo: itogo,
       details: esf,
       sum: sum,
+      client_address2: client_address2,
+      provider_address: provider_address,
     };
 
     const filename = String(nomer_zakaz) + '-' + nameOfFirm + '-' + 'АЖА' + '.pdf';

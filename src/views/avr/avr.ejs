@@ -100,7 +100,10 @@
           <div class="div">Заказчик</div>
         </div>
         <div style="margin-left: 40px; position: relative">
-          <div class="div1"><%- reportdata.nameOfFirm %></div>
+          <div style="display: -webkit-flex">
+            <div class="div1"><%- reportdata.nameOfFirm %></div>
+            <div style="margin-left: 25px"><%- reportdata.client_address2%></div>
+          </div>
           <div class="div2"></div>
           <div class="polnoe">Полное наименование, адрес, данные о средствах связи</div>
         </div>
@@ -117,7 +120,10 @@
           <div class="div">Испольнитель</div>
         </div>
         <div style="margin-left: 40px; position: relative">
-          <div class="div1"><%- reportdata.ip %></div>
+          <div style="display: -webkit-flex">
+            <div class="div1"><%- reportdata.ip %></div>
+            <div style="margin-left: 25px"><%-reportdata.provider_address%></div>
+          </div>
           <div class="div2"></div>
           <div class="polnoe">Полное наименование, адрес, данные о средствах связи</div>
         </div>
