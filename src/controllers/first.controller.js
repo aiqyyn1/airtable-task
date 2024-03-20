@@ -1,16 +1,5 @@
 const { base, path, pdf, ejs } = require('../../airtable');
 
-/* 
-this code generates PDF document 
-for tolemshot_rus
-*/
-
-/*
-TODO: rename hardcode data to variables
-const tapsyrys_header = 'заказы общее';
-const tapsyrys_lines = 'заказы подробно';
-*/
-
 const getFirsController = async (req, res) => {
   const recordID = req.query.recordID;
   try {
@@ -83,7 +72,6 @@ const getFirsController = async (req, res) => {
 
     const filename = name + '.pdf';
 
-    //TODO: rename 'template.ejs' to 'tolemshot_rus.ejs'
     const templatePath = path.resolve(__dirname, '../views/template.ejs');
     ejs.renderFile(templatePath, { reportdata: airtableData }, (err, data) => {
       if (err) {
