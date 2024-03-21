@@ -6,7 +6,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', './src/views/');
 
-const tolemshot_rus_router = require('./src/routes/router');
+const tolemshot_rus_router = require('./src/routes/tolemshot_rus');
 const avr_rus_router = require('./src/routes/avr');
 const avr_rus_scan_router = require('./src/routes/avr_rus_scan');
 const blank_zakazov_router = require('./src/controllers/pdfmerger.controller');
