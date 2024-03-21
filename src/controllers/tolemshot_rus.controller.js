@@ -83,8 +83,6 @@ const getFirsController = async (req, res) => {
     };
 
     const filename = name + '.pdf';
-
-    //TODO: rename 'template.ejs' to 'tolemshot_rus.ejs'
     const templatePath = path.resolve(__dirname, '../views/tolemshot_rus.ejs');
     ejs.renderFile(templatePath, { reportdata: airtableData }, (err, data) => {
       if (err) {

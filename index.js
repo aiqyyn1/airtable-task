@@ -12,7 +12,7 @@ const avr_rus_scan_router = require('./src/routes/avr_rus_scan');
 const blank_zakazov_router = require('./src/controllers/pdfmerger.controller');
 
 app.get('/tolemshot_rus', tolemshot_rus_router);
-app.get('/avr_rus', avr_rus_router);
+app.get('/avr_rus_print', avr_rus_router);
 app.get('/avr_rus_scan', avr_rus_scan_router);
 app.get('/blank_zakazov', blank_zakazov_router);
 

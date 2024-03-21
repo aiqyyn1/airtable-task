@@ -1,8 +1,7 @@
 const { base, path, pdf, ejs } = require('../../airtable');
 const getSecondController = async (req, res) => {
   const recordID = req.query.recordID;
-  const path_endpoint = req.path === '/avr_rus_scan';
-  console.log(path_endpoint);
+  const path_endpoint = req.path === '/avr_rus_print';
   try {
     // заказы общее
     const blanks = await getGeneral(recordID);

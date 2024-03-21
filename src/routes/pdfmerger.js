@@ -1,8 +1,5 @@
-const router = require('express').Router()
+const router = require('express').Router();
 const getFirsController = require('../controllers/pdfmerger.controller');
-/* TODO: refactor code - rename "first controller and pdfmerger.controller" 
-to "blank zakazov controller" 
-*/
-router.get('/pdfmerger', getFirsController)
+router.get('/blank_zakazov', getFirsController);
 
-module.exports = router
+module.exports = router;
