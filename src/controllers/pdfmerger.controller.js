@@ -123,7 +123,6 @@ function dostavkaData(recordID) {
       .eachPage(
         function page(records, fetchNextPage) {
           try {
-            console.log('==>', dostavka);
             resolve(records); // Resolve with records
             fetchNextPage();
           } catch (e) {
@@ -151,15 +150,13 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const data = await findRecord(recordID);
   const aikyn_chertezh = await tapsyrysZholdary(recordID);
   const dostavka = await dostavkaData(recordID);
-  // console.log(dostavka);
   //dostavka data
-  // const address = dostavka.get('адрес');
-  // const kol_vo_reisov = dostavka.get('кол-во рейсов');
-  // const vygruzka = dostavka.get('выгрузка');
-  // const ustanovka = dostavka.get('установка');
-  // const komment = dostavka.get('комментарий');
-  // console.log('==>', address, kol_vo_reisov, vygruzka, ustanovka, komment);
-  // zakazy obwee data
+
+  const address = dostavka[0].get('адрес');
+  const kol_vo_reisov = dostavka[0].get('кол-во рейсов');
+  const vygruzka = dostavka[0].get('выгрузка');
+  const ustanovka = dostavka[0].get('установка');
+  const komment = dostavka[0].get('комментарий');
   const nomer = String(data[0].get('номер'));
   const manager = String(data[0].get('Менеджер'));
   const srochno = String(data[0].get('Срочно'));
@@ -172,38 +169,63 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
     const pdfDoc = await PDFDocument.load(pdfBytes);
 
     const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
-
-    pages[0].drawText(aty_from_client, {
+    const newPage = mergedPdf.addPage([
+      pdfDoc.getPage(0).getWidth(),
+      pdfDoc.getPage(0).getHeight(),
+    ]);
+    newPage.drawText(aty_from_client, {
       x: 50,
-      y: 510,
+      y: 550,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0, 0),
     });
-    pages[0].drawText(tel2_from_client, {
+    newPage.drawText(tel2_from_client, {
       x: 50,
       y: 520,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0, 0),
     });
-    pages[0].drawText(manager, {
+    newPage.drawText(manager, {
       x: 50,
       y: 530,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0, 0),
     });
-    pages[0].drawText(nomer, {
+
+    pages[pages.length - 1].drawText(address, {
       x: 50,
       y: 540,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0, 0),
     });
-    pages[0].drawText(srochno, {
+    pages[pages.length - 1].drawText(kol_vo_reisov ? vygruzka : '', {
       x: 50,
       y: 550,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0, 0),
+    });
+    pages[pages.length - 1].drawText(vygruzka ? vygruzka : '', {
+      x: 50,
+      y: 510,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0, 0),
+    });
+    pages[pages.length - 1].drawText(ustanovka ? ustanovka : '', {
+      x: 50,
+      y: 520,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0, 0),
+    });
+    pages[pages.length - 1].drawText(komment ? ustanovka : '', {
+      x: 50,
+      y: 530,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0, 0),
