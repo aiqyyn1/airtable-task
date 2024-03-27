@@ -157,73 +157,69 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const vygruzka = dostavka[0].get('выгрузка');
   const ustanovka = dostavka[0].get('установка');
   const komment = dostavka[0].get('комментарий');
+
   const nomer = String(data[0].get('номер'));
   const manager = String(data[0].get('Менеджер'));
   const srochno = String(data[0].get('Срочно'));
   const aty_from_client = 'Аты' + ' ' + String(data[0].get('Аты (from клиент)'));
   const tel2_from_client = 'Тел' + ' ' + String(data[0].get('тел2 (from клиент)'));
-
   const fontSize = 16;
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
 
     const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
-    const newPage = mergedPdf.addPage([
-      pdfDoc.getPage(0).getWidth(),
-      pdfDoc.getPage(0).getHeight(),
-    ]);
-    newPage.drawText(aty_from_client, {
-      x: 50,
-      y: 550,
+    pages[0].drawText(aty_from_client, {
+      x: 300,
+      y: 560,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0, 0),
     });
-    newPage.drawText(tel2_from_client, {
-      x: 50,
-      y: 520,
-      size: fontSize,
-      font: customFont,
-      color: rgb(0, 0, 0, 0),
-    });
-    newPage.drawText(manager, {
-      x: 50,
-      y: 530,
-      size: fontSize,
-      font: customFont,
-      color: rgb(0, 0, 0, 0),
-    });
-
-    pages[pages.length - 1].drawText(address, {
-      x: 50,
+    pages[0].drawText(tel2_from_client, {
+      x: 300,
       y: 540,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0, 0),
     });
-    pages[pages.length - 1].drawText(kol_vo_reisov ? vygruzka : '', {
+    pages[0].drawText(manager, {
+      x: 300,
+      y: 520,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0, 0),
+    });
+
+    pages[0].drawText(address, {
+      x: 300,
+      y: 540,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0, 0),
+    });
+    pages[0].drawText(kol_vo_reisov ? vygruzka : '', {
       x: 50,
       y: 550,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0, 0),
     });
-    pages[pages.length - 1].drawText(vygruzka ? vygruzka : '', {
+    pages[0].drawText(vygruzka ? vygruzka : '', {
       x: 50,
       y: 510,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0, 0),
     });
-    pages[pages.length - 1].drawText(ustanovka ? ustanovka : '', {
+    pages[0].drawText(ustanovka ? ustanovka : '', {
       x: 50,
       y: 520,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0, 0),
     });
-    pages[pages.length - 1].drawText(komment ? ustanovka : '', {
+    pages[0].drawText(komment ? ustanovka : '', {
       x: 50,
       y: 530,
       size: fontSize,
