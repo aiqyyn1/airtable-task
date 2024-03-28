@@ -166,52 +166,55 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const tel2_from_client = 'Тел:' + ' ' + String(data[0].get('тел2 (from клиент)'));
   const srochno_zakaza = 'Срочно:' + ' ' + srochno;
   const fontSize = 16;
-
-  let isFirstPdf = true; // Flag to track the first PDF
   let size = 0;
   let index = 0;
+  let isFirst = true;
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
     const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
- 
 
-    if (isFirstPdf) {
+    if (isFirst) {
+      const firstPageDimensions = pages[0].getSize();
+
+      // Create a new page in the merged PDF document with the same dimensions as the existing pages
+      const newpage = mergedPdf.addPage([firstPageDimensions.width, firstPageDimensions.height]);
+
       // Add custom content only to the first page of the first PDF
-      pages[0].drawText(nomer_zakaza, {
-        x: 300,
+      newpage.drawText(nomer_zakaza, {
+        x: 50,
         y: 560,
         size: fontSize,
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
 
-      pages[0].drawText(aty_from_client, {
-        x: 300,
+      newpage.drawText(aty_from_client, {
+        x: 50,
         y: 540,
         size: fontSize,
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
 
-      pages[0].drawText(tel2_from_client, {
-        x: 300,
+      newpage.drawText(tel2_from_client, {
+        x: 50,
         y: 520,
         size: fontSize,
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
 
-      pages[0].drawText(manager_zakaza, {
-        x: 300,
+      newpage.drawText(manager_zakaza, {
+        x: 50,
         y: 500,
         size: fontSize,
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
 
-      pages[0].drawText(srochno_zakaza, {
-        x: 300,
+      newpage.drawText(srochno_zakaza, {
+        x: 50,
         y: 480,
         size: fontSize,
         font: customFont,
@@ -221,67 +224,81 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       // Set the flag to false after processing the first PDF
 
       // Add content to the remaining pages of each PDF
+      newpage.drawText('Тапсырыс жолдары:', {
+        x: 50,
+        y: 450,
+        size: fontSize,
+        font: customFont,
+        color: rgb(0, 0, 0, 0),
+      });
       aikyn_chertezh.forEach((item, index) => {
         const chertezh_podrobno = `${item.n}   ${item.naimenovanie}  ${item.kol_vo}   ${item.postavshik}  ${item.kraska_metal}`;
 
-        pages[0].drawText(chertezh_podrobno, {
-          x: 300,
-          y: 460 - index * 20,
+        newpage.drawText(chertezh_podrobno, {
+          x: 50,
+          y: 430 - index * 20,
           size: fontSize,
           font: customFont,
           color: rgb(0, 0, 0, 0),
         });
-        size = 460 - index * 20;
+        size = 430 - index * 20;
       });
       // Draw remaining text on the first page of each PDF
-      pages[0].drawText(address, {
-        x: 320,
+      newpage.drawText(address ? address : '', {
+        x: 50,
         y: size - 20,
         size: fontSize,
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
 
-      pages[0].drawText(kol_vo_reisov ? vygruzka : '', {
-        x: 320,
-        y: size - 20,
+      newpage.drawText(kol_vo_reisov ? vygruzka : '', {
+        x: 50,
+        y: size - 40,
         size: fontSize,
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
 
-      pages[0].drawText(vygruzka ? vygruzka : '', {
-        x: 320,
-        y: size - 20,
+      newpage.drawText(vygruzka ? vygruzka : '', {
+        x: 50,
+        y: size - 60,
         size: fontSize,
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
 
-      pages[0].drawText(ustanovka ? ustanovka : '', {
-        x: 320,
-        y: size - 20,
+      newpage.drawText(ustanovka ? ustanovka : '', {
+        x: 50,
+        y: size - 80,
         size: fontSize,
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
 
-      pages[0].drawText(komment ? ustanovka : '', {
-        x: 320,
-        y: size - 20,
+      newpage.drawText(komment ? ustanovka : '', {
+        x: 50,
+        y: size - 80,
         size: fontSize,
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
-      isFirstPdf = false;
+      isFirst = false;
     }
-    const chertezh_podrobno = `${aikyn_chertezh[index].n} ${aikyn_chertezh[index].nomer}  ${aikyn_chertezh[index].client_from_zakaz}  ${aikyn_chertezh[index].tel1}  ${aikyn_chertezh[index].naimenovanie}  ${aikyn_chertezh[index].kol_vo}  ${aikyn_chertezh[index].data_zdachi}  ${aikyn_chertezh[index].postavshik}  ${aikyn_chertezh[index].kraska_metal} `;
-    pages[0].drawText(chertezh_podrobno, {
-      x: 300,
-      y: size-40,
-      size: fontSize,
-      font: customFont,
-      color: rgb(0, 0, 0, 0),
+    const tel1 = String(aikyn_chertezh[index].tel1).substring(
+      7,
+      String(aikyn_chertezh[index].tel1)
+    );
+    const chertezh_podrobno = `${aikyn_chertezh[index].n} ${aikyn_chertezh[index].nomer}  ${aikyn_chertezh[index].client_from_zakaz}  ${tel1}  ${aikyn_chertezh[index].naimenovanie}  ${aikyn_chertezh[index].kol_vo}  ${aikyn_chertezh[index].data_zdachi}  ${aikyn_chertezh[index].postavshik}  ${aikyn_chertezh[index].kraska_metal} `;
+    const chertezh_lines = chertezh_podrobno.split(' ');
+    chertezh_lines.forEach((item, index1) => {
+      pages[0].drawText(item, {
+        x: 50,
+        y: 470 - index1 * 10,
+        size: fontSize,
+        font: customFont,
+        color: rgb(0, 0, 0, 0),
+      });
     });
     index++;
 
