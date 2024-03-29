@@ -79,29 +79,31 @@ function tapsyrysZholdary(recordID) {
       .eachPage(function page(records, fetchNextPage) {
         try {
           records.forEach((item) => {
-            if (item.get(chertezh)) {
-              const n = item.get('№');
-              const naimenovanie = item.get('Наименование1');
-              const kol_vo = item.get('Кол-во');
-              const client_from_zakaz = item.get('клиент (from заказ номер)');
-              const tel1 = item.get('тел1');
-              const postavshik = item.get('поставшик');
-              const nomer = item.get('номер');
-              const data_zdachi = item.get('дата сдачи на товар');
-              const kraska_metal = item.get('краска метал');
+            console.log(item.get('клиент (from заказ номер)'));
+            const n = item.get('№');
+            const naimenovanie = item.get('Наименование1');
+            const kol_vo = item.get('Кол-во');
+            const client_from_zakaz = item.get('клиент (from заказ номер)');
 
-              data.push({
-                n: n,
-                naimenovanie: naimenovanie,
-                kol_vo: kol_vo,
-                postavshik: String(postavshik),
-                kraska_metal: kraska_metal,
-                nomer: nomer,
-                client_from_zakaz: client_from_zakaz,
-                tel1: tel1,
-                data_zdachi: data_zdachi,
-              });
-            }
+            const tel1 = item.get('тел1');
+            const postavshik = item.get('поставшик');
+            const nomer = item.get('номер');
+            const data_zdachi = item.get('дата сдачи на товар');
+            const kraska_metal = item.get('краска метал');
+            const designer = item.get('дизайнер');
+
+            data.push({
+              n: n,
+              naimenovanie: naimenovanie,
+              kol_vo: kol_vo,
+              postavshik: String(postavshik),
+              kraska_metal: kraska_metal,
+              nomer: nomer,
+              client_from_zakaz: client_from_zakaz,
+              tel1: tel1,
+              data_zdachi: data_zdachi,
+              designer: designer,
+            });
           });
           fetchNextPage();
         } catch (e) {
@@ -157,14 +159,16 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const vygruzka = dostavka[0].get('выгрузка');
   const ustanovka = dostavka[0].get('установка');
   const komment = dostavka[0].get('комментарий');
+  const cenaDostavki = dostavka[0].get('цена (доставки)');
   const nomer = String(data[0].get('номер'));
   const manager = String(data[0].get('Менеджер'));
   const srochno = String(data[0].get('Срочно'));
+  const aty = String(data[0].get('Аты (from клиент)'));
   const nomer_zakaza = 'Номер заказ:' + ' ' + nomer;
   const manager_zakaza = 'Менеджер:' + ' ' + manager;
-  const aty_from_client = 'Аты:' + ' ' + String(data[0].get('Аты (from клиент)'));
+  const aty_from_client = 'Аты:' + ' ' + aty;
   const tel2_from_client = 'Тел:' + ' ' + String(data[0].get('тел2 (from клиент)'));
-  const srochno_zakaza = 'Срочно:' + ' ' + srochno;
+  const srochno_zakaza = 'Срочно:' + ' ' + (srochno ? 'Иа' : 'Жок');
   const fontSize = 16;
   let size = 0;
   let index = 0;
@@ -232,9 +236,9 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         color: rgb(0, 0, 0, 0),
       });
       //50+0*5=0, 50+1*5, 50+2*5
-      const arr = 'N наименование  колво поставщик краска датасдачи';
-      const arrWithSpaces = arr.split(' ').join('         ');
-  
+      const arr = 'N| наименование| колво| поставщик| краска| датасдачи| дизайнер';
+      const arrWithSpaces = arr.split(' ').join('           ');
+
       newpage.drawText(arrWithSpaces, {
         x: 50,
         y: 430,
@@ -243,7 +247,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         color: rgb(0, 0, 0, 0),
       });
       aikyn_chertezh.forEach((item, index) => {
-        const chertezh_podrobno = `${item.n} |  ${item.naimenovanie} | ${item.kol_vo}шт  |  ${item.postavshik} | ${item.kraska_metal} | ${item.data_zdachi}`;
+        const chertezh_podrobno = `${item.n} |  ${item.naimenovanie} | ${item.kol_vo}шт  |  ${item.postavshik} | ${item.kraska_metal} | ${item.data_zdachi} | ${item.designer}`;
 
         newpage.drawText(chertezh_podrobno, {
           x: 50,
@@ -255,7 +259,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         size = 410 - index * 20;
       });
       // Draw remaining text on the first page of each PDF
-      newpage.drawText(address ? address : '', {
+      newpage.drawText(address ? 'Адрес:' + ' ' + address : '', {
         x: 50,
         y: size - 20,
         size: fontSize,
@@ -263,7 +267,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         color: rgb(0, 0, 0, 0),
       });
 
-      newpage.drawText(kol_vo_reisov ? vygruzka : '', {
+      newpage.drawText(kol_vo_reisov ? 'кол-во-рейсов:' + ' ' + String(kol_vo_reisov) : '', {
         x: 50,
         y: size - 40,
         size: fontSize,
@@ -271,7 +275,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         color: rgb(0, 0, 0, 0),
       });
 
-      newpage.drawText(vygruzka ? vygruzka : '', {
+      newpage.drawText(vygruzka ? 'выгрузка:' + ' ' + vygruzka : '', {
         x: 50,
         y: size - 60,
         size: fontSize,
@@ -279,7 +283,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         color: rgb(0, 0, 0, 0),
       });
 
-      newpage.drawText(ustanovka ? ustanovka : '', {
+      newpage.drawText(ustanovka ? 'уставновка:' + ' ' + ustanovka : '', {
         x: 50,
         y: size - 80,
         size: fontSize,
@@ -287,7 +291,14 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         color: rgb(0, 0, 0, 0),
       });
 
-      newpage.drawText(komment ? ustanovka : '', {
+      newpage.drawText(komment ? 'коммент:' + ' ' + komment : '', {
+        x: 50,
+        y: size - 80,
+        size: fontSize,
+        font: customFont,
+        color: rgb(0, 0, 0, 0),
+      });
+      newpage.drawText(cenaDostavki ? 'цена доставки:' + ' ' + cenaDostavki : '', {
         x: 50,
         y: size - 80,
         size: fontSize,
@@ -297,15 +308,15 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       isFirst = false;
     }
     const tel1 = String(aikyn_chertezh[index].tel1).substring(
-      7,
+      5,
       String(aikyn_chertezh[index].tel1)
     );
-    const chertezh_podrobno = `${aikyn_chertezh[index].n} ${aikyn_chertezh[index].nomer}  ${aikyn_chertezh[index].client_from_zakaz}  ${tel1}  ${aikyn_chertezh[index].naimenovanie}  ${aikyn_chertezh[index].kol_vo}  ${aikyn_chertezh[index].data_zdachi}  ${aikyn_chertezh[index].postavshik}  ${aikyn_chertezh[index].kraska_metal} `;
+    const chertezh_podrobno = `N:${aikyn_chertezh[index].n} Номер:${aikyn_chertezh[index].nomer}  Клиент:${aty}  Тел:${tel1}  Наименование:${aikyn_chertezh[index].naimenovanie}  Кол-во:${aikyn_chertezh[index].kol_vo}шт  Датасдачи:${aikyn_chertezh[index].data_zdachi}  Поставщик:${aikyn_chertezh[index].postavshik}  Краска-металл:${aikyn_chertezh[index].kraska_metal} `;
     const chertezh_lines = chertezh_podrobno.split(' ');
     chertezh_lines.forEach((item, index1) => {
       pages[0].drawText(item, {
         x: 50,
-        y: 470 - index1 * 10,
+        y: 550 - index1 * 15,
         size: fontSize,
         font: customFont,
         color: rgb(0, 0, 0, 0),
