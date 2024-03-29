@@ -49,15 +49,13 @@ async function fetchData(recordID) {
           if (err) {
             reject(err);
           } else {
-            // Sort the items by `n` and then map to get an array of URLs
-            const sortedUrls = items.sort((a, b) => a.n - b.n).map(item => item.url);
+            const sortedUrls = items.sort((a, b) => a.n - b.n).map((item) => item.url);
             resolve(sortedUrls);
           }
         }
       );
   });
 }
-
 
 function findRecord(recordID) {
   const zakazy_obwee = 'заказы общее';
@@ -151,6 +149,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const dostavka = await dostavkaData(recordID);
   const address = dostavka[0].get('адрес');
   const kol_vo_reisov = dostavka[0].get('кол-во рейсов');
+
   const vygruzka = dostavka[0].get('выгрузка');
   const ustanovka = dostavka[0].get('установка');
   const komment = dostavka[0].get('комментарий');
@@ -253,61 +252,42 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         });
         size = 410 - index * 20;
       });
-      // Draw remaining text on the first page of each PDF
-      newpage.drawText(address ? 'Адрес:' + ' ' + address : '', {
-        x: 50,
-        y: size - 20,
-        size: fontSize,
-        font: customFont,
-        color: rgb(0, 0, 0, 0),
+      let yPos = size;
+
+      const details = [
+        { label: 'Адрес:', value: address },
+        { label: 'кол-во-рейсов:', value: kol_vo_reisov },
+        { label: 'выгрузка:', value: vygruzka },
+        { label: 'установка:', value: ustanovka },
+        { label: 'коммент:', value: komment },
+        { label: 'цена доставки:', value: cenaDostavki },
+      ];
+
+      details.forEach((detail, index) => {
+        const line = `${detail.label} ${detail.value || ''}`;
+        newpage.drawText(line, {
+          x: 50,
+          y: yPos - 30 - index * 20,
+          size: fontSize,
+          font: customFont,
+          color: rgb(0, 0, 0), // Assuming you want black text
+        });
       });
 
-      newpage.drawText(kol_vo_reisov ? 'кол-во-рейсов:' + ' ' + String(kol_vo_reisov) : '', {
-        x: 50,
-        y: size - 40,
-        size: fontSize,
-        font: customFont,
-        color: rgb(0, 0, 0, 0),
-      });
-
-      newpage.drawText(vygruzka ? 'выгрузка:' + ' ' + vygruzka : '', {
-        x: 50,
-        y: size - 60,
-        size: fontSize,
-        font: customFont,
-        color: rgb(0, 0, 0, 0),
-      });
-
-      newpage.drawText(ustanovka ? 'уставновка:' + ' ' + ustanovka : '', {
-        x: 50,
-        y: size - 80,
-        size: fontSize,
-        font: customFont,
-        color: rgb(0, 0, 0, 0),
-      });
-
-      newpage.drawText(komment ? 'коммент:' + ' ' + komment : '', {
-        x: 50,
-        y: size - 80,
-        size: fontSize,
-        font: customFont,
-        color: rgb(0, 0, 0, 0),
-      });
-      newpage.drawText(cenaDostavki ? 'цена доставки:' + ' ' + cenaDostavki : '', {
-        x: 50,
-        y: size - 80,
-        size: fontSize,
-        font: customFont,
-        color: rgb(0, 0, 0, 0),
-      });
       isFirst = false;
     }
     const tel1 = String(aikyn_chertezh[index].tel1).substring(
       5,
       String(aikyn_chertezh[index].tel1)
     );
-    console.log(aikyn_chertezh);
-    const chertezh_podrobno = `N:${aikyn_chertezh[index].n} Номер:${aikyn_chertezh[index].nomer}  Клиент:${aty}  Тел:${tel1}  Наименование:${aikyn_chertezh[index].naimenovanie}  Кол-во:${aikyn_chertezh[index].kol_vo}шт  Датасдачи:${aikyn_chertezh[index].data_zdachi}  Поставщик:${aikyn_chertezh[index].postavshik}  Краска-металл:${aikyn_chertezh[index].kraska_metal} `;
+
+    const chertezh_podrobno = `N:${
+      aikyn_chertezh[index].n
+    } Клиент:${aty} Тел:${tel1} Наименование:${aikyn_chertezh[index].naimenovanie} Кол-во:${
+      aikyn_chertezh[index].kol_vo
+    }шт Датасдачи:${aikyn_chertezh[index].data_zdachi} Поставщик:${
+      aikyn_chertezh[index].postavshik
+    } Краска-металл:${aikyn_chertezh[index].kraska_metal || ''} `;
     const chertezh_lines = chertezh_podrobno.split(' ');
     chertezh_lines.forEach((item, index1) => {
       pages[0].drawText(item, {
