@@ -22,8 +22,9 @@ async function pdfMergerController(req, res) {
 }
 
 async function fetchData(recordID) {
-  let pdfUrls = [];
+  let items = []; // Use an array to store both n and the URL
   const zakazy_podrobno = 'заказы подробно';
+
   return new Promise((resolve, reject) => {
     base(zakazy_podrobno)
       .select({
@@ -33,7 +34,11 @@ async function fetchData(recordID) {
         function page(records, fetchNextPage) {
           try {
             records.forEach((item) => {
-              if (item.get('чертеж')) pdfUrls.push(item.get('чертеж')[0].url);
+              const n = item.get('№');
+              const url = item.get('чертеж') ? item.get('чертеж')[0].url : null;
+              if (url) {
+                items.push({ n, url });
+              }
             });
             fetchNextPage();
           } catch (e) {
@@ -44,12 +49,15 @@ async function fetchData(recordID) {
           if (err) {
             reject(err);
           } else {
-            resolve(pdfUrls);
+            // Sort the items by `n` and then map to get an array of URLs
+            const sortedUrls = items.sort((a, b) => a.n - b.n).map(item => item.url);
+            resolve(sortedUrls);
           }
         }
       );
   });
 }
+
 
 function findRecord(recordID) {
   const zakazy_obwee = 'заказы общее';
@@ -69,7 +77,6 @@ function findRecord(recordID) {
 }
 function tapsyrysZholdary(recordID) {
   const zakazy_podrobno = 'заказы подробно';
-  const chertezh = 'чертеж';
   let data = [];
   return new Promise((resolve, reject) => {
     base(zakazy_podrobno)
@@ -79,42 +86,30 @@ function tapsyrysZholdary(recordID) {
       .eachPage(function page(records, fetchNextPage) {
         try {
           records.forEach((item) => {
-            console.log(item.get('клиент (from заказ номер)'));
-            const n = item.get('№');
-            const naimenovanie = item.get('Наименование1');
-            const kol_vo = item.get('Кол-во');
-            const client_from_zakaz = item.get('клиент (from заказ номер)');
-
-            const tel1 = item.get('тел1');
-            const postavshik = item.get('поставшик');
-            const nomer = item.get('номер');
-            const data_zdachi = item.get('дата сдачи на товар');
-            const kraska_metal = item.get('краска метал');
-            const designer = item.get('дизайнер');
-
             data.push({
-              n: n,
-              naimenovanie: naimenovanie,
-              kol_vo: kol_vo,
-              postavshik: String(postavshik),
-              kraska_metal: kraska_metal,
-              nomer: nomer,
-              client_from_zakaz: client_from_zakaz,
-              tel1: tel1,
-              data_zdachi: data_zdachi,
-              designer: designer,
+              n: item.get('№'),
+              naimenovanie: item.get('Наименование1'),
+              kol_vo: item.get('Кол-во'),
+              postavshik: String(item.get('поставшик')),
+              kraska_metal: item.get('краска метал'),
+              nomer: item.get('номер'),
+              client_from_zakaz: item.get('клиент (from заказ номер)'),
+              tel1: item.get('тел1'),
+              data_zdachi: item.get('дата сдачи на товар'),
+              designer: item.get('дизайнер'),
             });
           });
           fetchNextPage();
         } catch (e) {
-          reject(e); // Reject if an error occurs during processing
+          reject(e);
         }
       })
       .then(() => {
-        resolve(data); // Resolve with the data after processing is complete
+        data.sort((a, b) => a.n - b.n); // Sorting the data by `n` in ascending order
+        resolve(data);
       })
       .catch((error) => {
-        reject(error); // Reject if an error occurs during querying
+        reject(error);
       });
   });
 }
@@ -311,6 +306,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       5,
       String(aikyn_chertezh[index].tel1)
     );
+    console.log(aikyn_chertezh);
     const chertezh_podrobno = `N:${aikyn_chertezh[index].n} Номер:${aikyn_chertezh[index].nomer}  Клиент:${aty}  Тел:${tel1}  Наименование:${aikyn_chertezh[index].naimenovanie}  Кол-во:${aikyn_chertezh[index].kol_vo}шт  Датасдачи:${aikyn_chertezh[index].data_zdachi}  Поставщик:${aikyn_chertezh[index].postavshik}  Краска-металл:${aikyn_chertezh[index].kraska_metal} `;
     const chertezh_lines = chertezh_podrobno.split(' ');
     chertezh_lines.forEach((item, index1) => {
