@@ -231,17 +231,28 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
+      //50+0*5=0, 50+1*5, 50+2*5
+      const arr = 'N наименование  колво поставщик краска датасдачи';
+      const arrWithSpaces = arr.split(' ').join('         ');
+  
+      newpage.drawText(arrWithSpaces, {
+        x: 50,
+        y: 430,
+        size: fontSize,
+        font: customFont,
+        color: rgb(0, 0, 0, 0),
+      });
       aikyn_chertezh.forEach((item, index) => {
-        const chertezh_podrobno = `${item.n}   ${item.naimenovanie}  ${item.kol_vo}   ${item.postavshik}  ${item.kraska_metal}`;
+        const chertezh_podrobno = `${item.n} |  ${item.naimenovanie} | ${item.kol_vo}шт  |  ${item.postavshik} | ${item.kraska_metal} | ${item.data_zdachi}`;
 
         newpage.drawText(chertezh_podrobno, {
           x: 50,
-          y: 430 - index * 20,
+          y: 410 - index * 20,
           size: fontSize,
           font: customFont,
           color: rgb(0, 0, 0, 0),
         });
-        size = 430 - index * 20;
+        size = 410 - index * 20;
       });
       // Draw remaining text on the first page of each PDF
       newpage.drawText(address ? address : '', {
