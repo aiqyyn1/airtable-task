@@ -95,6 +95,7 @@ function tapsyrysZholdary(recordID) {
               tel1: item.get('тел1'),
               data_zdachi: item.get('дата сдачи на товар'),
               designer: item.get('дизайнер'),
+              cenaDostavki: item.get('цена доставки'),
             });
           });
           fetchNextPage();
@@ -135,6 +136,7 @@ function dostavkaData(recordID) {
       );
   });
 }
+
 async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const mergedPdf = await PDFDocument.create();
   const fontBytes = await fetch('https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf').then((res) =>
@@ -149,11 +151,10 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const dostavka = await dostavkaData(recordID);
   const address = dostavka[0].get('адрес');
   const kol_vo_reisov = dostavka[0].get('кол-во рейсов');
-
+  const type_deliver = dostavka[0].get('тип доставки');
   const vygruzka = dostavka[0].get('выгрузка');
   const ustanovka = dostavka[0].get('установка');
   const komment = dostavka[0].get('комментарий');
-  const cenaDostavki = dostavka[0].get('цена (доставки)');
   const nomer = String(data[0].get('номер'));
   const manager = String(data[0].get('Менеджер'));
   const srochno = String(data[0].get('Срочно'));
@@ -163,7 +164,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const aty_from_client = 'Аты:' + ' ' + aty;
   const tel2_from_client = 'Тел:' + ' ' + String(data[0].get('тел2 (from клиент)'));
   const srochno_zakaza = 'Срочно:' + ' ' + (srochno ? 'Иа' : 'Жок');
-  const fontSize = 16;
+  const fontSize = 12;
   let size = 0;
   let index = 0;
   let isFirst = true;
@@ -180,7 +181,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
 
       // Add custom content only to the first page of the first PDF
       newpage.drawText(nomer_zakaza, {
-        x: 50,
+        x: 10,
         y: 560,
         size: fontSize,
         font: customFont,
@@ -188,7 +189,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       });
 
       newpage.drawText(aty_from_client, {
-        x: 50,
+        x: 10,
         y: 540,
         size: fontSize,
         font: customFont,
@@ -196,7 +197,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       });
 
       newpage.drawText(tel2_from_client, {
-        x: 50,
+        x: 10,
         y: 520,
         size: fontSize,
         font: customFont,
@@ -204,7 +205,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       });
 
       newpage.drawText(manager_zakaza, {
-        x: 50,
+        x: 10,
         y: 500,
         size: fontSize,
         font: customFont,
@@ -212,7 +213,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       });
 
       newpage.drawText(srochno_zakaza, {
-        x: 50,
+        x: 10,
         y: 480,
         size: fontSize,
         font: customFont,
@@ -223,28 +224,31 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
 
       // Add content to the remaining pages of each PDF
       newpage.drawText('Тапсырыс жолдары:', {
-        x: 50,
+        x: 10,
         y: 450,
         size: fontSize,
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
       //50+0*5=0, 50+1*5, 50+2*5
-      const arr = 'N| наименование| колво| поставщик| краска| датасдачи| дизайнер';
-      const arrWithSpaces = arr.split(' ').join('           ');
+      const arr = 'N| наименование| колво| поставщик| краска| датасдачи| дизайнер| цена-доставки'; const arrWithSpaces = arr.split(' ').join('           ');
 
       newpage.drawText(arrWithSpaces, {
-        x: 50,
+        x: 10,
         y: 430,
         size: fontSize,
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
       aikyn_chertezh.forEach((item, index) => {
-        const chertezh_podrobno = `${item.n} |  ${item.naimenovanie} | ${item.kol_vo}шт  |  ${item.postavshik} | ${item.kraska_metal} | ${item.data_zdachi} | ${item.designer}`;
+        const chertezh_podrobno = `${item.n || ''} |  ${item.naimenovanie || ''} | ${
+          item.kol_vo || ''
+        }шт  |  ${item.postavshik || ''} | ${item.kraska_metal || ''} | ${
+          item.data_zdachi || ''
+        } | ${item.designer || ''} | ${item.cenaDostavki || ''}`;
 
         newpage.drawText(chertezh_podrobno, {
-          x: 50,
+          x: 10,
           y: 410 - index * 20,
           size: fontSize,
           font: customFont,
@@ -260,13 +264,13 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         { label: 'выгрузка:', value: vygruzka },
         { label: 'установка:', value: ustanovka },
         { label: 'коммент:', value: komment },
-        { label: 'цена доставки:', value: cenaDostavki },
+        { label: 'тип доставки:', value: type_deliver },
       ];
 
       details.forEach((detail, index) => {
         const line = `${detail.label} ${detail.value || ''}`;
         newpage.drawText(line, {
-          x: 50,
+          x: 10,
           y: yPos - 30 - index * 20,
           size: fontSize,
           font: customFont,
@@ -283,21 +287,33 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
 
     const chertezh_podrobno = `N:${
       aikyn_chertezh[index].n
-    } Клиент:${aty} Тел:${tel1} Наименование:${aikyn_chertezh[index].naimenovanie} Кол-во:${
-      aikyn_chertezh[index].kol_vo
-    }шт Датасдачи:${aikyn_chertezh[index].data_zdachi} Поставщик:${
-      aikyn_chertezh[index].postavshik
-    } Краска-металл:${aikyn_chertezh[index].kraska_metal || ''} `;
+    } | Клиент:${aty} | Тел:${tel1} | Наименование:${String(
+      aikyn_chertezh[index].naimenovanie
+    ).trim()} `;
     const chertezh_lines = chertezh_podrobno.split(' ');
-    chertezh_lines.forEach((item, index1) => {
-      pages[0].drawText(item, {
-        x: 50,
-        y: 550 - index1 * 15,
-        size: fontSize,
-        font: customFont,
-        color: rgb(0, 0, 0, 0),
-      });
+
+    pages[0].drawText(chertezh_podrobno, {
+      x: 30,
+      y: 550,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0, 0),
     });
+
+    const chertezh_lines1 = `Кол-во:${aikyn_chertezh[index].kol_vo}шт| Датасдачи:${
+      aikyn_chertezh[index].data_zdachi
+    } | Поставщик:${aikyn_chertezh[index].postavshik}| Краска-металл:${
+      aikyn_chertezh[index].kraska_metal || ''
+    } `;
+
+    pages[0].drawText(chertezh_lines1, {
+      x: 30,
+      y: 530,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0, 0),
+    });
+
     index++;
 
     // Add copied pages to the merged PDF
