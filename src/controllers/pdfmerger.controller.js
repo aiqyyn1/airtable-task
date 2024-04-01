@@ -89,13 +89,13 @@ function tapsyrysZholdary(recordID) {
               naimenovanie: item.get('Наименование1'),
               kol_vo: item.get('Кол-во'),
               postavshik: item.get('поставшик'),
-              kraska_metal: item.get('краска метал'),
-              nomer: item.get('номер'),
+              kraska_metal: item.get('краска металл'),
               client_from_zakaz: item.get('клиент (from заказ номер)'),
               tel1: item.get('тел1'),
               data_zdachi: item.get('дата сдачи на товар'),
               designer: item.get('дизайнер'),
               cenaDostavki: item.get('цена доставки'),
+              nomer_zakaza: item.get('номер заказа'),
             });
           });
           fetchNextPage();
@@ -148,6 +148,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
 
   const data = await findRecord(recordID);
   const aikyn_chertezh = await tapsyrysZholdary(recordID);
+
   const dostavka = await dostavkaData(recordID);
   const address = dostavka[0].get('адрес');
   const kol_vo_reisov = dostavka[0].get('кол-во рейсов');
@@ -263,12 +264,12 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       let yPos = size;
 
       const details = [
+        { label: 'тип доставки:', value: type_deliver },
         { label: 'Адрес:', value: address },
-        { label: 'кол-во-рейсов:', value: kol_vo_reisov },
+        { label: 'кол-во-рейсов:', value: kol_vo_reisov + 'шт' },
         { label: 'выгрузка:', value: vygruzka },
         { label: 'установка:', value: ustanovka },
         { label: 'коммент:', value: komment },
-        { label: 'тип доставки:', value: type_deliver },
       ];
 
       details.forEach((detail, index) => {
@@ -289,29 +290,28 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       String(aikyn_chertezh[index].tel1)
     );
 
-    const chertezh_podrobno = `N:${
-      aikyn_chertezh[index].n
-    } | Клиент:${aty} | Тел:${tel1} | Наименование:${String(
-      aikyn_chertezh[index].naimenovanie
-    ).trim()} `;
+    const chertezh_podrobno = `N:${aikyn_chertezh[index].n} | Клиент:${aty} | Номер-заказа:${
+      aikyn_chertezh[index].nomer_zakaza
+    }| Тел:${tel1} | Наименование:${String(aikyn_chertezh[index].naimenovanie).trim()} Кол-во:${
+      aikyn_chertezh[index].kol_vo || ''
+    }шт| `;
     const chertezh_lines = chertezh_podrobno.split(' ');
 
     pages[0].drawText(chertezh_podrobno, {
-      x: 30,
+      x: 50,
       y: 550,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0, 0),
     });
-
-    const chertezh_lines1 = `Кол-во:${aikyn_chertezh[index].kol_vo || ''}щт| Датасдачи:${
-      aikyn_chertezh[index].data_zdachi || ''
-    } | Поставщик:${aikyn_chertezh[index].postavshik || ''}| Краска-металл:${
-      aikyn_chertezh[index].kraska_metal || ''
-    } `;
+    const split_data = String(aikyn_chertezh[index].data_zdachi).split('-');
+    const data_zdachi = split_data[2] + '.' + split_data[1] + '.' + split_data[0];
+    const chertezh_lines1 = `Датасдачи:${data_zdachi || ''} | Поставщик:${
+      aikyn_chertezh[index].postavshik || ''
+    }| Краска-металл:${aikyn_chertezh[index].kraska_metal || ''}  `;
 
     pages[0].drawText(chertezh_lines1, {
-      x: 65,
+      x: 50,
       y: 530,
       size: fontSize,
       font: customFont,
