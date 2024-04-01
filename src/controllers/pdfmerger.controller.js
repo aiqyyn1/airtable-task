@@ -88,7 +88,7 @@ function tapsyrysZholdary(recordID) {
               n: item.get('№'),
               naimenovanie: item.get('Наименование1'),
               kol_vo: item.get('Кол-во'),
-              postavshik: String(item.get('поставшик')),
+              postavshik: item.get('поставшик'),
               kraska_metal: item.get('краска метал'),
               nomer: item.get('номер'),
               client_from_zakaz: item.get('клиент (from заказ номер)'),
@@ -163,7 +163,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const manager_zakaza = 'Менеджер:' + ' ' + manager;
   const aty_from_client = 'Аты:' + ' ' + aty;
   const tel2_from_client = 'Тел:' + ' ' + String(data[0].get('тел2 (from клиент)'));
-  const srochno_zakaza = 'Срочно:' + ' ' + (srochno ? 'Иа' : 'Жок');
+  const srochno_zakaza = 'Шұғыл:' + ' ' + (srochno ? 'Иа' : 'Жок');
   const fontSize = 12;
   let size = 0;
   let index = 0;
@@ -231,7 +231,8 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         color: rgb(0, 0, 0, 0),
       });
       //50+0*5=0, 50+1*5, 50+2*5
-      const arr = 'N| наименование| колво| поставщик| краска| датасдачи| дизайнер| цена-доставки'; const arrWithSpaces = arr.split(' ').join('           ');
+      const arr = 'N| наименование| колво| поставщик| краска| датасдачи| дизайнер| цена-доставки';
+      const arrWithSpaces = arr.split(' ').join(' ');
 
       newpage.drawText(arrWithSpaces, {
         x: 10,
@@ -241,11 +242,14 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         color: rgb(0, 0, 0, 0),
       });
       aikyn_chertezh.forEach((item, index) => {
+        const split_data_zdachi = item.data_zdachi ? String(item.data_zdachi).split('-') : '';
+        const right_data =
+          split_data_zdachi[2] + '.' + split_data_zdachi[1] + '.' + split_data_zdachi[0];
         const chertezh_podrobno = `${item.n || ''} |  ${item.naimenovanie || ''} | ${
           item.kol_vo || ''
-        }шт  |  ${item.postavshik || ''} | ${item.kraska_metal || ''} | ${
-          item.data_zdachi || ''
-        } | ${item.designer || ''} | ${item.cenaDostavki || ''}`;
+        }шт  |  ${item.postavshik === undefined ? '' : item.postavshik} | ${
+          item.kraska_metal || ''
+        } | ${right_data || ''} | ${item.designer || ''} | ${item.cenaDostavki || ''}`;
 
         newpage.drawText(chertezh_podrobno, {
           x: 10,
@@ -300,14 +304,14 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       color: rgb(0, 0, 0, 0),
     });
 
-    const chertezh_lines1 = `Кол-во:${aikyn_chertezh[index].kol_vo}шт| Датасдачи:${
-      aikyn_chertezh[index].data_zdachi
-    } | Поставщик:${aikyn_chertezh[index].postavshik}| Краска-металл:${
+    const chertezh_lines1 = `Кол-во:${aikyn_chertezh[index].kol_vo || ''}щт| Датасдачи:${
+      aikyn_chertezh[index].data_zdachi || ''
+    } | Поставщик:${aikyn_chertezh[index].postavshik || ''}| Краска-металл:${
       aikyn_chertezh[index].kraska_metal || ''
     } `;
 
     pages[0].drawText(chertezh_lines1, {
-      x: 30,
+      x: 65,
       y: 530,
       size: fontSize,
       font: customFont,
