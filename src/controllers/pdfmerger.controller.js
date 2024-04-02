@@ -2,24 +2,30 @@ const fetch = require('node-fetch');
 const { PDFDocument, rgb, degrees, StandardFonts } = require('pdf-lib');
 const fontkit = require('@pdf-lib/fontkit');
 const { base } = require('../../airtable');
-
 async function pdfMergerController(req, res) {
   const recordID = req.query.recordID;
 
   try {
-    const pdfUrls = await fetchData(recordID);
-    const modifiedPdfBytes = await mergeAndModifyPDFs(pdfUrls, recordID);
+      const pdfUrls = await fetchData(recordID);
+      const modifiedPdfBytes = await mergeAndModifyPDFs(pdfUrls, recordID);
+      const chertezh = await tapsyrysZholdary(recordID);
 
-    // Set the response headers
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=modified.pdf'); // Fix the Content-Disposition header
+      if (chertezh.length > 0) {
+          const nameOfPdf = chertezh[0].nomer_zakaza || 'default';
+          const fileName = encodeURIComponent(`${nameOfPdf}-чертеж.pdf`);
 
-    res.send(Buffer.from(modifiedPdfBytes));
+          res.setHeader('Content-Type', 'application/pdf');
+          res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+          res.send(Buffer.from(modifiedPdfBytes));
+      } else {
+          throw new Error('No data found to set file name');
+      }
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).send('Internal Server Error');
+      console.error('Error:', error);
+      res.status(500).send('Internal Server Error');
   }
 }
+
 
 async function fetchData(recordID) {
   let items = []; // Use an array to store both n and the URL
@@ -84,7 +90,6 @@ function tapsyrysZholdary(recordID) {
       .eachPage(function page(records, fetchNextPage) {
         try {
           records.forEach((item) => {
-            console.log(item);
             data.push({
               n: item.get('№'),
               naimenovanie: item.get('Наименование1'),
@@ -156,7 +161,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const type_deliver = dostavka[0].get('тип доставки');
   const vygruzka = dostavka[0].get('выгрузка');
   const ustanovka = dostavka[0].get('установка');
-  const komment = dostavka[0].get('комментарий');
+  const komment = dostavka[0].get('Notes');
   const nomer = String(data[0].get('номер'));
   const manager = String(data[0].get('Менеджер'));
   const srochno = String(data[0].get('Срочно'));
