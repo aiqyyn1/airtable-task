@@ -6,26 +6,25 @@ async function pdfMergerController(req, res) {
   const recordID = req.query.recordID;
 
   try {
-      const pdfUrls = await fetchData(recordID);
-      const modifiedPdfBytes = await mergeAndModifyPDFs(pdfUrls, recordID);
-      const chertezh = await tapsyrysZholdary(recordID);
+    const pdfUrls = await fetchData(recordID);
+    const modifiedPdfBytes = await mergeAndModifyPDFs(pdfUrls, recordID);
+    const chertezh = await tapsyrysZholdary(recordID);
 
-      if (chertezh.length > 0) {
-          const nameOfPdf = chertezh[0].nomer_zakaza || 'default';
-          const fileName = encodeURIComponent(`${nameOfPdf}-чертеж.pdf`);
+    if (chertezh.length > 0) {
+      const nameOfPdf = chertezh[0].nomer_zakaza || 'default';
+      const fileName = encodeURIComponent(`${nameOfPdf}-чертеж.pdf`);
 
-          res.setHeader('Content-Type', 'application/pdf');
-          res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
-          res.send(Buffer.from(modifiedPdfBytes));
-      } else {
-          throw new Error('No data found to set file name');
-      }
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+      res.send(Buffer.from(modifiedPdfBytes));
+    } else {
+      throw new Error('No data found to set file name');
+    }
   } catch (error) {
-      console.error('Error:', error);
-      res.status(500).send('Internal Server Error');
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
   }
 }
-
 
 async function fetchData(recordID) {
   let items = []; // Use an array to store both n and the URL
@@ -238,7 +237,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         color: rgb(0, 0, 0, 0),
       });
       //50+0*5=0, 50+1*5, 50+2*5
-      const arr = 'N| наименование| колво| поставщик| краска| датасдачи| дизайнер| цена-доставки';
+      const arr = 'N| наименование| колво| поставщик| краска| датасдачи| дизайнер';
       const arrWithSpaces = arr.split(' ').join(' ');
 
       newpage.drawText(arrWithSpaces, {
@@ -257,7 +256,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
           item.kol_vo || ''
         }шт  |  ${item.postavshik === undefined ? '' : item.postavshik} | ${
           item.kraska_metal || ''
-        } | ${right_data || ''} | ${item.designer || ''} | ${item.cenaDostavki || ''}`;
+        } | ${right_data || ''} | ${item.designer || ''}`;
 
         newpage.drawText(chertezh_podrobno, {
           x: 10,
@@ -284,7 +283,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         newpage.drawText(line, {
           x: 10,
           y: yPos - 30 - index * 20,
-          size: fontSize,
+          size: 10,
           font: customFont,
           color: rgb(0, 0, 0), // Assuming you want black text
         });
@@ -293,15 +292,14 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       isFirst = false;
     }
     const tel1 = String(aikyn_chertezh[index].tel1).substring(
-      5,
+      6,
       String(aikyn_chertezh[index].tel1)
     );
 
-    const chertezh_podrobno = `N:${aikyn_chertezh[index].n} | Клиент:${aty} | Номер-заказа:${
-      aikyn_chertezh[index].nomer_zakaza
-    }| Тел:${tel1} | Наименование:${String(aikyn_chertezh[index].naimenovanie).trim()} Кол-во:${
-      aikyn_chertezh[index].kol_vo || ''
-    }шт| `;
+    const chertezh_podrobno = `N:${aikyn_chertezh[index].nomer_zakaza}/
+    ${aikyn_chertezh[index].n} ${aty}-${tel1} | Тауар:${String(
+      aikyn_chertezh[index].naimenovanie
+    ).trim()} Кол-во:${aikyn_chertezh[index].kol_vo || ''}шт| `;
     const chertezh_lines = chertezh_podrobno.split(' ');
 
     pages[0].drawText(chertezh_podrobno, {
