@@ -84,6 +84,7 @@ function tapsyrysZholdary(recordID) {
       .eachPage(function page(records, fetchNextPage) {
         try {
           records.forEach((item) => {
+            console.log(item);
             data.push({
               n: item.get('№'),
               naimenovanie: item.get('Наименование1'),
@@ -94,7 +95,7 @@ function tapsyrysZholdary(recordID) {
               tel1: item.get('тел1'),
               data_zdachi: item.get('дата сдачи на товар'),
               designer: item.get('дизайнер'),
-              cenaDostavki: item.get('цена доставки'),
+              cenaDostavki: item.get('цена (доставки)'),
               nomer_zakaza: item.get('номер заказа'),
             });
           });
@@ -242,6 +243,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         font: customFont,
         color: rgb(0, 0, 0, 0),
       });
+
       aikyn_chertezh.forEach((item, index) => {
         const split_data_zdachi = item.data_zdachi ? String(item.data_zdachi).split('-') : '';
         const right_data =
