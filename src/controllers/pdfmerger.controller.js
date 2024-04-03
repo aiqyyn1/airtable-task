@@ -155,9 +155,10 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const aikyn_chertezh = await tapsyrysZholdary(recordID);
 
   const dostavka = await dostavkaData(recordID);
-  const address = dostavka[0].get('адрес');
-  const kol_vo_reisov = dostavka[0].get('кол-во рейсов');
-  const type_deliver = dostavka[0].get('тип доставки');
+  console.log(dostavka);
+  const address = dostavka[0].get('адрес') || '';
+  const kol_vo_reisov = dostavka[0].get('кол-во рейсов') || '';
+  const type_deliver = dostavka[0].get('тип доставки') || '';
   const vygruzka = dostavka[0].get('выгрузка');
   const ustanovka = dostavka[0].get('установка');
   const komment = dostavka[0].get('Notes');
@@ -174,6 +175,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   let size = 0;
   let index = 0;
   let isFirst = true;
+  let yPos;
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -267,8 +269,16 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         });
         size = 410 - index * 20;
       });
-      let yPos = size;
+      yPos = size;
 
+      isFirst = false;
+    }
+    let isSecond = true;
+    if (isSecond) {
+      const firstPageDimensions = pages[0].getSize();
+
+      // Create a new page in the merged PDF document with the same dimensions as the existing pages
+      const newpage = mergedPdf.addPage([firstPageDimensions.width, firstPageDimensions.height]);
       const details = [
         { label: 'тип доставки:', value: type_deliver },
         { label: 'Адрес:', value: address },
@@ -282,25 +292,25 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         const line = `${detail.label} ${detail.value || ''}`;
         newpage.drawText(line, {
           x: 10,
-          y: yPos - 30 - index * 20,
+          y: 500 - 10 - index * 20,
           size: 10,
           font: customFont,
           color: rgb(0, 0, 0), // Assuming you want black text
         });
       });
-
-      isFirst = false;
+      isSecond = false;
     }
     const tel1 = String(aikyn_chertezh[index].tel1).substring(
       6,
       String(aikyn_chertezh[index].tel1)
     );
 
-    const chertezh_podrobno = `N:${aikyn_chertezh[index].nomer_zakaza}/
-    ${aikyn_chertezh[index].n} ${aty}-${tel1} | Тауар:${String(
-      aikyn_chertezh[index].naimenovanie
-    ).trim()} Кол-во:${aikyn_chertezh[index].kol_vo || ''}шт| `;
-    const chertezh_lines = chertezh_podrobno.split(' ');
+    const chertezh_podrobno = `N:${aikyn_chertezh[index].nomer_zakaza}/${
+      aikyn_chertezh[index].n
+    } ${aty}-${tel1} | Тауар:${String(aikyn_chertezh[index].naimenovanie)} Кол-во:${
+      aikyn_chertezh[index].kol_vo || ''
+    }шт| `;
+    console.log(chertezh_podrobno);
 
     pages[0].drawText(chertezh_podrobno, {
       x: 50,
