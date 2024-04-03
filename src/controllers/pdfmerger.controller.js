@@ -40,8 +40,7 @@ async function fetchData(recordID) {
           try {
             records.forEach((item) => {
               const n = item.get('№');
-              const url = item.get('чертеж') ? item.get('чертеж').map((item) => item.url) : [];
-              console.log(url);
+              const url = item.get('чертеж') ? item.get('чертеж')[0].url : '';
               if (url) {
                 items.push({ n, url });
               }
@@ -103,6 +102,47 @@ function tapsyrysZholdary(recordID) {
               cenaDostavki: item.get('цена (доставки)'),
               nomer_zakaza: item.get('номер заказа'),
             });
+          });
+          fetchNextPage();
+        } catch (e) {
+          reject(e);
+        }
+      })
+      .then(() => {
+        data.sort((a, b) => a.n - b.n); // Sorting the data by `n` in ascending order
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+function tapsyrysZholdary1(recordID) {
+  const zakazy_podrobno = 'заказы подробно';
+  let data = [];
+  return new Promise((resolve, reject) => {
+    base(zakazy_podrobno)
+      .select({
+        filterByFormula: `{record_id (from заказ номер)} = '${recordID}'`,
+      })
+      .eachPage(function page(records, fetchNextPage) {
+        try {
+          records.forEach((item) => {
+            if (item.get('чертеж')) {
+              data.push({
+                n: item.get('№'),
+                naimenovanie: item.get('Наименование1'),
+                kol_vo: item.get('Кол-во'),
+                postavshik: item.get('поставшик'),
+                kraska_metal: item.get('краска металл'),
+                client_from_zakaz: item.get('клиент (from заказ номер)'),
+                tel1: item.get('тел1'),
+                data_zdachi: item.get('дата сдачи на товар'),
+                designer: item.get('дизайнер'),
+                cenaDostavki: item.get('цена (доставки)'),
+                nomer_zakaza: item.get('номер заказа'),
+              });
+            }
           });
           fetchNextPage();
         } catch (e) {
@@ -303,13 +343,12 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       6,
       String(aikyn_chertezh[index].tel1)
     );
-
-    const chertezh_podrobno = `N:${aikyn_chertezh[index].nomer_zakaza}/${
-      aikyn_chertezh[index].n
-    } ${aty}-${tel1} | Тауар:${String(aikyn_chertezh[index].naimenovanie)} Кол-во:${
-      aikyn_chertezh[index].kol_vo || ''
+    const aikyn_chertezh1 = await tapsyrysZholdary1(recordID);
+    const chertezh_podrobno = `N:${aikyn_chertezh1[index].nomer_zakaza}/${
+      aikyn_chertezh1[index].n
+    } ${aty}-${tel1} | Тауар:${String(aikyn_chertezh1[index].naimenovanie)} Кол-во:${
+      aikyn_chertezh1[index].kol_vo || ''
     }шт| `;
-    console.log(chertezh_podrobno);
 
     pages[0].drawText(chertezh_podrobno, {
       x: 50,
@@ -318,11 +357,11 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       font: customFont,
       color: rgb(0, 0, 0, 0),
     });
-    const split_data = String(aikyn_chertezh[index].data_zdachi).split('-');
+    const split_data = String(aikyn_chertezh1[index].data_zdachi).split('-');
     const data_zdachi = split_data[2] + '.' + split_data[1] + '.' + split_data[0];
     const chertezh_lines1 = `Датасдачи:${data_zdachi || ''} | Поставщик:${
-      aikyn_chertezh[index].postavshik || ''
-    }| Краска-металл:${aikyn_chertezh[index].kraska_metal || ''}  `;
+      aikyn_chertezh1[index].postavshik || ''
+    }| Краска-металл:${aikyn_chertezh1[index].kraska_metal || ''}  `;
 
     pages[0].drawText(chertezh_lines1, {
       x: 50,
