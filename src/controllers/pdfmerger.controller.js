@@ -175,7 +175,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   let size = 0;
   let index = 0;
   let isFirst = true;
-  let yPos;
+  let isSecond = true;
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -273,7 +273,6 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
 
       isFirst = false;
     }
-    let isSecond = true;
     if (isSecond) {
       const firstPageDimensions = pages[0].getSize();
 
