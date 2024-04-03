@@ -40,7 +40,8 @@ async function fetchData(recordID) {
           try {
             records.forEach((item) => {
               const n = item.get('№');
-              const url = item.get('чертеж') ? item.get('чертеж')[0].url : null;
+              const url = item.get('чертеж') ? item.get('чертеж').map((item) => item.url) : [];
+              console.log(url);
               if (url) {
                 items.push({ n, url });
               }
@@ -155,7 +156,6 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const aikyn_chertezh = await tapsyrysZholdary(recordID);
 
   const dostavka = await dostavkaData(recordID);
-  console.log(dostavka);
   const address = dostavka[0].get('адрес') || '';
   const kol_vo_reisov = dostavka[0].get('кол-во рейсов') || '';
   const type_deliver = dostavka[0].get('тип доставки') || '';
