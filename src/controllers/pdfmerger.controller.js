@@ -40,7 +40,7 @@ async function fetchData(recordID) {
           try {
             records.forEach((item) => {
               const n = item.get('№');
-              const url = item.get('чертеж') ? item.get('чертеж')[0].url : '';
+              const url = item.get('чертеж') ? item.get('чертеж')[0].url : null;
               if (url) {
                 items.push({ n, url });
               }
@@ -216,6 +216,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   let index = 0;
   let isFirst = true;
   let isSecond = true;
+  let yPos;
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -311,12 +312,34 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       });
       yPos = size;
 
+      if (yPos > 110) {
+        const details = [
+          { label: 'тип доставки:', value: type_deliver },
+          { label: 'Адрес:', value: address },
+          { label: 'кол-во-рейсов:', value: kol_vo_reisov + 'шт' },
+          { label: 'выгрузка:', value: vygruzka },
+          { label: 'установка:', value: ustanovka },
+          { label: 'коммент:', value: komment },
+        ];
+
+        details.forEach((detail, index) => {
+          const line = `${detail.label} ${detail.value || ''}`;
+          newpage.drawText(line, {
+            x: 10,
+            y: yPos - 20 - index * 20,
+            size: 10,
+            font: customFont,
+            color: rgb(0, 0, 0), // Assuming you want black text
+          });
+        });
+      }
+
       isFirst = false;
     }
-    if (isSecond) {
+
+    if (yPos <= 110) {
       const firstPageDimensions = pages[0].getSize();
 
-      // Create a new page in the merged PDF document with the same dimensions as the existing pages
       const newpage = mergedPdf.addPage([firstPageDimensions.width, firstPageDimensions.height]);
       const details = [
         { label: 'тип доставки:', value: type_deliver },
@@ -339,11 +362,12 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       });
       isSecond = false;
     }
-    const tel1 = String(aikyn_chertezh[index].tel1).substring(
-      6,
-      String(aikyn_chertezh[index].tel1)
-    );
     const aikyn_chertezh1 = await tapsyrysZholdary1(recordID);
+    const tel1 = String(aikyn_chertezh1[index].tel1).substring(
+      6,
+      String(aikyn_chertezh1[index].tel1)
+    );
+
     const chertezh_podrobno = `N:${aikyn_chertezh1[index].nomer_zakaza}/${
       aikyn_chertezh1[index].n
     } ${aty}-${tel1} | Тауар:${String(aikyn_chertezh1[index].naimenovanie)} Кол-во:${
