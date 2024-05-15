@@ -10,8 +10,7 @@ TODO: rename hardcode data to variables
 const tapsyrys_header = 'заказы общее';
 const tapsyrys_lines = 'заказы подробно';
 */
-const tapsyrys_header = 'заказы общее';
-const tapsyrys_lines = 'заказы подробно';
+const { findRecord } = require('../utils/utils');
 const getFirsController = async (req, res) => {
   const recordID = req.query.recordID;
   try {
@@ -175,17 +174,4 @@ const fetchRecords = (recordID) => {
       );
   });
 };
-
-findRecord = (recordID) => {
-  return new Promise((resolve, reject) => {
-    base(tapsyrys_header).find(recordID, (err, record) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(record);
-      }
-    });
-  });
-};
-
 module.exports = getFirsController;

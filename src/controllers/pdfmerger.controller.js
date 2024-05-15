@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const { PDFDocument, rgb, degrees, StandardFonts } = require('pdf-lib');
 const fontkit = require('@pdf-lib/fontkit');
 const { base } = require('../../airtable');
+const { findRecord } = require('../utils/utils');
 async function pdfMergerController(req, res) {
   const recordID = req.query.recordID;
 
@@ -63,22 +64,6 @@ async function fetchData(recordID) {
   });
 }
 
-function findRecord(recordID) {
-  const zakazy_obwee = 'заказы общее';
-  return new Promise((resolve, reject) => {
-    base(zakazy_obwee)
-      .select({
-        filterByFormula: `{record_id} = '${recordID}'`,
-      })
-      .eachPage(function page(records, fetchNextPage) {
-        resolve(records); // Resolve inside the callback
-        fetchNextPage();
-      })
-      .catch((err) => {
-        reject(err); // Handle rejection here
-      });
-  });
-}
 function tapsyrysZholdary(recordID) {
   const zakazy_podrobno = 'заказы подробно';
   let data = [];
@@ -103,47 +88,6 @@ function tapsyrysZholdary(recordID) {
               cenaDostavki: item.get('цена (доставки)'),
               nomer_zakaza: item.get('номер заказа'),
             });
-          });
-          fetchNextPage();
-        } catch (e) {
-          reject(e);
-        }
-      })
-      .then(() => {
-        data.sort((a, b) => a.n - b.n); // Sorting the data by `n` in ascending order
-        resolve(data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-}
-function tapsyrysZholdary1(recordID) {
-  const zakazy_podrobno = 'заказы подробно';
-  let data = [];
-  return new Promise((resolve, reject) => {
-    base(zakazy_podrobno)
-      .select({
-        filterByFormula: `{record_id (from заказ номер)} = '${recordID}'`,
-      })
-      .eachPage(function page(records, fetchNextPage) {
-        try {
-          records.forEach((item) => {
-            if (item.get('чертеж')) {
-              data.push({
-                n: item.get('№'),
-                naimenovanie: item.get('Наименование1'),
-                kol_vo: item.get('Кол-во'),
-                postavshik: item.get('поставшик'),
-                kraska_metal: item.get('краска металл'),
-                client_from_zakaz: item.get('клиент (from заказ номер)'),
-                tel1: item.get('тел1'),
-                data_zdachi: item.get('дата сдачи на товар'),
-                designer: item.get('дизайнер'),
-                cenaDostavki: item.get('цена (доставки)'),
-                nomer_zakaza: item.get('номер заказа'),
-              });
-            }
           });
           fetchNextPage();
         } catch (e) {

@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const getFirsController = require('../controllers/avr.controller');
+const controller = require('../controllers/avr.controller');
 
 //TODO: refactor code - rename "first controller" to "avr_rus"
 
-router.get('/avr_rus_print', getFirsController);
+router.get('/avr_rus_print', controller);
 
 module.exports = router;

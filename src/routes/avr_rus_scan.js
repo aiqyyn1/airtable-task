@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const getFirsController = require('../controllers/avr.controller');
-router.get('/avr_rus_scan', getFirsController)
+const controller = require('../controllers/avr.controller');
+router.get('/avr_rus_scan', controller)
 
 module.exports = router
