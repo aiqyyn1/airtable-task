@@ -1,5 +1,5 @@
-
-export function findRecord(recordID) {
+const { base, path, pdf, ejs } = require('../../airtable');
+function findRecord(recordID) {
   const zakazy_obwee = 'заказы общее';
   return new Promise((resolve, reject) => {
     base(zakazy_obwee)
@@ -11,7 +11,8 @@ export function findRecord(recordID) {
         fetchNextPage();
       })
       .catch((err) => {
-        reject(err); 
+        reject(err);
       });
   });
 }
+module.exports = { findRecord };
