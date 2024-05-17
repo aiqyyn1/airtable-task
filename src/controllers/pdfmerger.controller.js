@@ -217,7 +217,8 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const tel2_from_client = 'Тел:' + ' ' + String(data[0]?.get('тел2 (from клиент)'));
   const srochno_zakaza = 'Шұғыл:' + ' ' + (srochno ? 'Иа' : 'Жок');
   const fontSize = 12;
-
+  let size= 0;
+  let yPos;
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -325,7 +326,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
     color: rgb(0, 0, 0),
   });
 
-  let yPos = 410;
+
   aikyn_chertezh.forEach((item, index) => {
     const split_data_zdachi = item.data_zdachi ? String(item.data_zdachi).split('-') : '';
     const right_data =
@@ -338,34 +339,60 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
 
     newPage.drawText(chertezh_podrobno, {
       x: 10,
-      y: yPos - index * 20,
+      y: 410 - index * 20,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0),
     });
-    yPos = 410 - index * 20;
+    size= 410 - index * 20;
   });
-  console.log(yPos);
+  yPos = size
+  if (yPos > 110) {
+    const details = [
+      { label: 'тип доставки:', value: type_deliver },
+      { label: 'Адрес:', value: address },
+      { label: 'кол-во-рейсов:', value: kol_vo_reisov + 'шт' },
+      { label: 'выгрузка:', value: vygruzka },
+      { label: 'установка:', value: ustanovka },
+      { label: 'коммент:', value: komment },
+    ];
 
-  const details = [
-    { label: 'тип доставки:', value: type_deliver },
-    { label: 'Адрес:', value: address },
-    { label: 'кол-во-рейсов:', value: kol_vo_reisov + 'шт' },
-    { label: 'выгрузка:', value: vygruzka },
-    { label: 'установка:', value: ustanovka },
-    { label: 'коммент:', value: komment },
-  ];
-  details.forEach((detail, index) => {
-    const line = `${detail.label} ${detail.value || ''}`;
-    newPage.drawText(line, {
-      x: 10,
-      y: 350 - 80 - index * 20,
-      size: 10,
-      font: customFont,
-      color: rgb(0, 0, 0),
+    details.forEach((detail, index) => {
+      const line = `${detail.label} ${detail.value || ''}`;
+      newPage.drawText(line, {
+        x: 10,
+        y: yPos - 20 - index * 20,
+        size: 10,
+        font: customFont,
+        color: rgb(0, 0, 0), // Assuming you want black text
+      });
     });
-  });
+  }
 
+  if (yPos <= 110) {
+    const firstPageDimensions = pages[0].getSize();
+
+    const newpage = mergedPdf.addPage([firstPageDimensions.width, firstPageDimensions.height]);
+    const details = [
+      { label: 'тип доставки:', value: type_deliver },
+      { label: 'Адрес:', value: address },
+      { label: 'кол-во-рейсов:', value: kol_vo_reisov + 'шт' },
+      { label: 'выгрузка:', value: vygruzka },
+      { label: 'установка:', value: ustanovka },
+      { label: 'коммент:', value: komment },
+    ];
+
+    details.forEach((detail, index) => {
+      const line = `${detail.label} ${detail.value || ''}`;
+      newpage.drawText(line, {
+        x: 10,
+        y: 500 - 10 - index * 20,
+        size: 10,
+        font: customFont,
+        color: rgb(0, 0, 0), // Assuming you want black text
+      });
+    });
+  }
   return await mergedPdf.save();
 }
 
