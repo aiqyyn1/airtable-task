@@ -200,7 +200,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const aikyn_chertezh = await tapsyrysZholdary(recordID);
   const aikyn_chertezh1 = await tapsyrysZholdary1(recordID);
   const dostavka = await dostavkaData(recordID);
-
+  console.log('dostavka', dostavka);
   const address = dostavka[0]?.get('адрес') || '';
   const kol_vo_reisov = dostavka[0]?.get('кол-во рейсов') || '';
   const type_deliver = dostavka[0]?.get('тип доставки') || '';
@@ -332,9 +332,9 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       split_data_zdachi[2] + '.' + split_data_zdachi[1] + '.' + split_data_zdachi[0];
     const chertezh_podrobno = `${item.n || ''} | ${item.naimenovanie || ''} | ${
       item.kol_vo || ''
-    }шт | ${item.postavshik === undefined ? '' : item.postavshik} | ${
-      item.kraska_metal || ''
-    } | ${right_data || ''} | ${item.designer || ''}`;
+    }шт | ${item.postavshik === undefined ? '' : item.postavshik} | ${item.kraska_metal || ''} | ${
+      right_data || ''
+    } | ${item.designer || ''}`;
 
     newPage.drawText(chertezh_podrobno, {
       x: 10,
@@ -345,28 +345,26 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
     });
     yPos = 410 - index * 20;
   });
+  console.log(yPos);
 
-  if (yPos <= 110) {
-    const details = [
-      { label: 'тип доставки:', value: type_deliver },
-      { label: 'Адрес:', value: address },
-      { label: 'кол-во-рейсов:', value: kol_vo_reisov + 'шт' },
-      { label: 'выгрузка:', value: vygruzka },
-      { label: 'установка:', value: ustanovka },
-      { label: 'коммент:', value: komment },
-    ];
-
-    details.forEach((detail, index) => {
-      const line = `${detail.label} ${detail.value || ''}`;
-      newPage.drawText(line, {
-        x: 10,
-        y: yPos - 20 - index * 20,
-        size: 10,
-        font: customFont,
-        color: rgb(0, 0, 0),
-      });
+  const details = [
+    { label: 'тип доставки:', value: type_deliver },
+    { label: 'Адрес:', value: address },
+    { label: 'кол-во-рейсов:', value: kol_vo_reisov + 'шт' },
+    { label: 'выгрузка:', value: vygruzka },
+    { label: 'установка:', value: ustanovka },
+    { label: 'коммент:', value: komment },
+  ];
+  details.forEach((detail, index) => {
+    const line = `${detail.label} ${detail.value || ''}`;
+    newPage.drawText(line, {
+      x: 10,
+      y: 350 - 80 - index * 20,
+      size: 10,
+      font: customFont,
+      color: rgb(0, 0, 0),
     });
-  }
+  });
 
   return await mergedPdf.save();
 }
