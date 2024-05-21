@@ -16,30 +16,30 @@ const getFirsController = async (req, res) => {
   const recordID = req.query.recordID;
   try {
     const record = await findRecord(recordID);
-
+    console.log(record);
     const esf = await fetchRecords(recordID);
 
-    const name = record.get('Name');
+    const name = record[0].get('Name');
 
-    const IP = record.get('ИП имя (from ИП)');
+    const IP = record[0].get('ИП имя (from ИП)');
 
-    const iik = record.get('счет (from ИП)');
+    const iik = record[0].get('счет (from ИП)');
 
-    const kbe = record.get('кбе (from ИП)');
+    const kbe = record[0].get('кбе (from ИП)');
 
-    const bank = record.get('банк (from ИП)');
+    const bank = record[0].get('банк (from ИП)');
 
-    const bik = record.get('БИК (from ИП)');
-    const pechat = record.get('печать (from ИП)')[0].url;
-    const rospis = record.get('роспись (from ИП)')[0].url;
-    const cod = record.get('код назначения платежа (from ИП)');
-    const nomer = record.get('номер');
-    const bin = record.get('БИН (from ИП)');
-    const bin2 = record.get('ИИН/БИН 3');
-    const nameFirmy = record.get('название фирмы 3');
-    const address2 = record.get('адрес 3');
-    const address = record.get('адрес (from ИП)');
-    const dogovor = record.get('договор для счет оплаты');
+    const bik = record[0].get('БИК (from ИП)');
+    const pechat = record[0].get('печать (from ИП)')[0].url;
+    const rospis = record[0].get('роспись (from ИП)')[0].url;
+    const cod = record[0].get('код назначения платежа (from ИП)');
+    const nomer = record[0].get('номер');
+    const bin = record[0].get('БИН (from ИП)');
+    const bin2 = record[0].get('ИИН/БИН 3');
+    const nameFirmy = record[0].get('название фирмы 3');
+    const address2 = record[0].get('адрес 3');
+    const address = record[0].get('адрес (from ИП)');
+    const dogovor = record[0].get('договор для счет оплаты');
     let data;
     if (dogovor === 'БЕЗ ДОГОВОРА') {
       data = '';
@@ -51,12 +51,12 @@ const getFirsController = async (req, res) => {
 
     const date1 = date2[2] + '-' + date2[1] + '-' + date2[0];
 
-    const date = String(record.get('today')).split('-');
+    const date = String(record[0].get('today')).split('-');
     const today = date[2] + '-' + date[1] + '-' + date[0];
-    const itogoEsf = record.get('итого ЭСФ').toLocaleString();
+    const itogoEsf = record[0].get('итого ЭСФ').toLocaleString();
 
-    const col = record.get('кол-во наименований');
-    const rukovaditel = record.get('руководитель (from ИП)');
+    const col = record[0].get('кол-во наименований');
+    const rukovaditel = record[0].get('руководитель (from ИП)');
     let airtableData = {
       IP: IP,
       IIK: iik,
