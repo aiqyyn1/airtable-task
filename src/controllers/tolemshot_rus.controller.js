@@ -16,7 +16,7 @@ const getFirsController = async (req, res) => {
   const recordID = req.query.recordID;
   try {
     const record = await findRecord(recordID);
-    console.log(record);
+
     const esf = await fetchRecords(recordID);
 
     const name = record[0].get('Name');
