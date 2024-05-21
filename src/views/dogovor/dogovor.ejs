@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      font-size: 12px;
+    }
+  </style>
+  <body>
+    <div style="text-align: center">
+      <div style="display: -webkit-flex; -webkit-justify-content: center">
+        <div style="font-weight: bold">Договор №</div>
+        <span style="margin-left: 10px"><%-reportdata.dogovor_dlya_schet_oplaty%></span>
+      </div>
+      <div style="display: -webkit-flex; margin-top: 20px; -webkit-justify-content: space-between">
+        <span>г. Астана </span>
+        <span> дата: <%-reportdata.data_dogovora%></span>
+      </div>
+    </div>
+  </body>
 </html>
