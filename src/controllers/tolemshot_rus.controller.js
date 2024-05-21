@@ -7,9 +7,10 @@ for tolemshot_rus
 
 /*
 TODO: rename hardcode data to variables
+
+*/
 const tapsyrys_header = 'заказы общее';
 const tapsyrys_lines = 'заказы подробно';
-*/
 const { findRecord } = require('../utils/utils');
 const getFirsController = async (req, res) => {
   const recordID = req.query.recordID;
