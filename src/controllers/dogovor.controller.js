@@ -12,13 +12,14 @@ const dogovorController = async (req, res) => {
     const director_from_client = zakazy_obwee[0].get('директор (from клиент)');
     const name = zakazy_obwee[0].get('Name');
     const dogovor = zakazy_obwee[0].get('дата договора');
-    console.log(dogovor)
+    const iin_biin = zakazy_obwee[0].get('ИИН/БИН 3')
     let airtableData = {
       name_of_firm: name_of_firm,
       dogovor_dlya_schet_oplaty: dogovor_dlya_schet_oplaty,
       tel2_from_client: tel2_from_client,
       director_from_client: director_from_client,
       data_dogovara: dogovor,
+      iin_biin:iin_biin
     };
     const filename = name + '.pdf';
     const templatePath = path.resolve(__dirname, '../views/dogovor/dogovor.ejs');

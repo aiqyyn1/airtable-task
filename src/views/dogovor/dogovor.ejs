@@ -11,14 +11,26 @@
     }
   </style>
   <body>
-    <div style="text-align: center">
+    <div style="overflow: hidden">
       <div style="display: -webkit-flex; -webkit-justify-content: center">
         <div style="font-weight: bold">Договор №</div>
         <span style="margin-left: 10px"><%-reportdata.dogovor_dlya_schet_oplaty%></span>
       </div>
-      <div style="display: -webkit-flex; margin-top: 20px; -webkit-justify-content: space-between">
+      <div
+        style="
+          display: -webkit-flex;
+          margin-top: 20px;
+          width: 400px;
+          -webkit-justify-content: space-between;
+        "
+      >
         <span>г. Астана </span>
         <span> дата: <%-reportdata.data_dogovora%></span>
+      </div>
+      <div style="display: -webkit-flex; gap: 40px">
+        <span><%-reportdata.name_of_firm%></span>
+        <span><%-reportdata.iin_biin%></span>
+        <span>контактный номер <%-reportdata.tel2_from_client%> </span>
       </div>
     </div>
   </body>
