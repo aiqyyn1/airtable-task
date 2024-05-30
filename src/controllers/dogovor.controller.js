@@ -16,7 +16,9 @@ const dogovorController = async (req, res) => {
     const itogo = zakazy_obwee[0].get('итого')
     const dogovor = zakazy_obwee[0].get('дата договора');
     const iin_biin = zakazy_obwee[0].get('ИИН/БИН 3')
-    console.log(seventy_percent)
+    const address = zakazy_obwee[0].get('адрес 3')
+    const iik = zakazy_obwee[0].get('ИИК 3')
+    const bank = zakazy_obwee[0].get('Банк 3')
     let airtableData = {
       name_of_firm: name_of_firm,
       dogovor_dlya_schet_oplaty: dogovor_dlya_schet_oplaty,
@@ -26,7 +28,11 @@ const dogovorController = async (req, res) => {
       iin_biin:iin_biin,
       itogo:itogo,
       seventy_percent:seventy_percent,
-      thirty_percent:thirty_percent
+      thirty_percent:thirty_percent,
+      address:address,
+      bank:bank,
+      iik:iik
+
     };
     const filename = name + '.pdf';
     const templatePath = path.resolve(__dirname, '../views/dogovor/dogovor.ejs');

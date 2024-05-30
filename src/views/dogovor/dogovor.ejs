@@ -10,6 +10,12 @@
       font-size: 12px;
       font-family: Georgia, 'Times New Roman', Times, serif;
     }
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
   </style>
   <body>
     <div style="overflow: hidden; margin-left: 50px">
@@ -171,6 +177,36 @@
           письменной форме путем составления соответствующего Соглашения, подписанного
           уполномоченными лицами.<br />
         </div>
+      </div>
+      <div>
+        <div style="text-align: left; font-weight: bold;">9. Место нахождения, реквизиты и подписи Сторон</div>
+        <table style="width: 100%;">
+          <tr>
+            <th style="font-weight: bold;">Исполнитель:</th>
+            <th style="font-weight: bold;">Заказчик:</th>
+          </tr>
+          <tr>
+            <td>
+              <span style="font-weight: bold">ИП «Сымбат» </span><br />Адрес: город Нур-Султан,
+              район Есиль, Сығанақ 54а,<br />офис 1007<br />
+              Тел: +77029028442<br />
+              БИН/ИИН: 910515450944 <br />
+              ИИК KZ38722S000018578247 <br />
+              БИК CASPKZKA АО “Kaspi Bank”<br />
+              Кбе 19<br />
+              <span style="font-weight: bold">Директор</span><br />
+              ____________________ Аймаганова М.С.<br/> м.п.
+            </td>
+            <td>
+              <%-reportdata.name_of_firm%> <br />
+              Адрес: <%-reportdata.address%> <br />
+              БИН\ИИН: <%-reportdata.iin_biin%><br />
+              ИИК <%-reportdata.iik%> <br />
+               <%-reportdata.bank%> <br />
+              Директор ____________________________ <%-reportdata.director_from_client%>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
   </body>
