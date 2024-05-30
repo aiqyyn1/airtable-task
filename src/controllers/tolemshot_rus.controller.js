@@ -44,7 +44,7 @@ const getFirsController = async (req, res) => {
     if (dogovor === 'БЕЗ ДОГОВОРА') {
       data = '';
     } else {
-      data = record.get('дата договора');
+      data = record[0].get('дата договора');
     }
 
     const date2 = data ? String(data).split('-') : '';
