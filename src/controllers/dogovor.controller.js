@@ -7,6 +7,7 @@ const dogovorController = async (req, res) => {
   try {
     const zakazy_obwee = await findRecord(ID);
     const name_of_firm = zakazy_obwee[0].get('название фирмы 3');
+
     const dogovor_dlya_schet_oplaty = zakazy_obwee[0].get('договор для счет оплаты');
     const tel2_from_client = zakazy_obwee[0].get('тел2 (from клиент)');
     const seventy_percent = zakazy_obwee[0].get('70%')
@@ -19,6 +20,7 @@ const dogovorController = async (req, res) => {
     const address = zakazy_obwee[0].get('адрес 3')
     const iik = zakazy_obwee[0].get('ИИК 3')
     const bank = zakazy_obwee[0].get('Банк 3')
+    const esf = await fetchRecords(ID);
     let airtableData = {
       name_of_firm: name_of_firm,
       dogovor_dlya_schet_oplaty: dogovor_dlya_schet_oplaty,
@@ -31,7 +33,8 @@ const dogovorController = async (req, res) => {
       thirty_percent:thirty_percent,
       address:address,
       bank:bank,
-      iik:iik
+      iik:iik,
+      esf:esf
 
     };
     const filename = name + '.pdf';
@@ -75,6 +78,56 @@ const dogovorController = async (req, res) => {
   } catch (e) {
     console.log(e.message);
   }
+};
+const fetchRecords = (recordID) => {
+  let esf = [];
+  let count = 1;
+  return new Promise((resolve, reject) => {
+    base('заказы подробно')
+      .select({
+        filterByFormula: `{record_id (from заказ номер)} = '${recordID}'`,
+      })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          try {
+            records.forEach((item) => {
+              const id = item.get('record_id (from заказ номер)');
+              const esf1 = item.get('эсф1');
+              if (esf1) {
+           
+
+                const naimenovanie = item.get('Наименование1');
+
+                const esfCena = item.get('ЭСФ цена') ? item.get('ЭСФ цена').toLocaleString() : '';
+
+                const kol_vo = item.get('Кол-во');
+
+                let summa = item.get('ЭСФ Сумма').toLocaleString();
+
+                esf.push({
+                  Наименование: naimenovanie,
+                  n: count++,
+                  efs1: esfCena,
+                  kol_vo: kol_vo,
+                  summa: summa,
+                });
+              }
+            });
+
+            fetchNextPage();
+          } catch (error) {
+            reject(error); // Reject if an error occurs within the try block
+          }
+        },
+        function done(err) {
+          if (err) {
+            reject(err); // Reject if there's an error when fetching pages
+          } else {
+            resolve(esf); // Resolve with the collected data when done
+          }
+        }
+      );
+  });
 };
 
 module.exports = dogovorController;
