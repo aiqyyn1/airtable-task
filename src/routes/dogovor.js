@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const controller = require('../controllers/dogovor.controller');
-router.get('/dogovor', controller);
+const { dogovorController, getAirtabelData } = require('../controllers/dogovor.controller');
 
+router.post('/dogovor', dogovorController);
+router.get('/dogovor', getAirtabelData);
 module.exports = router;
