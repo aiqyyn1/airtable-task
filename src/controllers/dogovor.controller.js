@@ -1,6 +1,40 @@
 const { base, path, pdf, ejs } = require('../../airtable');
 
 const { findRecord } = require('../utils/utils');
+function splitContractText(text) {
+  // Создаем регулярное выражение для поиска маркеров пунктов
+  const sectionRegex = /\s*((\d+\.)+(\d+\.))/g;
+
+  // Используем метод split, чтобы разделить текст на части по маркерам
+  const sections = text.split(sectionRegex);
+
+  // Формируем объект, где каждый ключ - номер пункта, а значение - текст пункта
+  let result = {};
+  for (let i = 0; i < sections.length; i += 2) {
+    if (sections[i + 1]) { // Убедимся, что ключ существует
+      result[sections[i + 1].trim()] = (sections[i + 2] || '').trim();
+    }
+  }
+
+  return result;
+}
+
+// Пример текста договора
+const contractText = `
+  1.1. По договору возмездного оказания услуг Заказчик обязуется оплатить оказанные услуги,
+  а Исполнитель обязуется по заданию Заказчика оказать следующие услуги: <br />1.1.1
+  Изготовить изделия из приложения 1, после подписания данного приложения становятся
+  неотъемлемой частью договора. <br />
+  1.2. Срок выполнения работ Договора---сроки исполн рабочих дней с момента первого платежа
+  или с момента подтверждения бланка заказов, что является позднее. Исполнитель имеет право
+  выполнить работы досрочно.<br />
+  1.3. В случае возникновения необходимости выполнения дополнительных объемов, Стороны
+  письменно согласуют перечень, срок выполнения, стоимость таких работ и порядок оплаты,
+  заключив дополнительное соглашение к настоящему договору.
+`;
+
+console.log(splitContractText(contractText));
+
 
 const dogovorController = async (req, res) => {
   const ID = req.body.recordID || req.query.recordID; // Accept recordID either from body or query
@@ -14,7 +48,7 @@ const dogovorController = async (req, res) => {
 
     const name_of_firm = zakazy_obwee[0].get('название фирмы 3');
     const airtableData = {
-      name_of_firm: req.body.checkString,
+      name_of_firm: name_of_firm,
       dogovor_dlya_schet_oplaty: zakazy_obwee[0].get('договор для счет оплаты'),
       tel2_from_client: zakazy_obwee[0].get('тел2 (from клиент)'),
       seventy_percent: zakazy_obwee[0].get('70%'),
