@@ -38,7 +38,7 @@ const getData = async (ID) => {
 };
 const splitTextByPoint = (sections) => sections.split('s(?=d.d(?:.d+)?)');
 
-// console.log(sections);
+
 
 const dogovorController = async (req, res) => {
   const ID = req.body.recordID || req.query.recordID; // Accept recordID either from body or query
