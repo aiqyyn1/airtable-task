@@ -36,7 +36,7 @@ const getData = async (ID) => {
           тысяч) тенге за каждый день.`;
   return { sections1, sections2 };
 };
-// const sections = sections2.split('s(?=d.d(?:.d+)?)');
+const splitTextByPoint = (sections) => sections.split('s(?=d.d(?:.d+)?)');
 
 // console.log(sections);
 
