@@ -31,6 +31,11 @@
           -webkit-justify-content: space-between;
         "
       >
+      <div>
+        <% reportdata.firstSections.forEach(function(es) { %>
+           <div><%= es %></div>
+        <% }) %>
+      </div>
         <span>г. Астана </span>
         <span> дата: <%-reportdata.data_dogovora%></span>
       </div>
