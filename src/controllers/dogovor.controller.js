@@ -205,6 +205,12 @@ const dogovorController = async (req, res) => {
 
       const options = {
         format: 'A4',
+        border: {
+          top: '10mm',
+          right: '10mm', 
+          bottom: '10mm',
+          left: '10mm',
+        },
         base: `file:///${__dirname}/`,
         header: { height: '2mm' },
         footer: { height: '20mm' },
