@@ -154,14 +154,14 @@ const splitTextByPoint = (sections) => {
 
 const dogovorController = async (req, res) => {
   const ID = req.body.recordID || req.query.recordID;
-  const sections1 = splitTextByPoint(req.body.sections1);
-  const sections2 = splitTextByPoint(req.body.sections2);
-  const sections3 = splitTextByPoint(req.body.sections3);
-  const sections4 = splitTextByPoint(req.body.sections4);
-  const sections5 = splitTextByPoint(req.body.sections5);
-  const sections6 = splitTextByPoint(req.body.sections6);
-  const sections7 = splitTextByPoint(req.body.sections7);
-  const sections8 = splitTextByPoint(req.body.sections8);
+  const sections1 = splitTextByPoint(req.body.sections.sections1);
+  const sections2 = splitTextByPoint(req.body.sections.sections2);
+  const sections3 = splitTextByPoint(req.body.sections.sections3);
+  const sections4 = splitTextByPoint(req.body.sections.sections4);
+  const sections5 = splitTextByPoint(req.body.sections.sections5);
+  const sections6 = splitTextByPoint(req.body.sections.sections6);
+  const sections7 = splitTextByPoint(req.body.sections.sections7);
+  const sections8 = splitTextByPoint(req.body.sections.sections8);
   try {
     const zakazy_obwee = await findRecord(ID);
 

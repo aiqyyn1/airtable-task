@@ -15,6 +15,7 @@
     td {
       border: 1px solid black;
       border-collapse: collapse;
+      font-size: 10px;
     }
   </style>
   <body>
@@ -155,12 +156,12 @@
             </td>
           </tr>
         </table>
-        <div style="text-align: center; margin-top: 20px">
+        <div style="text-align: center; margin-top: 20px; font-size: 10px;">
           Приложение 1 к договору № <%-reportdata.dogovor_dlya_schet_oplaty%>от Заказы
           <%-reportdata.dogovor%>
         </div>
         <div>между ИП «Сымбат» (qadamloft) и заказчик <%-reportdata.name_of_firm%></div>
-        <table style="width: 100%; margin-top: 20px">
+        <table style="width: 100%; margin-top: 20px; font-size: 10px;">
           <tr>
             <th>№</th>
             <th>Наименование</th>
@@ -168,11 +169,11 @@
             <th>Цена</th>
           </tr>
           <%reportdata.esf.forEach(function(es) { %>
-          <tr style="height: 40px; width: 200px">
-            <td style="font-size: 15px; padding: 5px"><%= es.n %></td>
-            <td style="font-size: 15px; padding: 5px"><%= es.Наименование %></td>
-            <td style="font-size: 15px; padding: 5px"><%= es.kol_vo %> шт</td>
-            <td style="font-size: 15px; padding: 5px"><%= es.efs1 %> тнг</td>
+          <tr style="">
+            <td style="font-size: 10px; padding: 5px"><%= es.n %></td>
+            <td style="font-size: 10px; padding: 5px"><%= es.Наименование %></td>
+            <td style="font-size: 10px; padding: 5px"><%= es.kol_vo %> шт</td>
+            <td style="font-size: 10px; padding: 5px"><%= es.efs1 %> тнг</td>
           </tr>
           <% }) %>
         </table>
