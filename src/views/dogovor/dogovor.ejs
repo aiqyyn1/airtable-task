@@ -134,7 +134,7 @@
             <th style="font-weight: bold">Заказчик:</th>
           </tr>
           <tr>
-            <td>
+            <td style="position: relative;">
               <span style="font-weight: bold">ИП «Сымбат» </span><br />Адрес: город Нур-Султан,
               район Есиль, Сығанақ 54а,<br />офис 1007<br />
               Тел: +77029028442<br />
@@ -145,6 +145,9 @@
               <span style="font-weight: bold">Директор</span><br />
               ____________________ Аймаганова М.С.<br />
               м.п.
+              <% if (reportdata.checkbox) { %>
+                <img style="position: absolute; top: 0; left: 0; width: 100px;" src="<%- reportdata.pechat %>" alt="Печать">
+              <% } %>
             </td>
             <td>
               <%-reportdata.name_of_firm%> <br />
