@@ -170,11 +170,10 @@ const dogovorController = async (req, res) => {
     }
 
     const name_of_firm = zakazy_obwee[0].get('название фирмы 3');
-    console.log(zakazy_obwee[0].get('печать (from ИП)')[0].url)
 
     const airtableData = {
-      pechat:zakazy_obwee[0].get('печать (from ИП)')[0].url,
-      checkbox:req.body.checkbox,
+      pechat: zakazy_obwee[0].get('печать (from ИП)')[0].url,
+      checkbox: req.body.checkbox,
       name_of_firm: name_of_firm,
       dogovor_dlya_schet_oplaty: zakazy_obwee[0].get('договор для счет оплаты'),
       tel2_from_client: zakazy_obwee[0].get('тел2 (from клиент)'),
@@ -211,7 +210,7 @@ const dogovorController = async (req, res) => {
         format: 'A4',
         border: {
           top: '10mm',
-          right: '10mm', 
+          right: '10mm',
           bottom: '10mm',
           left: '10mm',
         },
