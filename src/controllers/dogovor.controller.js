@@ -173,6 +173,7 @@ const dogovorController = async (req, res) => {
 
     const airtableData = {
       pechat: zakazy_obwee[0].get('печать (from ИП)')[0].url,
+      rospis: zakazy_obwee[0].get('роспись (from ИП)')[0].url,
       checkbox: req.body.checkbox,
       name_of_firm: name_of_firm,
       dogovor_dlya_schet_oplaty: zakazy_obwee[0].get('договор для счет оплаты'),
