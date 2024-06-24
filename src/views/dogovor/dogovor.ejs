@@ -126,6 +126,7 @@
               Кбе 19<br />
               <span style="font-weight: bold">Директор</span><br />
               ____________________ Аймаганова М.С.<br />
+              <img src="<%-reportdata.rospis%>" style="position: absolute; bottom:15px; left: 50px; width: 50px; height: 30px;">
               м.п.
               <% if (reportdata.checkbox) { %>
                 <img style="position: absolute; top: 0; left: 0; width: 100px;" src="<%- reportdata.pechat %>" alt="Печать">
@@ -138,10 +139,11 @@
               ИИК <%- reportdata.iik %> <br />
               <%- reportdata.bank %> <br />
               Директор ____________________________ <%- reportdata.director_from_client %>
+              
             </td>
           </tr>
         </table>
-        <div style="text-align: center; margin-top: 20px; font-size: 10px;">
+        <div style="text-align: center; margin-top: 200px; font-size: 10px;">
           Приложение 1 к договору № <%- reportdata.dogovor_dlya_schet_oplaty %> от Заказы
           <%- reportdata.dogovor %>
         </div>
