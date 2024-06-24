@@ -4,62 +4,48 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      body {
+        font-size: 10px;
+        font-family: 'Times New Roman', Times, serif;
+      }
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        font-size: 10px;
+      }
+    </style>
   </head>
-  <style>
-    body {
-      font-size: 10px;
-      font-family:'Times New Roman', Times, serif;
-    }
-    table,
-    th,
-    td {
-      border: 1px solid black;
-      border-collapse: collapse;
-      font-size: 10px;
-    }
-  </style>
   <body>
-    <div style="overflow: hidden; ">
+    <div style="overflow: hidden;">
       <div style="display: -webkit-flex; -webkit-justify-content: center">
         <div style="font-weight: bold">Договор №</div>
-        <span style="margin-left: 10px"><%-reportdata.dogovor_dlya_schet_oplaty%></span>
+        <span style="margin-left: 10px"><%- reportdata.dogovor_dlya_schet_oplaty %></span>
       </div>
-      <div
-        style="
-          display: -webkit-flex;
-          margin-top: 20px;
-          width: 400px;
-          -webkit-justify-content: space-between;
-        "
-      >
-     
-        <span>г. Астана </span>
-        <span> дата: <%-reportdata.data_dogovora%></span>
+      <div style="display: -webkit-flex; margin-top: 20px; width: 400px; -webkit-justify-content: space-between;">
+        <span>г. Астана</span>
+        <span>дата: <%- reportdata.data_dogovora %></span>
       </div>
       <div style="display: -webkit-flex; margin-top: 20px">
-        <span><%-reportdata.name_of_firm%></span>
-        <span style="margin-left: 10px"
-          ><%-reportdata.iin_biin%> контактный номер <%-reportdata.tel2_from_client%> действующего в
-        </span>
+        <span><%- reportdata.name_of_firm %></span>
+        <span style="margin-left: 10px"><%- reportdata.iin_biin %> контактный номер <%- reportdata.tel2_from_client %></span>
       </div>
       <div style="display: -webkit-flex">
         <span>
-          лице директора <%-reportdata.director_from_client%> далее именуемый
+          лице директора <%- reportdata.director_from_client %> далее именуемый
           <span style="font-weight: bold">«Заказчик»</span> с одной стороны, и ИП «СЫМБАТ»
           (qadamloft), в лице Аймаганова М.С. , именуемый в дальнейшем «Исполнитель», действующей на
           основании свидетельства о регистрации Талон KZ41TWQ02288411, с другой стороны, совместно
           или по отдельности именуемые «Стороны», заключили настоящий договор (далее – Договор) о
-          нижеследующем.</span
-        >
+          нижеследующем.
+        </span>
       </div>
-      <div  style="margin-top: 10px">
+      <div style="margin-top: 10px">
         <div style="text-align: center; font-weight: bold">1. Предмет договора</div>
         <div style="margin-top: 5px">
-  
-            <% reportdata.sections1.forEach(function(es) { %>
-               <div><%= es %> </div>
-            <% }) %>
-     
+          <% reportdata.sections1.forEach(function(es) { %>
+            <div><%= es %> </div>
+          <% }) %>
         </div>
       </div>
       <div style="margin-top: 10px">
@@ -69,7 +55,7 @@
           <br />
           <% reportdata.sections2.forEach(function(es) { %>
             <div><%= es %> </div>
-         <% }) %>
+          <% }) %>
         </div>
       </div>
       <div style="margin-top: 10px">
@@ -77,17 +63,15 @@
         <div style="margin-top: 5px">
           <% reportdata.sections3.forEach(function(es) { %>
             <div><%= es %> </div>
-         <% }) %>
+          <% }) %>
         </div>
       </div>
       <div style="margin-top: 10px">
-        <div style="text-align: center; font-weight: bold">
-          4. Доставка и приемка оказанных услуг (работ)
-        </div>
+        <div style="text-align: center; font-weight: bold">4. Доставка и приемка оказанных услуг (работ)</div>
         <div style="margin-top: 5px">
           <% reportdata.sections4.forEach(function(es) { %>
             <div><%= es %> </div>
-         <% }) %>
+          <% }) %>
         </div>
       </div>
       <div style="margin-top: 10px">
@@ -95,7 +79,7 @@
         <div style="margin-top: 5px">
           <% reportdata.sections5.forEach(function(es) { %>
             <div><%= es %> </div>
-         <% }) %>
+          <% }) %>
         </div>
       </div>
       <div style="margin-top: 10px">
@@ -103,17 +87,15 @@
         <div style="margin-top: 5px">
           <% reportdata.sections6.forEach(function(es) { %>
             <div><%= es %> </div>
-         <% }) %>
+          <% }) %>
         </div>
       </div>
       <div style="margin-top: 10px">
-        <div style="text-align: center; font-weight: bold">
-          7. Срок действия договора и порядок его расторжения
-        </div>
+        <div style="text-align: center; font-weight: bold">7. Срок действия договора и порядок его расторжения</div>
         <div style="margin-top: 5px">
           <% reportdata.sections7.forEach(function(es) { %>
             <div><%= es %> </div>
-         <% }) %>
+          <% }) %>
         </div>
       </div>
       <div style="margin-top: 10px">
@@ -121,7 +103,7 @@
         <div style="margin-top: 5px">
           <% reportdata.sections8.forEach(function(es) { %>
             <div><%= es %> </div>
-         <% }) %>
+          <% }) %>
         </div>
       </div>
       <div>
@@ -150,20 +132,20 @@
               <% } %>
             </td>
             <td>
-              <%-reportdata.name_of_firm%> <br />
-              Адрес: <%-reportdata.address%> <br />
-              БИН\ИИН: <%-reportdata.iin_biin%><br />
-              ИИК <%-reportdata.iik%> <br />
-              <%-reportdata.bank%> <br />
-              Директор ____________________________ <%-reportdata.director_from_client%>
+              <%- reportdata.name_of_firm %> <br />
+              Адрес: <%- reportdata.address %> <br />
+              БИН\ИИН: <%- reportdata.iin_biin %><br />
+              ИИК <%- reportdata.iik %> <br />
+              <%- reportdata.bank %> <br />
+              Директор ____________________________ <%- reportdata.director_from_client %>
             </td>
           </tr>
         </table>
         <div style="text-align: center; margin-top: 20px; font-size: 10px;">
-          Приложение 1 к договору № <%-reportdata.dogovor_dlya_schet_oplaty%>от Заказы
-          <%-reportdata.dogovor%>
+          Приложение 1 к договору № <%- reportdata.dogovor_dlya_schet_oplaty %> от Заказы
+          <%- reportdata.dogovor %>
         </div>
-        <div>между ИП «Сымбат» (qadamloft) и заказчик <%-reportdata.name_of_firm%></div>
+        <div>между ИП «Сымбат» (qadamloft) и заказчик <%- reportdata.name_of_firm %></div>
         <table style="width: 100%; margin-top: 20px; font-size: 10px;">
           <tr>
             <th>№</th>
@@ -171,8 +153,8 @@
             <th>Кол-во</th>
             <th>Цена</th>
           </tr>
-          <%reportdata.esf.forEach(function(es) { %>
-          <tr style="">
+          <% reportdata.esf.forEach(function(es) { %>
+          <tr>
             <td style="font-size: 10px; padding: 5px"><%= es.n %></td>
             <td style="font-size: 10px; padding: 5px"><%= es.Наименование %></td>
             <td style="font-size: 10px; padding: 5px"><%= es.kol_vo %> шт</td>
@@ -181,14 +163,14 @@
           <% }) %>
         </table>
         <table style="margin-top: 20px; width: 100%;">
-          <tr >
+          <tr>
             <td style="padding: 5px;">
               <span style="text-align: center">ИП "СЫМБАТ"</span>
               Руководитель _____________ Аймаганова М.С
             </td>
             <td style="padding: 5px;">
-             <%-reportdata.name_of_firm%> </br> Руководитель _____________ Заказы
-             <%-reportdata.director_from_client%>
+              <%- reportdata.name_of_firm %> </br> Руководитель _____________ Заказы
+              <%- reportdata.director_from_client %>
             </td>
           </tr>
         </table>
