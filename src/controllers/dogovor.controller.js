@@ -1,6 +1,6 @@
 const { base, path, pdf, ejs } = require('../../airtable');
 const { findRecord } = require('../utils/utils');
-
+const { getInDetail } = require('./avr.controller');
 const units = ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'];
 const teens = [
   'десять',
@@ -170,7 +170,7 @@ const dogovorController = async (req, res) => {
     }
 
     const name_of_firm = zakazy_obwee[0].get('название фирмы 3');
-
+    const { nomer_zakaz } = getInDetail(ID);
     const airtableData = {
       pechat: zakazy_obwee[0].get('печать (from ИП)')[0].url,
       rospis: zakazy_obwee[0].get('роспись (from ИП)')[0].url,
@@ -243,8 +243,12 @@ const getAirtabelData = async (req, res) => {
   const ID = req.body.recordID || req.query.recordID;
   if (ID) {
     const sections = await getSections(ID);
-
-    res.status(200).send(sections);
+    const zakazy_obwee = await findRecord(ID);
+    console.log(zakazy_obwee)
+    const name_of_firm = zakazy_obwee[0].get('название фирмы 3');
+    console.log(name_of_firm)
+    const { nomer_zakaz } = getInDetail(ID);
+    res.status(200).send({ sections, name_of_firm, nomer_zakaz });
   }
 };
 const fetchRecords = (recordID) => {

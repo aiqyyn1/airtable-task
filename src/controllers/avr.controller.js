@@ -136,7 +136,7 @@ const getInDetail = (recordID) => {
           try {
             records.forEach((item) => {
               nomer_zakaz = item.get('номер заказа');
-              console.log(nomer_zakaz);
+
               const avr = item.get('АВР');
               if (avr) {
                 const kol_vo = item.get('Кол-во');
@@ -172,4 +172,4 @@ const getInDetail = (recordID) => {
   });
 };
 
-module.exports = getSecondController;
+module.exports = { getSecondController, getInDetail };
