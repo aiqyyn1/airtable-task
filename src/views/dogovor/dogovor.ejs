@@ -126,10 +126,12 @@
               Кбе 19<br />
               <span style="font-weight: bold">Директор</span><br />
               ____________________ Аймаганова М.С.<br />
-              <img src="<%-reportdata.rospis%>" style="position: absolute; bottom:15px; left: 50px; width: 50px; height: 30px;">
+              <% if (reportdata.checkbox) { %>
+              <img src="<%-reportdata.rospis%>" style="position: absolute; bottom:0px; left: 30px; width: 50px; height: 30px;">
+              <% } %>
               м.п.
               <% if (reportdata.checkbox) { %>
-                <img style="position: absolute; top: 0; left: 0; width: 100px;" src="<%- reportdata.pechat %>" alt="Печать">
+                <img style="position: absolute; top: 0; left: 70px; width: 100px;" src="<%- reportdata.pechat %>" alt="Печать">
               <% } %>
             </td>
             <td>
@@ -164,19 +166,24 @@
           </tr>
           <% }) %>
         </table>
-        <table style="margin-top: 20px; width: 100%;">
-          <tr>
-            <td style="padding: 5px; position: relative;">
+    
+            <div style="display:  -webkit-flex; margin-top: 20px;">
+            <div style="padding: 5px; position: relative; width: 200px; border: 1px solid black; height: 100px;">
               <span style="text-align: center">ИП "СЫМБАТ"</span>
-              Руководитель _____________ Аймаганова М.С
-              <img src="<%-reportdata.rospis%>" style="position: absolute; bottom:15px; left: 150px; width: 50px; height: 30px;">
-            </td>
-            <td style="padding: 5px;">
+             <br> Руководитель _____________ Аймаганова М.С
+              <% if (reportdata.checkbox) { %>
+              <img src="<%-reportdata.rospis%>" style="position: absolute; top: 5px; left: 60px; width: 50px; height: 30px;">
+              <% } %>
+              <% if (reportdata.checkbox) { %>
+                <img style="position: absolute; top: 0; left: 70px; width: 100px;" src="<%- reportdata.pechat %>" alt="Печать">
+              <% } %>
+              </div>
+            <div style="padding: 5px; border: 1px solid black; width: 200px; height: 100px; margin-left: 10px;">
               <%- reportdata.name_of_firm %> </br> Руководитель _____________ Заказы
               <%- reportdata.director_from_client %>
-            </td>
-          </tr>
-        </table>
+            </div>
+          </div>
+    
       </div>
     </div>
   </body>
