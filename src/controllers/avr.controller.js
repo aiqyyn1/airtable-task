@@ -136,7 +136,7 @@ const getInDetail = (recordID) => {
           try {
             records.forEach((item) => {
               nomer_zakaz = item.get('номер заказа');
-
+      
               const avr = item.get('АВР');
               if (avr) {
                 const kol_vo = item.get('Кол-во');
