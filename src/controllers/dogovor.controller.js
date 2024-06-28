@@ -154,6 +154,7 @@ const splitTextByPoint = (sections) => {
 
 const dogovorController = async (req, res) => {
   const ID = req.body.recordID || req.query.recordID;
+  console.log(req.body)
   const sections1 = splitTextByPoint(req.body.sections.sections1);
   const sections2 = splitTextByPoint(req.body.sections.sections2);
   const sections3 = splitTextByPoint(req.body.sections.sections3);
@@ -168,7 +169,7 @@ const dogovorController = async (req, res) => {
     if (!zakazy_obwee || zakazy_obwee.length === 0) {
       return res.status(404).send('Record not found');
     }
-
+    console.log(zakazy_obwee[0]);
     const name_of_firm = zakazy_obwee[0].get('название фирмы 3');
     const airtableData = {
       pechat: zakazy_obwee[0].get('печать (from ИП)')[0].url,
