@@ -154,7 +154,7 @@ const splitTextByPoint = (sections) => {
 
 const dogovorController = async (req, res) => {
   const ID = req.body.recordID || req.query.recordID;
- 
+
   const sections1 = splitTextByPoint(req.body.sections.sections1);
   const sections2 = splitTextByPoint(req.body.sections.sections2);
   const sections3 = splitTextByPoint(req.body.sections.sections3);
@@ -169,7 +169,9 @@ const dogovorController = async (req, res) => {
     if (!zakazy_obwee || zakazy_obwee.length === 0) {
       return res.status(404).send('Record not found');
     }
-    console.log(zakazy_obwee[0].get('дата договора')[0]);
+    const date = zakazy_obwee[0].get('дата договора')[0]
+    const split_date = date && String(date).split('-');
+    const new_date = split_date ? split_date[2] + '.' + split_date[1] + '.' + split_date[0] : '';
     const name_of_firm = zakazy_obwee[0].get('название фирмы 3');
     const airtableData = {
       pechat: zakazy_obwee[0].get('печать (from ИП)')[0].url,
@@ -183,7 +185,7 @@ const dogovorController = async (req, res) => {
       director_from_client: zakazy_obwee[0].get('директор (from клиент)'),
       name: zakazy_obwee[0].get('Name'),
       itogo: zakazy_obwee[0].get('итого'),
-      data_dogovara: zakazy_obwee[0].get('дата договора')[0],
+      data_dogovara: new_date,
       iin_biin: zakazy_obwee[0].get('ИИН/БИН 3'),
       address: zakazy_obwee[0].get('адрес 3'),
       iik: zakazy_obwee[0].get('ИИК 3'),
