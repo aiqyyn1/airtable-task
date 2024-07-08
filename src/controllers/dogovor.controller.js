@@ -168,8 +168,8 @@ const dogovorController = async (req, res) => {
 
     if (!zakazy_obwee || zakazy_obwee.length === 0) {
       return res.status(404).send('Record not found');
-    }
-    const date = zakazy_obwee[0].get('дата договора')[0]
+    } 
+    const date = zakazy_obwee[0].get('дата договора') && zakazy_obwee[0].get('дата договора')[0]
     const split_date = date && String(date).split('-');
     const new_date = split_date ? split_date[2] + '.' + split_date[1] + '.' + split_date[0] : '';
     const name_of_firm = zakazy_obwee[0].get('название фирмы 3');
