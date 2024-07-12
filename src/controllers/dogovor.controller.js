@@ -144,25 +144,34 @@ const getSections = async (ID) => {
   return obj;
 };
 
-const splitTextByPoint = (sections) => {
-  const matchedSections = sections.match(/\d+.\d+(?:.\d+)?[\s\S]+?(?=\s*\d+.\d+(?:.\d+)?|$)/g);
-  if (matchedSections) {
-    return matchedSections.map((section) => section.replace(/\n/g, ' '));
+const splitTextByPoint = (number, text) => {
+  // Regex to capture sections based on the numbering that starts with the specified 'number'
+  const regex = new RegExp(`(${number}\\.\\d+(?:\\.\\d+)?)[\\s\\S]+?(?=\\s*${number}\\.\\d+(?:\\.\\d+)?|$)`, 'g');
+
+  let sections = [];
+  let match;
+
+  // Iterate over each match found by the regex
+  while ((match = regex.exec(text)) !== null) {
+    sections.push(match[0].trim()); // Add the trimmed section to the sections array
   }
-  return [];
+
+  return sections;
 };
+
 
 const dogovorController = async (req, res) => {
   const ID = req.body.recordID || req.query.recordID;
 
-  const sections1 = splitTextByPoint(req.body.sections.sections1);
-  const sections2 = splitTextByPoint(req.body.sections.sections2);
-  const sections3 = splitTextByPoint(req.body.sections.sections3);
-  const sections4 = splitTextByPoint(req.body.sections.sections4);
-  const sections5 = splitTextByPoint(req.body.sections.sections5);
-  const sections6 = splitTextByPoint(req.body.sections.sections6);
-  const sections7 = splitTextByPoint(req.body.sections.sections7);
-  const sections8 = splitTextByPoint(req.body.sections.sections8);
+  const sections1 = splitTextByPoint(1,req.body.sections.sections1);
+  const sections2 = splitTextByPoint(2,req.body.sections.sections2);
+
+  const sections3 = splitTextByPoint(3,req.body.sections.sections3);
+  const sections4 = splitTextByPoint(4,req.body.sections.sections4);
+  const sections5 = splitTextByPoint(5,req.body.sections.sections5);
+  const sections6 = splitTextByPoint(6,req.body.sections.sections6);
+  const sections7 = splitTextByPoint(7,req.body.sections.sections7);
+  const sections8 = splitTextByPoint(8,req.body.sections.sections8);
   try {
     const zakazy_obwee = await findRecord(ID);
 
