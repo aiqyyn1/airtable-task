@@ -24,7 +24,7 @@ const getSecondController = async (req, res) => {
       rospis = blanks.get('роспись (from ИП)')[0].url;
     }
     const rukovaditel = blanks.get('руководитель (from ИП)');
-    const itogo = blanks.get('итого АВР').toLocaleString();
+    const itogo = blanks.get('Жиынтық АЖА').toLocaleString();
     const col_client_address = 'адрес 3';
     const col_provider_address = 'адрес (from ИП)';
 
@@ -111,7 +111,7 @@ const getSecondController = async (req, res) => {
 };
 const getGeneral = (recordID) => {
   return new Promise((resolve, reject) => {
-    base('заказы общее').find(recordID, (err, record) => {
+    base('Сатылым1').find(recordID, (err, record) => {
       if (err) {
         reject(err);
       } else {
@@ -126,7 +126,7 @@ const getInDetail = (recordID) => {
   let avrCounter = 1;
   let nomer_zakaz;
   return new Promise((resolve, reject) => {
-    base('заказы подробно')
+    base('Сатылым2')
       .select({
         view: 'Aikyn',
         filterByFormula: `{record_id (from заказ номер)} = '${recordID}'`,
@@ -139,15 +139,15 @@ const getInDetail = (recordID) => {
       
               const avr = item.get('АВР');
               if (avr) {
-                const kol_vo = item.get('Кол-во');
+                const kol_vo = item.get('Саны');
 
                 arr.push(kol_vo);
 
-                const esfCena = item.get('ЭСФ цена') ? item.get('ЭСФ цена').toLocaleString() : '';
-                const summa = item.get('ЭСФ Сумма').toLocaleString();
+                const esfCena = item.get('Баға') ? item.get('Баға').toLocaleString() : '';
+                const summa = item.get('Сомасы').toLocaleString();
 
                 esf.push({
-                  Наименование: item.get('Наименование1'),
+                  Наименование: item.get('ТауарАты1'),
                   n: avrCounter++,
                   efs1: esfCena,
                   kol_vo: kol_vo,

@@ -10,7 +10,7 @@ TODO: rename hardcode data to variables
 
 */
 const tapsyrys_header = 'заказы общее';
-const tapsyrys_lines = 'заказы подробно';
+const tapsyrys_lines = 'Сатылым2';
 const { findRecord } = require('../utils/utils');
 const getFirsController = async (req, res) => {
   const recordID = req.query.recordID;
@@ -53,7 +53,7 @@ const getFirsController = async (req, res) => {
 
     const date = String(record[0].get('today')).split('-');
     const today = date[2] + '-' + date[1] + '-' + date[0];
-    const itogoEsf = record[0].get('итого ЭСФ').toLocaleString();
+    const itogoEsf = record[0].get('Жиынтық сомасы').toLocaleString();
 
     const col = record[0].get('кол-во наименований');
     const rukovaditel = record[0].get('руководитель (from ИП)');
@@ -137,27 +137,23 @@ const fetchRecords = (recordID) => {
         function page(records, fetchNextPage) {
           try {
             records.forEach((item) => {
-              const id = item.get('record_id (from заказ номер)');
-              const esf1 = item.get('эсф1');
-              if (esf1) {
-                const n = item.get('№');
+          
 
-                const naimenovanie = item.get('Наименование1');
+              const naimenovanie = item.get('ТауарАты1');
 
-                const esfCena = item.get('ЭСФ цена') ? item.get('ЭСФ цена').toLocaleString() : '';
+              const esfCena = item.get('Баға') ? item.get('Баға').toLocaleString() : '';
 
-                const kol_vo = item.get('Кол-во');
+              const kol_vo = item.get('Саны');
 
-                let summa = item.get('ЭСФ Сумма').toLocaleString();
+              let summa = item.get('Сомасы').toLocaleString();
 
-                esf.push({
-                  Наименование: naimenovanie,
-                  n: count++,
-                  efs1: esfCena,
-                  kol_vo: kol_vo,
-                  summa: summa,
-                });
-              }
+              esf.push({
+                Наименование: naimenovanie,
+                n: count++,
+                efs1: esfCena,
+                kol_vo: kol_vo,
+                summa: summa,
+              });
             });
 
             fetchNextPage();

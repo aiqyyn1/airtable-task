@@ -1,6 +1,6 @@
 const { base, path, pdf, ejs } = require('../../airtable');
 function findRecord(recordID) {
-  const zakazy_obwee = 'заказы общее';
+  const zakazy_obwee = 'Сатылым1';
   return new Promise((resolve, reject) => {
     base(zakazy_obwee)
       .select({

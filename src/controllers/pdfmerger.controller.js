@@ -29,7 +29,7 @@ async function pdfMergerController(req, res) {
 
 async function fetchData(recordID) {
   let items = [];
-  const zakazy_podrobno = 'заказы подробно';
+  const zakazy_podrobno = 'Сатылым2';
 
   return new Promise((resolve, reject) => {
     base(zakazy_podrobno)
@@ -41,7 +41,7 @@ async function fetchData(recordID) {
           try {
             records.forEach((item) => {
               const n = item.get('№');
-              const url = item.get('чертеж') ? item.get('чертеж')[0].url : null;
+              const url = item.get('сызба') ? item.get('сызба')[0].url : null;
               if (url) {
                 items.push({ n, url });
               }
@@ -64,7 +64,7 @@ async function fetchData(recordID) {
 }
 
 function findRecord(recordID) {
-  const zakazy_obwee = 'заказы общее';
+  const zakazy_obwee = 'Сатылым1';
   return new Promise((resolve, reject) => {
     base(zakazy_obwee)
       .select({
@@ -81,7 +81,7 @@ function findRecord(recordID) {
 }
 
 function tapsyrysZholdary(recordID) {
-  const zakazy_podrobno = 'заказы подробно';
+  const zakazy_podrobno = 'Сатылым2';
   let data = [];
   return new Promise((resolve, reject) => {
     base(zakazy_podrobno)
@@ -93,10 +93,10 @@ function tapsyrysZholdary(recordID) {
           records.forEach((item) => {
             data.push({
               n: item.get('№'),
-              naimenovanie: item.get('Наименование1'),
-              kol_vo: item.get('Кол-во'),
+              naimenovanie: item.get('ТауарАты1'),
+              kol_vo: item.get('Саны'),
               postavshik: item.get('поставшик'),
-              kraska_metal: item.get('краска металл'),
+              kraska_metal: item.get('металл бояу'),
               client_from_zakaz: item.get('клиент (from заказ номер)'),
               tel1: item.get('тел1'),
               data_zdachi: item.get('дата сдачи на товар'),
@@ -121,7 +121,7 @@ function tapsyrysZholdary(recordID) {
 }
 
 function tapsyrysZholdary1(recordID) {
-  const zakazy_podrobno = 'заказы подробно';
+  const zakazy_podrobno = 'Сатылым2';
   let data = [];
   return new Promise((resolve, reject) => {
     base(zakazy_podrobno)
@@ -131,13 +131,13 @@ function tapsyrysZholdary1(recordID) {
       .eachPage(function page(records, fetchNextPage) {
         try {
           records.forEach((item) => {
-            if (item.get('чертеж')) {
+            if (item.get('сызба')) {
               data.push({
                 n: item.get('№'),
-                naimenovanie: item.get('Наименование1'),
-                kol_vo: item.get('Кол-во'),
+                naimenovanie: item.get('ТауарАты1'),
+                kol_vo: item.get('Саны'),
                 postavshik: item.get('поставшик'),
-                kraska_metal: item.get('краска металл'),
+                kraska_metal: item.get('металл бояу'),
                 client_from_zakaz: item.get('клиент (from заказ номер)'),
                 tel1: item.get('тел1'),
                 data_zdachi: item.get('дата сдачи на товар'),
@@ -251,9 +251,9 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         });
         const split_data = String(aikyn_chertezh1[index].data_zdachi).split('-');
         const data_zdachi = split_data[2] + '.' + split_data[1] + '.' + split_data[0];
-        const chertezh_lines1 = `Датасдачи:${data_zdachi || ''} | Поставщик:${
+        const chertezh_lines1 = `Тапсыру күні:${data_zdachi || ''} | Поставщик:${
           aikyn_chertezh1[index].postavshik || ''
-        }| Краска-металл:${aikyn_chertezh1[index].kraska_metal || ''}  `;
+        }| Металл бояуы:${aikyn_chertezh1[index].kraska_metal || ''}  `;
 
         pages[0].drawText(chertezh_lines1, {
           x: 50,

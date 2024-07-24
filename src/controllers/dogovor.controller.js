@@ -104,9 +104,9 @@ const getSections = async (ID) => {
     const thirtyPercent = zakazy_obwee[0].get('30%');
     const name_of_firm = zakazy_obwee[0].get('название фирмы 3');
     const ip = zakazy_obwee[0].get('ИП имя (from ИП)');
-    const rukovotidel = zakazy_obwee[0].get("руководитель (from ИП)")
-    const talon = zakazy_obwee[0].get("талон (from ИП)")
-    const srok_izgotovlenia = zakazy_obwee[0].get("срок изготовления")
+    const rukovotidel = zakazy_obwee[0].get('руководитель (from ИП)');
+    const talon = zakazy_obwee[0].get('талон (from ИП)');
+    const srok_izgotovlenia = zakazy_obwee[0].get('срок изготовления');
     const section = `${name_of_firm} ИИН/БИН ${zakazy_obwee[0].get(
       'ИИН/БИН 3'
     )} ${zakazy_obwee[0].get(
@@ -231,7 +231,6 @@ const dogovorController = async (req, res) => {
       sections6: sections6,
       sections7: sections7,
       sections8: sections8,
-      
     };
 
     const filename = `${airtableData.name}.pdf`;
@@ -289,7 +288,7 @@ const fetchRecords = (recordID) => {
   let esf = [];
   let count = 1;
   return new Promise((resolve, reject) => {
-    base('заказы подробно')
+    base('Сатылым2')
       .select({
         filterByFormula: `{record_id (from заказ номер)} = '${recordID}'`,
       })
@@ -297,22 +296,18 @@ const fetchRecords = (recordID) => {
         function page(records, fetchNextPage) {
           try {
             records.forEach((item) => {
-              const id = item.get('record_id (from заказ номер)');
-              const esf1 = item.get('эсф1');
-              if (esf1) {
-                const naimenovanie = item.get('Наименование1');
-                const esfCena = item.get('ЭСФ цена') ? item.get('ЭСФ цена').toLocaleString() : '';
-                const kol_vo = item.get('Кол-во');
-                let summa = item.get('ЭСФ Сумма').toLocaleString();
+              const naimenovanie = item.get('ТауарАты1');
+              const esfCena = item.get('Баға') ? item.get('Баға').toLocaleString() : '';
+              const kol_vo = item.get('Саны');
+              let summa = item.get('Сомасы').toLocaleString();
 
-                esf.push({
-                  Наименование: naimenovanie,
-                  n: count++,
-                  efs1: esfCena,
-                  kol_vo: kol_vo,
-                  summa: summa,
-                });
-              }
+              esf.push({
+                Наименование: naimenovanie,
+                n: count++,
+                efs1: esfCena,
+                kol_vo: kol_vo,
+                summa: summa,
+              });
             });
 
             fetchNextPage();
