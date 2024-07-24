@@ -1,10 +1,11 @@
 const { base, path, pdf, ejs } = require('../../airtable');
+const { findRecord } = require('../utils/utils');
 const getSecondController = async (req, res) => {
   const recordID = req.query.recordID;
   const path_endpoint = req.path === '/avr_rus_print';
   try {
     // заказы общее
-    const blanks = await getGeneral(recordID);
+    const blanks = await findRecord(recordID);
     const nameOfFirm = blanks.get('название фирмы 3');
     const ip = blanks.get('ИП имя (from ИП)');
 
@@ -109,17 +110,7 @@ const getSecondController = async (req, res) => {
     res.status(500).send('Internal Server error');
   }
 };
-const getGeneral = (recordID) => {
-  return new Promise((resolve, reject) => {
-    base('Сатылым1').find(recordID, (err, record) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(record);
-      }
-    });
-  });
-};
+
 const getInDetail = (recordID) => {
   let esf = [];
   let arr = [];
@@ -136,7 +127,7 @@ const getInDetail = (recordID) => {
           try {
             records.forEach((item) => {
               nomer_zakaz = item.get('номер заказа');
-      
+
               const avr = item.get('АВР');
               if (avr) {
                 const kol_vo = item.get('Саны');

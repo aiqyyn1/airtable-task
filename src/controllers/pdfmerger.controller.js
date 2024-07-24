@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 const { PDFDocument, rgb } = require('pdf-lib');
 const fontkit = require('@pdf-lib/fontkit');
 const { base } = require('../../airtable');
-
+const { findRecord } = require('../utils/utils');
 async function pdfMergerController(req, res) {
   const recordID = req.query.recordID;
 
@@ -60,23 +60,6 @@ async function fetchData(recordID) {
           }
         }
       );
-  });
-}
-
-function findRecord(recordID) {
-  const zakazy_obwee = 'Сатылым1';
-  return new Promise((resolve, reject) => {
-    base(zakazy_obwee)
-      .select({
-        filterByFormula: `{record_id} = '${recordID}'`,
-      })
-      .eachPage(function page(records, fetchNextPage) {
-        resolve(records);
-        fetchNextPage();
-      })
-      .catch((err) => {
-        reject(err);
-      });
   });
 }
 
@@ -217,7 +200,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const tel2_from_client = 'Тел:' + ' ' + String(data[0]?.get('тел2 (from клиент)'));
   const srochno_zakaza = 'Шұғыл:' + ' ' + (srochno ? 'Иа' : 'Жок');
   const fontSize = 12;
-  let size= 0;
+  let size = 0;
   let yPos;
   for (const pdfUrl of pdfUrls) {
     const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
@@ -326,7 +309,6 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
     color: rgb(0, 0, 0),
   });
 
-
   aikyn_chertezh.forEach((item, index) => {
     const split_data_zdachi = item.data_zdachi ? String(item.data_zdachi).split('-') : '';
     const right_data =
@@ -344,9 +326,9 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
       font: customFont,
       color: rgb(0, 0, 0),
     });
-    size= 410 - index * 20;
+    size = 410 - index * 20;
   });
-  yPos = size
+  yPos = size;
   if (yPos > 110) {
     const details = [
       { label: 'тип доставки:', value: type_deliver },
