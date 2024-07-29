@@ -107,9 +107,9 @@ const getSections = async (ID) => {
     const rukovotidel = zakazy_obwee[0].get('руководитель (from ИП)');
     const talon = zakazy_obwee[0].get('талон (from ИП)');
     const srok_izgotovlenia = zakazy_obwee[0].get('срок изготовления');
-    const section = `${name_of_firm} ИИН/БИН ${zakazy_obwee[0].get(
-      'ИИН/БИН 3'
-    ) ||'ИИН/БИН 3' } ${zakazy_obwee[0].get('тел2 (from клиент)')} действующего в лице директора ${
+    const section = `${name_of_firm} ИИН/БИН ${
+      zakazy_obwee[0].get('ИИН/БИН 3') || 'ИИН/БИН 3'
+    } ${zakazy_obwee[0].get('тел2 (from клиент)')} действующего в лице директора ${
       zakazy_obwee[0].get('директор (from клиент)') || 'директор (from клиент)'
     } далее именуемый <strong>«Заказчик»</strong>, с одной стороны, и ${ip[0]}, в лице директора ${
       rukovotidel || 'руководитель (from ИП)'
@@ -276,10 +276,11 @@ const getAirtabelData = async (req, res) => {
   if (ID) {
     const sections = await getSections(ID);
     const zakazy_obwee = await findRecord(ID);
+    const name = await zakazy_obwee[0].get('Аты (from клиент)');
+    const imya = String(name);
     const name_of_firm = zakazy_obwee[0].get('название фирмы 3');
     const { nomer_zakaz } = await getInDetail(ID);
-
-    res.status(200).send({ sections, name_of_firm, nomer_zakaz });
+    res.status(200).send({ sections, name_of_firm, nomer_zakaz, imya });
   }
 };
 
