@@ -23,11 +23,11 @@
         <span style="margin-left: 10px"><%- reportdata.dogovor_dlya_schet_oplaty %></span>
       </div>
       <div style="display: -webkit-flex; margin-top: 20px; width: 400px; -webkit-justify-content: space-between;">
-        <span>г. Астана</span>
-        <span>дата: <%- reportdata.data_dogovara %></span>
+        <span style="font-weight: bold;">г. Астана</span>
+        <span style="font-weight: bold;">дата: <%- reportdata.data_dogovara %></span>
       </div>
       <div><%-reportdata.section%></div>
-      <div style="margin-top: 10px">
+      <div style="margin-top: 30px">
         <div style="text-align: center; font-weight: bold">1. Предмет договора</div>
         <div style="margin-top: 5px">
           <% reportdata.sections1.forEach(function(es) { %>
@@ -35,7 +35,7 @@
           <% }) %>
         </div>
       </div>
-      <div style="margin-top: 10px">
+      <div style="margin-top: 30px">
         <div style="text-align: center; font-weight: bold">2. Права и обязанности сторон</div>
         <div style="margin-top: 5px">
          
@@ -44,7 +44,7 @@
           <% }) %>
         </div>
       </div>
-      <div style="margin-top: 10px">
+      <div style="margin-top: 30px">
         <div style="text-align: center; font-weight: bold">3. Порядок расчетов</div>
         <div style="margin-top: 5px">
           <% reportdata.sections3.forEach(function(es) { %>
@@ -52,7 +52,7 @@
           <% }) %>
         </div>
       </div>
-      <div style="margin-top: 10px">
+      <div style="margin-top: 30px">
         <div style="text-align: center; font-weight: bold">4. Доставка и приемка оказанных услуг (работ)</div>
         <div style="margin-top: 5px">
           <% reportdata.sections4.forEach(function(es) { %>
@@ -60,7 +60,7 @@
           <% }) %>
         </div>
       </div>
-      <div style="margin-top: 10px">
+      <div style="margin-top: 30px">
         <div style="text-align: center; font-weight: bold">5. Ответственность сторон</div>
         <div style="margin-top: 5px">
           <% reportdata.sections5.forEach(function(es) { %>
@@ -68,7 +68,7 @@
           <% }) %>
         </div>
       </div>
-      <div style="margin-top: 10px">
+      <div style="margin-top: 30px">
         <div style="text-align: center; font-weight: bold">6. Порядок разрешения споров</div>
         <div style="margin-top: 5px">
           <% reportdata.sections6.forEach(function(es) { %>
@@ -76,7 +76,7 @@
           <% }) %>
         </div>
       </div>
-      <div style="margin-top: 10px">
+      <div style="margin-top: 30px">
         <div style="text-align: center; font-weight: bold">7. Срок действия договора и порядок его расторжения</div>
         <div style="margin-top: 5px">
           <% reportdata.sections7.forEach(function(es) { %>
@@ -84,7 +84,7 @@
           <% }) %>
         </div>
       </div>
-      <div style="margin-top: 10px">
+      <div style="margin-top: 30px">
         <div style="text-align: center; font-weight: bold">8. Прочие положения</div>
         <div style="margin-top: 5px">
           <% reportdata.sections8.forEach(function(es) { %>
@@ -93,7 +93,7 @@
         </div>
       </div>
       <div>
-        <div style="text-align: left; font-weight: bold">
+        <div style="text-align: left; font-weight: bold;  margin-top: 300px; text-align: center;">
           9. Место нахождения, реквизиты и подписи Сторон
         </div>
         <table style="width: 100%">
@@ -131,7 +131,7 @@
             </td>
           </tr>
         </table>
-        <div style="text-align: center; margin-top: 600px; font-size: 10px;">
+        <div style="text-align: center; margin-top: 50px; font-size: 10px ; font-weight: bold;">
           Приложение 1 к договору № <%- reportdata.dogovor_dlya_schet_oplaty %> от <%-reportdata.data_dogovara%>
           <%- reportdata.dogovor %>
         </div>
