@@ -109,7 +109,7 @@ const getSections = async (ID) => {
     const srok_izgotovlenia = zakazy_obwee[0].get('срок изготовления');
     const section = `${name_of_firm} ИИН/БИН ${zakazy_obwee[0].get(
       'ИИН/БИН 3'
-    )} ${zakazy_obwee[0].get('тел2 (from клиент)')} действующего в лице директора ${
+    ) ||'ИИН/БИН 3' } ${zakazy_obwee[0].get('тел2 (from клиент)')} действующего в лице директора ${
       zakazy_obwee[0].get('директор (from клиент)') || 'директор (from клиент)'
     } далее именуемый <strong>«Заказчик»</strong>, с одной стороны, и ${ip[0]}, в лице директора ${
       rukovotidel || 'руководитель (from ИП)'
