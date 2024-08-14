@@ -1,100 +1,6 @@
 const { base, path, pdf, ejs } = require('../../airtable');
-const { findRecord, fetchRecords } = require('../utils/utils');
+const { findRecord, fetchRecords, splitTextByPoint, numberToWordsRU } = require('../utils/utils');
 const { getInDetail } = require('./avr.controller');
-const units = ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'];
-const teens = [
-  'десять',
-  'одиннадцать',
-  'двенадцать',
-  'тринадцать',
-  'четырнадцать',
-  'пятнадцать',
-  'шестнадцать',
-  'семнадцать',
-  'восемнадцать',
-  'девятнадцать',
-];
-const tens = [
-  '',
-  '',
-  'двадцать',
-  'тридцать',
-  'сорок',
-  'пятьдесят',
-  'шестьдесят',
-  'семьдесят',
-  'восемьдесят',
-  'девяносто',
-];
-const hundreds = [
-  '',
-  'сто',
-  'двести',
-  'триста',
-  'четыреста',
-  'пятьсот',
-  'шестьсот',
-  'семьсот',
-  'восемьсот',
-  'девятьсот',
-];
-const thousands = [
-  'тысяч',
-  'одна тысяча',
-  'две тысячи',
-  'три тысячи',
-  'четыре тысячи',
-  'пять тысяч',
-  'шесть тысяч',
-  'семь тысяч',
-  'восемь тысяч',
-  'девять тысяч',
-];
-
-const numberToWordsRU = (number) => {
-  let result = '';
-
-  if (number >= 1000 && number < 2000) {
-    result += `одна тысяча `;
-    number %= 1000;
-  } else if (number >= 2000 && number < 5000) {
-    result += `${units[Math.floor(number / 1000)]} тысячи `;
-    number %= 1000;
-  } else if (number >= 5000 && number < 10000) {
-    result += `${units[Math.floor(number / 1000)]} тысяч `;
-    number %= 1000;
-  } else if (number >= 10000 && number < 20000) {
-    result += `${teens[Math.floor(number / 1000) % 10]} тысяч `;
-    number %= 1000;
-  } else if (number >= 20000 && number < 100000) {
-    result += `${tens[Math.floor(number / 10000) % 10]} ${
-      units[Math.floor(number / 1000) % 10]
-    } тысяч `;
-    number %= 1000;
-  } else if (number >= 100000 && number < 1000000) {
-    result += `${hundreds[Math.floor(number / 100000) % 10]} ${
-      tens[Math.floor(number / 10000) % 10]
-    } ${units[Math.floor(number / 1000) % 10]} тысяч `;
-    number %= 1000;
-  }
-
-  if (number >= 100) {
-    result += `${hundreds[Math.floor(number / 100)]} `;
-    number %= 100;
-  }
-
-  if (number >= 20) {
-    result += `${tens[Math.floor(number / 10)]} `;
-    number %= 10;
-  } else if (number >= 10) {
-    result += `${teens[number - 10]} `;
-    number = 0;
-  }
-
-  result += units[number];
-  return result.trim();
-};
-
 const getSections = async (ID) => {
   try {
     const zakazy_obwee = await findRecord(ID);
@@ -159,24 +65,6 @@ const getSections = async (ID) => {
   } catch (e) {
     console.log(e);
   }
-};
-
-const splitTextByPoint = (number, text) => {
-  // Regex to capture sections based on the numbering that starts with the specified 'number'
-  const regex = new RegExp(
-    `(${number}\\.\\d+(?:\\.\\d+)?)[\\s\\S]+?(?=\\s*${number}\\.\\d+(?:\\.\\d+)?|$)`,
-    'g'
-  );
-
-  let sections = [];
-  let match;
-
-  // Iterate over each match found by the regex
-  while ((match = regex.exec(text)) !== null) {
-    sections.push(match[0].trim()); // Add the trimmed section to the sections array
-  }
-
-  return sections;
 };
 
 const dogovorController = async (req, res) => {

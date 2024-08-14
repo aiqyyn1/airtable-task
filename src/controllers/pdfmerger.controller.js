@@ -2,7 +2,13 @@ const fetch = require('node-fetch');
 const { PDFDocument, rgb } = require('pdf-lib');
 const fontkit = require('@pdf-lib/fontkit');
 const { base } = require('../../airtable');
-const { findRecord, deliverData, fetchData, tapsyrysZholdary, tapsyrysZholdary1} = require('../utils/utils');
+const {
+  findRecord,
+  deliverData,
+  fetchData,
+  tapsyrysZholdary,
+  tapsyrysZholdary1,
+} = require('../utils/utils');
 async function pdfMergerController(req, res) {
   const recordID = req.query.recordID;
 
@@ -26,7 +32,6 @@ async function pdfMergerController(req, res) {
     res.status(500).send('Internal Server Error');
   }
 }
-
 
 async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const mergedPdf = await PDFDocument.create();
@@ -203,7 +208,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
         y: yPos - 20 - index * 20,
         size: 10,
         font: customFont,
-        color: rgb(0, 0, 0), // Assuming you want black text
+        color: rgb(0, 0, 0),
       });
     });
   }
