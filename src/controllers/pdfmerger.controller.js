@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 const { PDFDocument, rgb } = require('pdf-lib');
 const fontkit = require('@pdf-lib/fontkit');
 const { base } = require('../../airtable');
-const { findRecord } = require('../utils/utils');
+const { findRecord, deliverData} = require('../utils/utils');
 async function pdfMergerController(req, res) {
   const recordID = req.query.recordID;
 
@@ -145,31 +145,6 @@ function tapsyrysZholdary1(recordID) {
   });
 }
 
-function dostavkaData(recordID) {
-  const dostavka = 'доставки';
-  return new Promise((resolve, reject) => {
-    base(dostavka)
-      .select({
-        filterByFormula: `{record_id (from заказ)} = '${recordID}'`,
-      })
-      .eachPage(
-        function page(records, fetchNextPage) {
-          try {
-            resolve(records);
-            fetchNextPage();
-          } catch (e) {
-            reject(e);
-          }
-        },
-        function done(err) {
-          if (err) {
-            reject(err);
-          }
-        }
-      );
-  });
-}
-
 async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const mergedPdf = await PDFDocument.create();
   const fontBytes = await fetch('https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf').then((res) =>
@@ -182,8 +157,7 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const data = await findRecord(recordID);
   const aikyn_chertezh = await tapsyrysZholdary(recordID);
   const aikyn_chertezh1 = await tapsyrysZholdary1(recordID);
-  const dostavka = await dostavkaData(recordID);
-
+  const dostavka = await deliverData(recordID);
   const address = dostavka[0]?.get('адрес') || '';
   const kol_vo_reisov = dostavka[0]?.get('кол-во рейсов') || '';
   const type_deliver = dostavka[0]?.get('тип доставки') || '';

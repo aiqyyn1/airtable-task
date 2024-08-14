@@ -56,4 +56,28 @@ const fetchRecords = (recordID) => {
       );
   });
 };
-module.exports = { findRecord, fetchRecords };
+function deliverData(recordID) {
+  const dostavka = 'доставки';
+  return new Promise((resolve, reject) => {
+    base(dostavka)
+      .select({
+        filterByFormula: `{record_id (from заказ)} = '${recordID}'`,
+      })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          try {
+            resolve(records);
+            fetchNextPage();
+          } catch (e) {
+            reject(e);
+          }
+        },
+        function done(err) {
+          if (err) {
+            reject(err);
+          }
+        }
+      );
+  });
+}
+module.exports = { findRecord, fetchRecords, deliverData };
