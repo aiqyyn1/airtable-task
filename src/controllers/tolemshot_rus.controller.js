@@ -1,8 +1,5 @@
 const { base, path, pdf, ejs } = require('../../airtable');
 const {fetchRecords} = require('../utils/utils')
-
-const tapsyrys_header = 'заказы общее';
-const tapsyrys_lines = 'Сатылым2';
 const { findRecord } = require('../utils/utils');
 const getFirsController = async (req, res) => {
   const recordID = req.query.recordID;
