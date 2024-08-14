@@ -3,7 +3,7 @@ const getSecondController = async (req, res) => {
   const recordID = req.query.recordID;
   const path_endpoint = req.path === '/avr_rus_print';
   try {
-    // заказы общее
+
     const blanks = await getGeneral(recordID);
     const nameOfFirm = blanks.get('название фирмы 3');
     const ip = blanks.get('ИП имя (from ИП)');

@@ -7,7 +7,7 @@ function findRecord(recordID) {
         filterByFormula: `{record_id} = '${recordID}'`,
       })
       .eachPage(function page(records, fetchNextPage) {
-        resolve(records); // Resolve inside the callback
+        resolve(records);
         fetchNextPage();
       })
       .catch((err) => {
@@ -306,7 +306,22 @@ const numberToWordsRU = (number) => {
   result += units[number];
   return result.trim();
 };
-
+const getDocuments = (recordID) => {
+  const documents = 'құжаттар';
+  return new Promise((resolve, reject) => {
+    base(documents)
+      .select({
+        filterByFormula: `{record_id} = '${recordID}'`,
+      })
+      .eachPage(function page(records, fetchNextPage) {
+        resolve(records);
+        fetchNextPage();
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
 module.exports = {
   findRecord,
   fetchRecords,
@@ -315,5 +330,6 @@ module.exports = {
   fetchData,
   tapsyrysZholdary,
   tapsyrysZholdary1,
-  numberToWordsRU
+  numberToWordsRU,
+  getDocuments,
 };
