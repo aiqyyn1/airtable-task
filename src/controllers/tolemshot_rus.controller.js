@@ -1,14 +1,6 @@
 const { base, path, pdf, ejs } = require('../../airtable');
 const {fetchRecords} = require('../utils/utils')
-/* 
-this code generates PDF document 
-for tolemshot_rus
-*/
 
-/*
-TODO: rename hardcode data to variables
-
-*/
 const tapsyrys_header = 'заказы общее';
 const tapsyrys_lines = 'Сатылым2';
 const { findRecord } = require('../utils/utils');
