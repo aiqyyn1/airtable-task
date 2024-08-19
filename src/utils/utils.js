@@ -15,6 +15,19 @@ function findRecord(recordID) {
       });
   });
 }
+const fetchSatylym2 = (recordID) => {
+  return new Promise((resolve, reject) => {
+    base('Сатылым2')
+      .select({
+        filterByFormula: `{record_id (from заказ номер)} = '${recordID}'`,
+      })
+      .eachPage(function page(records, fetchNextPage) {
+        fetchNextPage();
+        resolve(records);
+      })
+      .catch((e) => reject(e));
+  });
+};
 const fetchRecords = (recordID) => {
   let esf = [];
   let count = 1;
@@ -376,4 +389,5 @@ module.exports = {
   tapsyrysZholdary1,
   numberToWordsRU,
   getDocuments,
+  fetchSatylym2
 };
