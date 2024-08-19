@@ -6,6 +6,7 @@ const {
   findRecord,
   deliverData,
   fetchData,
+
   tapsyrysZholdary,
   tapsyrysZholdary1,
 } = require('../utils/utils');

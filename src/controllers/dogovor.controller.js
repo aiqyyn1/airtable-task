@@ -1,5 +1,5 @@
 const { base, path, pdf, ejs } = require('../../airtable');
-const { findRecord, fetchRecords, splitTextByPoint, numberToWordsRU } = require('../utils/utils');
+const { findRecord, fetchSatylymDogovor, splitTextByPoint, numberToWordsRU } = require('../utils/utils');
 const { getInDetail } = require('./avr.controller');
 const getSections = async (ID) => {
   try {
@@ -107,7 +107,7 @@ const dogovorController = async (req, res) => {
       address: zakazy_obwee[0].get('адрес 3'),
       iik: zakazy_obwee[0].get('ИИК 3'),
       bank: zakazy_obwee[0].get('Банк 3'),
-      esf: await fetchRecords(ID),
+      esf: await fetchSatylymDogovor(ID),
       section: section,
       sections1: sections1,
       sections2: sections2,
