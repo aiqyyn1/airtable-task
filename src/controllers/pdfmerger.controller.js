@@ -36,7 +36,7 @@ async function pdfMergerController(req, res) {
 async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const mergedPdf = await PDFDocument.create();
   const fontBytes = await fetch('https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf').then((res) =>
-    res.arrayBuffer()
+      res.arrayBuffer()
   );
 
   mergedPdf.registerFontkit(fontkit);
@@ -64,180 +64,184 @@ async function mergeAndModifyPDFs(pdfUrls, recordID) {
   const fontSize = 12;
   let size = 0;
   let yPos;
+
   for (const pdfUrl of pdfUrls) {
-    const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
-    const pdfDoc = await PDFDocument.load(pdfBytes);
-    const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+      const pdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
+      const pdfDoc = await PDFDocument.load(pdfBytes);
+      
+      // Объявляем переменную pages в правильной области видимости
+      const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+      console.log(pages)
+      pages.forEach((page) => {
+          mergedPdf.addPage(page);
+      });
 
-    pages.forEach((page) => {
-      mergedPdf.addPage(page);
-    });
+      const index = pdfUrls.indexOf(pdfUrl);
+      if (aikyn_chertezh1[index]) {
+          const tel1 = String(aikyn_chertezh1[index].tel1).substring(
+              6,
+              String(aikyn_chertezh1[index].tel1)
+          );
 
-    const index = pdfUrls.indexOf(pdfUrl);
-    if (aikyn_chertezh1[index]) {
-      const tel1 = String(aikyn_chertezh1[index].tel1).substring(
-        6,
-        String(aikyn_chertezh1[index].tel1)
-      );
+          const chertezh_podrobno = `N:${aikyn_chertezh1[index].nomer_zakaza}/${
+              aikyn_chertezh1[index].n
+          } ${aty}-${tel1} | Тауар:${String(aikyn_chertezh1[index].naimenovanie)} Кол-во:${
+              aikyn_chertezh1[index].kol_vo || ''
+          }шт| `;
 
-      const chertezh_podrobno = `N:${aikyn_chertezh1[index].nomer_zakaza}/${
-        aikyn_chertezh1[index].n
-      } ${aty}-${tel1} | Тауар:${String(aikyn_chertezh1[index].naimenovanie)} Кол-во:${
-        aikyn_chertezh1[index].kol_vo || ''
-      }шт| `;
+          if (pages.length > 0) {
+              pages[0].drawText(chertezh_podrobno, {
+                  x: 50,
+                  y: 550,
+                  size: fontSize,
+                  font: customFont,
+                  color: rgb(0, 0, 0),
+              });
+              const split_data = String(aikyn_chertezh1[index].data_zdachi).split('-');
+              const data_zdachi = split_data[2] + '.' + split_data[1] + '.' + split_data[0];
+              const chertezh_lines1 = `Тапсыру күні:${data_zdachi || ''} | Поставщик:${
+                  aikyn_chertezh1[index].postavshik || ''
+              }| Металл бояуы:${aikyn_chertezh1[index].kraska_metal || ''}  `;
 
-      if (pages.length > 0) {
-        pages[0].drawText(chertezh_podrobno, {
-          x: 50,
-          y: 550,
-          size: fontSize,
-          font: customFont,
-          color: rgb(0, 0, 0),
-        });
-        const split_data = String(aikyn_chertezh1[index].data_zdachi).split('-');
-        const data_zdachi = split_data[2] + '.' + split_data[1] + '.' + split_data[0];
-        const chertezh_lines1 = `Тапсыру күні:${data_zdachi || ''} | Поставщик:${
-          aikyn_chertezh1[index].postavshik || ''
-        }| Металл бояуы:${aikyn_chertezh1[index].kraska_metal || ''}  `;
-
-        pages[0].drawText(chertezh_lines1, {
-          x: 50,
-          y: 530,
-          size: fontSize,
-          font: customFont,
-          color: rgb(0, 0, 0),
-        });
+              pages[0].drawText(chertezh_lines1, {
+                  x: 50,
+                  y: 530,
+                  size: fontSize,
+                  font: customFont,
+                  color: rgb(0, 0, 0),
+              });
+          }
       }
-    }
   }
 
   const firstPageDimensions = mergedPdf.getPage(0).getSize();
   const newPage = mergedPdf.addPage([firstPageDimensions.width, firstPageDimensions.height]);
 
   newPage.drawText(nomer_zakaza, {
-    x: 10,
-    y: 560,
-    size: fontSize,
-    font: customFont,
-    color: rgb(0, 0, 0),
+      x: 10,
+      y: 560,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0),
   });
 
   newPage.drawText(aty_from_client, {
-    x: 10,
-    y: 540,
-    size: fontSize,
-    font: customFont,
-    color: rgb(0, 0, 0),
+      x: 10,
+      y: 540,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0),
   });
 
   newPage.drawText(tel2_from_client, {
-    x: 10,
-    y: 520,
-    size: fontSize,
-    font: customFont,
-    color: rgb(0, 0, 0),
+      x: 10,
+      y: 520,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0),
   });
 
   newPage.drawText(manager_zakaza, {
-    x: 10,
-    y: 500,
-    size: fontSize,
-    font: customFont,
-    color: rgb(0, 0, 0),
+      x: 10,
+      y: 500,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0),
   });
 
   newPage.drawText(srochno_zakaza, {
-    x: 10,
-    y: 480,
-    size: fontSize,
-    font: customFont,
-    color: rgb(0, 0, 0),
+      x: 10,
+      y: 480,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0),
   });
 
   newPage.drawText('Тапсырыс жолдары:', {
-    x: 10,
-    y: 450,
-    size: fontSize,
-    font: customFont,
-    color: rgb(0, 0, 0),
+      x: 10,
+      y: 450,
+      size: fontSize,
+      font: customFont,
+      color: rgb(0, 0, 0),
   });
 
   const arr = 'N| наименование| колво| поставщик| краска| датасдачи| дизайнер';
   newPage.drawText(arr, {
-    x: 10,
-    y: 430,
-    size: fontSize,
-    font: customFont,
-    color: rgb(0, 0, 0),
-  });
-
-  aikyn_chertezh.forEach((item, index) => {
-    const split_data_zdachi = item.data_zdachi ? String(item.data_zdachi).split('-') : '';
-    const right_data =
-      split_data_zdachi[2] + '.' + split_data_zdachi[1] + '.' + split_data_zdachi[0];
-    const chertezh_podrobno = `${item.n || ''} | ${item.naimenovanie || ''} | ${
-      item.kol_vo || ''
-    }шт | ${item.postavshik === undefined ? '' : item.postavshik} | ${item.kraska_metal || ''} | ${
-      right_data || ''
-    } | ${item.designer || ''}`;
-
-    newPage.drawText(chertezh_podrobno, {
       x: 10,
-      y: 410 - index * 20,
+      y: 430,
       size: fontSize,
       font: customFont,
       color: rgb(0, 0, 0),
-    });
-    size = 410 - index * 20;
+  });
+
+  aikyn_chertezh.forEach((item, index) => {
+      const split_data_zdachi = item.data_zdachi ? String(item.data_zdachi).split('-') : '';
+      const right_data =
+          split_data_zdachi[2] + '.' + split_data_zdachi[1] + '.' + split_data_zdachi[0];
+      const chertezh_podrobno = `${item.n || ''} | ${item.naimenovanie || ''} | ${
+          item.kol_vo || ''
+      }шт | ${item.postavshik === undefined ? '' : item.postavshik} | ${
+          item.kraska_metal || ''
+      } | ${right_data || ''} | ${item.designer || ''}`;
+
+      newPage.drawText(chertezh_podrobno, {
+          x: 10,
+          y: 410 - index * 20,
+          size: fontSize,
+          font: customFont,
+          color: rgb(0, 0, 0),
+      });
+      size = 410 - index * 20;
   });
   yPos = size;
   if (yPos > 110) {
-    const details = [
-      { label: 'тип доставки:', value: type_deliver },
-      { label: 'Адрес:', value: address },
-      { label: 'кол-во-рейсов:', value: kol_vo_reisov + 'шт' },
-      { label: 'выгрузка:', value: vygruzka },
-      { label: 'установка:', value: ustanovka },
-      { label: 'коммент:', value: komment },
-    ];
+      const details = [
+          { label: 'тип доставки:', value: type_deliver },
+          { label: 'Адрес:', value: address },
+          { label: 'кол-во-рейсов:', value: kol_vo_reisov + 'шт' },
+          { label: 'выгрузка:', value: vygruzka },
+          { label: 'установка:', value: ustanovka },
+          { label: 'коммент:', value: komment },
+      ];
 
-    details.forEach((detail, index) => {
-      const line = `${detail.label} ${detail.value || ''}`;
-      newPage.drawText(line, {
-        x: 10,
-        y: yPos - 20 - index * 20,
-        size: 10,
-        font: customFont,
-        color: rgb(0, 0, 0),
+      details.forEach((detail, index) => {
+          const line = `${detail.label} ${detail.value || ''}`;
+          newPage.drawText(line, {
+              x: 10,
+              y: yPos - 20 - index * 20,
+              size: 10,
+              font: customFont,
+              color: rgb(0, 0, 0),
+          });
       });
-    });
   }
 
   if (yPos <= 110) {
-    const firstPageDimensions = pages[0].getSize();
+      const firstPageDimensions = newPage.getSize();
+      
+      const newpage = mergedPdf.addPage([firstPageDimensions.width, firstPageDimensions.height]);
+      const details = [
+          { label: 'тип доставки:', value: type_deliver },
+          { label: 'Адрес:', value: address },
+          { label: 'кол-во-рейсов:', value: kol_vo_reisov + 'шт' },
+          { label: 'выгрузка:', value: vygruzka },
+          { label: 'установка:', value: ustanovka },
+          { label: 'коммент:', value: komment },
+      ];
 
-    const newpage = mergedPdf.addPage([firstPageDimensions.width, firstPageDimensions.height]);
-    const details = [
-      { label: 'тип доставки:', value: type_deliver },
-      { label: 'Адрес:', value: address },
-      { label: 'кол-во-рейсов:', value: kol_vo_reisov + 'шт' },
-      { label: 'выгрузка:', value: vygruzka },
-      { label: 'установка:', value: ustanovka },
-      { label: 'коммент:', value: komment },
-    ];
-
-    details.forEach((detail, index) => {
-      const line = `${detail.label} ${detail.value || ''}`;
-      newpage.drawText(line, {
-        x: 10,
-        y: 500 - 10 - index * 20,
-        size: 10,
-        font: customFont,
-        color: rgb(0, 0, 0), // Assuming you want black text
+      details.forEach((detail, index) => {
+          const line = `${detail.label} ${detail.value || ''}`;
+          newpage.drawText(line, {
+              x: 10,
+              y: 550 - index * 20,
+              size: 10,
+              font: customFont,
+              color: rgb(0, 0, 0),
+          });
       });
-    });
   }
-  return await mergedPdf.save();
+  const mergedPdfBytes = await mergedPdf.save();
+  return mergedPdfBytes;
 }
 
 module.exports = pdfMergerController;
