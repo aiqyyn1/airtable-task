@@ -9,7 +9,14 @@
         font-family: 'Arial', sans-serif;
         margin: 0;
         padding: 10px;
-        font-size: 12px;
+        font-size: 10px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        font-size: 10px;
       }
 
       .content {
@@ -39,18 +46,30 @@
       </p>
     </div>
     <div class="form"><p>Форма З-2</p></div>
-    <div style="display: -webkit-flex; margin-top: 50px;">
+    <div style="display: -webkit-flex; margin-top: 50px">
       <div>
         <span>Организация (индивидуальный предприниматель)</span>
       </div>
       <div style="position: relative; left: 20px">
-        <span>___________________________________________</span>
+        <span>___________________________________________________________________</span>
         <span style="position: absolute; left: 40%"><%-reportdata.ip%></span>
       </div>
-      <div style="display: -webkit-flex; margin-left: 90px; position: relative; bottom: 20px;">
-        <div style="margin-top: 20px;">ИИН/БИН</div>
-        <div style="border: 2px solid black;  padding: 5px;"><%-reportdata.biin%></div>
+      <div style="display: -webkit-flex; margin-left: 90px; position: relative; bottom: 20px">
+        <div style="margin-top: 20px">ИИН/БИН</div>
+        <div style="border: 1px solid black; padding: 3px; margin-left: 2px">
+          <%-reportdata.biin%>
+        </div>
       </div>
     </div>
+    <table style="position: absolute; right: 1%;">
+      <tr>
+        <th>Номер документа</th>
+        <th>Дата составления</th>
+      </tr>
+      <tr>
+        <td><%-reportdata.nomer_nak%></td>
+        <td><%-reportdata.data_nak%></td>
+      </tr>
+    </table>
   </body>
 </html>

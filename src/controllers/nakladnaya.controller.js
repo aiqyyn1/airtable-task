@@ -16,12 +16,12 @@ const nakladnayaController = async (req, res) => {
     const biin = records[0].get('БИН (from ИП)');
     const nazvanie_firmy_3 = records[0].get('название фирмы 3');
     const rukovaditel = records[0].get('руководитель (from ИП)');
-
+    
     const filename =
       String(nomer_zakaza[0].get('номер заказа')) + '-' + nazvanie_firmy_3 + '-' + 'АЖА' + '.pdf';
     let airtableData = {
-      nomer_nak: nomer_nak,
-      data_nak: data_nak,
+      nomer_nak: nomer_nak[0],
+      data_nak: data_nak[0],
       ip: ip[0],
       biin: biin,
       nazvanie_firmy_3,
