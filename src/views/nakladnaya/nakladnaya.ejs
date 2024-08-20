@@ -8,7 +8,7 @@
       body {
         font-family: 'Arial', sans-serif;
         margin: 0;
-        padding: 10px;
+        padding: 20px;
         font-size: 10px;
       }
       table,
@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    <table style="position: absolute; right: 1%;">
+    <table style="position: absolute; right: 1%">
       <tr>
         <th>Номер документа</th>
         <th>Дата составления</th>
@@ -69,6 +69,21 @@
       <tr>
         <td><%-reportdata.nomer_nak%></td>
         <td><%-reportdata.data_nak%></td>
+      </tr>
+    </table>
+    <div style="text-align: center; font-size: 16px">НАКЛАДНАЯ НА ОТПУСК ЗАПАСОВ НА СТОРОНУ</div>
+    <table>
+      <tr>
+        <th>Организация (индивидуальный предприниматель) - отправитель</th>
+        <th>Организация (индивидуальный предприниматель) - получатель</th>
+        <th>Ответственный за поставку (Ф.И.О.)</th>
+        <th>Транспортная организация</th>
+        <th>Товарно-транспортная накладная (номер, дата)</th>
+      </tr>
+      <tr>
+        <td><%-reportdata.ip%></td>
+        <td><%-reportdata.nazvanie_firmy_3</td>
+        <td><%-reportdata.rukovoditel%></td>
       </tr>
     </table>
   </body>
