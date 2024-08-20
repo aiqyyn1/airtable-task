@@ -389,5 +389,5 @@ module.exports = {
   tapsyrysZholdary1,
   numberToWordsRU,
   getDocuments,
-  fetchSatylym2
+  fetchSatylym2,
 };

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 10px;
+        font-size: 12px;
+      }
+
+      .content {
+        text-align: right;
+        margin-right: 70px;
+        line-height: 1.4;
+      }
+      .republic_kz_text {
+        margin-right: 20px;
+      }
+      .app_26 {
+        margin-right: 40px;
+      }
+      .form {
+        text-align: right;
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <p>
+        <span class="app_26">Приложение 26</span><br />
+        к приказу Министра финансов<br />
+        <span class="republic_kz_text">Республики Казахстан</span> <br />
+        от 20 декабря 2012 года № 562
+      </p>
+    </div>
+    <div class="form"><p>Форма З-2</p></div>
+    <div style="display: -webkit-flex; margin-top: 50px;">
+      <div>
+        <span>Организация (индивидуальный предприниматель)</span>
+      </div>
+      <div style="position: relative; left: 20px">
+        <span>___________________________________________</span>
+        <span style="position: absolute; left: 40%"><%-reportdata.ip%></span>
+      </div>
+      <div style="display: -webkit-flex; margin-left: 90px; position: relative; bottom: 20px;">
+        <div style="margin-top: 20px;">ИИН/БИН</div>
+        <div style="border: 2px solid black;  padding: 5px;"><%-reportdata.biin%></div>
+      </div>
+    </div>
+  </body>
+</html>

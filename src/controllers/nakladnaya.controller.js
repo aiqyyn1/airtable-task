@@ -1,22 +1,33 @@
-const { findRecord, getDocuments, fetchSatylymDogovor } = require('../utils/utils');
+const { findRecord, getDocuments, fetchSatylymDogovor, fetchSatylym2 } = require('../utils/utils');
 const { path, pdf, ejs } = require('../../airtable');
 const nakladnayaController = async (req, res) => {
   const recordID = req.query.recordID;
 
   try {
     const records = await findRecord(recordID);
-    const documents = await getDocuments(recordID);
+
+    // const documents = await getDocuments(recordID);
     const satylym2 = await fetchSatylymDogovor(recordID);
-    const nomer_avr = documents[0].get('номер АВР');
-    const data_avr = documents[0].get("дата АВР")
-    const ip = records[0].get('ИП');
+
+    const nomer_zakaza = await fetchSatylym2(recordID);
+    const nomer_nak = records[0].get('номер Нак');
+    const data_nak = records[0].get('дата Нак');
+    const ip = records[0].get('ИП имя (from ИП)');
     const biin = records[0].get('БИН (from ИП)');
     const nazvanie_firmy_3 = records[0].get('название фирмы 3');
     const rukovaditel = records[0].get('руководитель (from ИП)');
 
-    const filename = String(nomer_zakaz) + '-' + nameOfFirm + '-' + 'АЖА' + '.pdf';
-    let airtableData = {};
-    const templatePath = path.resolve(__dirname, '../views/avr/avr.ejs');
+    const filename =
+      String(nomer_zakaza[0].get('номер заказа')) + '-' + nazvanie_firmy_3 + '-' + 'АЖА' + '.pdf';
+    let airtableData = {
+      nomer_nak: nomer_nak,
+      data_nak: data_nak,
+      ip: ip[0],
+      biin: biin,
+      nazvanie_firmy_3,
+      rukovaditel: rukovaditel,
+    };
+    const templatePath = path.resolve(__dirname, '../views/nakladnaya/nakladnaya.ejs');
     ejs.renderFile(templatePath, { reportdata: airtableData }, (err, data) => {
       if (err) {
         console.log(err, 'Error in rendering template');
