@@ -16,7 +16,7 @@ const nakladnayaController = async (req, res) => {
     const biin = records[0].get('БИН (from ИП)');
     const nazvanie_firmy_3 = records[0].get('название фирмы 3');
     const rukovaditel = records[0].get('руководитель (from ИП)');
-    
+    const itogo = records[0].get("Жиынтық сомасы")
     const filename =
       String(nomer_zakaza[0].get('номер заказа')) + '-' + nazvanie_firmy_3 + '-' + 'АЖА' + '.pdf';
     let airtableData = {
@@ -27,6 +27,7 @@ const nakladnayaController = async (req, res) => {
       esf:satylym2,
       nazvanie_firmy_3,
       rukovaditel: rukovaditel,
+      itogo:itogo
     };
     const templatePath = path.resolve(__dirname, '../views/nakladnaya/nakladnaya.ejs');
     ejs.renderFile(templatePath, { reportdata: airtableData }, (err, data) => {
