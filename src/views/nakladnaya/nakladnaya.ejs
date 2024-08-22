@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 20px;
+        font-size: 10px;
+      }
+      table {
+        border: 1px solid black;
+        border-collapse: collapse;
+        font-size: 10px;
+        text-align: center;
+        width: 100%;
+      }
+
+      .content {
+        text-align: right;
+        margin-right: 70px;
+        line-height: 1.4;
+      }
+      .republic_kz_text {
+        margin-right: 20px;
+      }
+      .app_26 {
+        margin-right: 40px;
+      }
+      .form {
+        text-align: right;
+        margin-right: 5px;
+      }
+
+      th[rowspan] {
+        border-left: 1px solid black !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="content">
+        <p>
+          <span class="app_26">Приложение 26</span><br />
+          к приказу Министра финансов<br />
+          <span class="republic_kz_text">Республики Казахстан</span> <br />
+          от 20 декабря 2012 года № 562
+        </p>
+      </div>
+      <div class="form"><p>Форма З-2</p></div>
+      <div style="display: -webkit-flex; margin-top: 50px">
+        <div>
+          <span>Организация (индивидуальный предприниматель)</span>
+        </div>
+        <div style="position: relative; left: 20px">
+          <span>___________________________________________________________________</span>
+          <span style="position: absolute; left: 40%"><%-reportdata.ip%></span>
+        </div>
+        <div style="display: -webkit-flex; margin-left: 90px; position: relative; bottom: 20px">
+          <div style="margin-top: 20px">ИИН/БИН</div>
+          <div style="border: 1px solid black; padding: 3px; margin-left: 2px">
+            <%-reportdata.biin%>
+          </div>
+        </div>
+      </div>
+      <table style="position: absolute; right: 1%">
+        <tr>
+          <th>Номер документа</th>
+          <th>Дата составления</th>
+        </tr>
+        <tr>
+          <td><%-reportdata.nomer_nak%></td>
+          <td><%-reportdata.data_nak%></td>
+        </tr>
+      </table>
+      <div style="text-align: center; font-size: 16px; margin-top: 50px">
+        НАКЛАДНАЯ НА ОТПУСК ЗАПАСОВ НА СТОРОНУ
+      </div>
+      <table style="margin-top: 20px; text-align: center; width: 100%; border: 1px solid black">
+        <tr>
+          <th style="border: 1px solid black">
+            Организация (индивидуальный предприниматель) - отправитель
+          </th>
+          <th style="border: 1px solid black">
+            Организация (индивидуальный предприниматель) - получатель
+          </th>
+          <th style="border: 1px solid black">Ответственный за поставку (Ф.И.О.)</th>
+          <th style="border: 1px solid black">Транспортная организация</th>
+          <th style="border: 1px solid black">Товарно-транспортная накладная (номер, дата)</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black"><%-reportdata.ip%></td>
+          <td style="border: 1px solid black"><%-reportdata.nazvanie_firmy_3%></td>
+          <td style="border: 1px solid black"><%-reportdata.rukovoditel%></td>
+          <td style="border: 1px solid black"></td>
+          <td style="border: 1px solid black"></td>
+        </tr>
+      </table>
+      <table style="margin-top: 20px; text-align: center; width: 100%; border: none">
+        <tr>
+          <th rowspan="2" style="border: 1px solid black">Номер по порядку</th>
+          <th rowspan="2" style="border: 1px solid black">Наименование, характеристика</th>
+          <th rowspan="2" style="border: 1px solid black">Номенклатурный номер</th>
+          <th rowspan="2" style="border: 1px solid black">Единица измерения</th>
+          <th colspan="2" style="border: 1px solid black">Количество</th>
+          <th rowspan="2" style="border: 1px solid black">Цена за единицу, в KZT</th>
+          <th rowspan="2" style="border: 1px solid black">Сумма с НДС, в KZT</th>
+          <th rowspan="2" style="border: 1px solid black">Сумма НДС, в KZT</th>
+        </tr>
+        <tr>
+          <th style="border: 1px solid black">подлежит отпуску</th>
+          <th style="border: 1px solid black">отпущено</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black">1</td>
+          <td style="border: 1px solid black">2</td>
+          <td style="border: 1px solid black">3</td>
+          <td style="border: 1px solid black">4</td>
+          <td style="border: 1px solid black">5</td>
+          <td style="border: 1px solid black">6</td>
+          <td style="border: 1px solid black">7</td>
+          <td style="border: 1px solid black">8</td>
+          <td style="border: 1px solid black">9</td>
+        </tr>
+        <% reportdata.esf.forEach(function(es) { %>
+        <tr>
+          <td style="font-size: 10px; padding: 5px; border: 1px solid black"><%= es.n %></td>
+          <td style="font-size: 10px; padding: 5px; border: 1px solid black">
+            <%= es.Наименование %>
+          </td>
+          <td style="border: 1px solid black"></td>
+          <td style="border: 1px solid black">шт</td>
+          <td style="font-size: 10px; padding: 5px; border: 1px solid black">
+            <%= es.kol_vo %> шт
+          </td>
+          <td style="font-size: 10px; padding: 5px; border: 1px solid black">
+            <%= es.kol_vo %> шт
+          </td>
+          <td style="font-size: 10px; padding: 5px; border: 1px solid black"><%= es.efs1 %> тнг</td>
+          <td style="font-size: 10px; padding: 5px; border: 1px solid black">
+            <%= es.summa %> тнг
+          </td>
+          <td style="font-size: 10px; padding: 5px; border: 1px solid black">0,0</td>
+        </tr>
+        <% }) %>
+        <tr style="text-align: center; border-left: 0 !important">
+          <td style="border: none"></td>
+          <td style="border: none"></td>
+          <td style="border: none"></td>
+
+          <td style="border: none">Итого</td>
+          <td style="border: 1px solid black"></td>
+          <td style="border: 1px solid black"></td>
+          <td style="border: 1px solid black">x</td>
+          <td style="border: 1px solid black"><%-reportdata.sum%></td>
+          <td style="border: 1px solid black">0,00</td>
+        </tr>
+      </table>
+
+      <div style="margin-top: 20px">
+        Отпуск разрешил <br />
+        <span>Руководитель / должность / подпись / расшифровка подписи</span>
+      </div>
+    </div>
+  </body>
+</html>
