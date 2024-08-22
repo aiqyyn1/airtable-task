@@ -24,6 +24,7 @@ const nakladnayaController = async (req, res) => {
       data_nak: data_nak[0],
       ip: ip[0],
       biin: biin,
+      esf:satylym2,
       nazvanie_firmy_3,
       rukovaditel: rukovaditel,
     };
