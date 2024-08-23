@@ -15,9 +15,8 @@
         border-collapse: collapse;
       }
       .vertical-line {
-        border-left: 2px solid black;
-        height: 100px;
-        margin: 20px;
+        border-left: 1px solid black;
+        height: 150px;
       }
       .content {
         text-align: right;
@@ -171,14 +170,82 @@
           >
         </div>
       </div>
+      <div class="vertical-line" style="position: absolute; left: 55%; top: 80%"></div>
+      <div style="display: -webkit-flex; position: absolute; left: 57%; top: 90%; width: 100%">
+        <div>Запасы получил</div>
+        <div style="position: relative; left: 20px">
+          <span>_________________</span>
+
+          <span style="position: absolute; left: 20%; top: 10px">подпись</span>
+        </div>
+        <div style="position: relative; left: 3%">/</div>
+        <div style="position: relative; left: 25px">
+          <span>___________________________</span>
+          <span style="position: absolute; left: 20%"><%-reportdata.rukovoditel%></span>
+          <span style="position: absolute; left: 20%; top: 10px">расшифровка подписи</span>
+        </div>
+      </div>
       <div style="display: -webkit-flex; margin-top: 50px">
         <div>Отпуск разрешил</div>
         <div style="position: relative; left: 20px">
-          <span>_____________</span>
-          <span style="position: absolute; left: 30%">Руководитель</span>
-          <span style="position: absolute; left: 30%; top: 10px">должность</span>
+          <span>_________________</span>
+          <span style="position: absolute; left: 20%">Руководитель</span>
+          <span style="position: absolute; left: 20%; top: 10px">должность</span>
         </div>
-        <div style="position: relative; left: 30%;">/</div>
+        <div style="position: relative; left: 3%">/</div>
+        <div style="position: relative; left: 25px">
+          <span>_____________</span>
+          <span style="position: absolute; left: 20%; top: 10px">подпись</span>
+        </div>
+        <div style="position: relative; left: 3.5%">/</div>
+        <div style="position: relative; left: 25px">
+          <span>___________________________</span>
+          <span style="position: absolute; left: 20%"><%-reportdata.rukovoditel%></span>
+          <span style="position: absolute; left: 20%; top: 10px">расшифровка подписи</span>
+        </div>
+
+        <div style="position: relative; left: 7%">
+          <div>По доверенности</div>
+          <div style="display: -webkit-flex; margin-top: 10px">
+            <div>выданной</div>
+            <span>___________________________</span>
+          </div>
+          <div>
+            <span>________________________________________________</span>
+          </div>
+        </div>
+      </div>
+      <div style="display: -webkit-flex">
+        <div>
+          <div>Главный бухгалтер</div>
+          <div style="margin-top: 5px">М.П.</div>
+        </div>
+        <div style="position: relative; left: 20px">
+          <span>_________________</span>
+
+          <span style="position: absolute; left: 20%; top: 10px">подпись</span>
+        </div>
+        <div style="position: relative; left: 3%">/</div>
+        <div style="position: relative; left: 25px">
+          <span>___________________________</span>
+          <span style="position: absolute; left: 20%"><%-reportdata.rukovoditel%></span>
+          <span style="position: absolute; left: 20%; top: 10px">расшифровка подписи</span>
+        </div>
+      </div>
+      <div style="display: -webkit-flex; margin-top: 30px">
+        <div>Отпустил</div>
+
+        <div style="position: relative; left: 20px">
+          <span>_________________</span>
+
+          <span style="position: absolute; left: 20%; top: 10px">подпись</span>
+        </div>
+        <div style="position: relative; left: 3%">/</div>
+        <div style="position: relative; left: 25px">
+          <span>___________________________</span>
+          <span style="position: absolute; left: 20%"><%-reportdata.rukovoditel%></span>
+          <span style="position: absolute; left: 20%; top: 10px">расшифровка подписи</span>
+        </div>
       </div>
     </div>
   </body>
