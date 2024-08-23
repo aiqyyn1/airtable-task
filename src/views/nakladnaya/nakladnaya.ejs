@@ -12,13 +12,13 @@
         font-size: 10px;
       }
       table {
-        border: 1px solid black;
         border-collapse: collapse;
-        font-size: 10px;
-        text-align: center;
-        width: 100%;
       }
-
+      .vertical-line {
+        border-left: 2px solid black;
+        height: 100px;
+        margin: 20px;
+      }
       .content {
         text-align: right;
         margin-right: 70px;
@@ -33,10 +33,6 @@
       .form {
         text-align: right;
         margin-right: 5px;
-      }
-
-      th[rowspan] {
-        border-left: 1px solid black !important;
       }
     </style>
   </head>
@@ -56,7 +52,7 @@
           <span>Организация (индивидуальный предприниматель)</span>
         </div>
         <div style="position: relative; left: 20px">
-          <span>___________________________________________________________________</span>
+          <span>___________________________________________________________</span>
           <span style="position: absolute; left: 40%"><%-reportdata.ip%></span>
         </div>
         <div style="display: -webkit-flex; margin-left: 90px; position: relative; bottom: 20px">
@@ -66,7 +62,8 @@
           </div>
         </div>
       </div>
-      <table style="position: absolute; right: 1%">
+
+      <table border="1" style="position: absolute; border: 1px solid black; right: 1%">
         <tr>
           <th>Номер документа</th>
           <th>Дата составления</th>
@@ -76,7 +73,7 @@
           <td><%-reportdata.data_nak%></td>
         </tr>
       </table>
-      <div style="text-align: center; font-size: 16px; margin-top: 50px">
+      <div style="text-align: center; font-size: 12px; margin-top: 50px">
         НАКЛАДНАЯ НА ОТПУСК ЗАПАСОВ НА СТОРОНУ
       </div>
       <table style="margin-top: 20px; text-align: center; width: 100%; border: 1px solid black">
@@ -159,10 +156,29 @@
           <td style="border: 1px solid black">0,00</td>
         </tr>
       </table>
+      <div style="display: -webkit-flex; margin-top: 50px; width: 100%">
+        <span>Всего отпущено количество запасов (прописью)</span>
+        <div style="position: relative; left: 20px">
+          <span>_________________________</span>
+          <span style="position: absolute; left: 30%">Итого (кол-во)</span>
+        </div>
+        <div style="margin-left: 40px">на сумму (прописью), в KZT</div>
 
-      <div style="margin-top: 20px">
-        Отпуск разрешил <br />
-        <span>Руководитель / должность / подпись / расшифровка подписи</span>
+        <div style="position: relative; left: 20px">
+          <span>_______________________________________________</span>
+          <span style="position: absolute; left: 10%; width: 100%"
+            >Итого (Общая сумма) прописью</span
+          >
+        </div>
+      </div>
+      <div style="display: -webkit-flex; margin-top: 50px">
+        <div>Отпуск разрешил</div>
+        <div style="position: relative; left: 20px">
+          <span>_____________</span>
+          <span style="position: absolute; left: 30%">Руководитель</span>
+          <span style="position: absolute; left: 30%; top: 10px">должность</span>
+        </div>
+        <div style="position: relative; left: 30%;">/</div>
       </div>
     </div>
   </body>
