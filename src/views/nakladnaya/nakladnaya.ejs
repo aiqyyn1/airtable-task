@@ -97,26 +97,85 @@
       </table>
       <table style="margin-top: 20px; text-align: center; width: 100%; border: none">
         <tr>
-          <th rowspan="2" style="border: 1px solid black">Номер по порядку</th>
-          <th rowspan="2" style="border: 1px solid black">Наименование, характеристика</th>
-          <th rowspan="2" style="border: 1px solid black">Номенклатурный номер</th>
-          <th rowspan="2" style="border: 1px solid black">Единица измерения</th>
-          <th colspan="2" style="border: 1px solid black">Количество</th>
-          <th rowspan="2" style="border: 1px solid black">Цена за единицу, в KZT</th>
-          <th rowspan="2" style="border: 1px solid black">Сумма с НДС, в KZT</th>
-          <th rowspan="2" style="border: 1px solid black">Сумма НДС, в KZT</th>
+          <th style="border: 1px solid black">Номер по порядку</th>
+          <th style="border: 1px solid black">Наименование, характеристика</th>
+          <th style="border: 1px solid black">Номенклатурный номер</th>
+          <th style="border: 1px solid black">Единица измерения</th>
+          <th>
+            <div style="border-top: 1px solid black; position: relative">
+              <span style="margin-top: 30px"> Количество </span>
+            </div>
+            <div style="position: relative; width: 150px; margin-top: 17px">
+              <div
+                style="
+                  position: absolute;
+                  width: 100%;
+                  top: -2px;
+                  transform: translateY(-50%);
+                  margin: 0;
+                  height: 1px;
+                  background-color: black;
+                "
+              ></div>
+              <div
+                style="
+                  display: -webkit-flex;
+                  -webkit-justify-content: space-between;
+                  position: relative;
+                "
+              >
+                <span class="td_border2" style="flex: 1; padding-right: 5px">цена за единицу</span>
+                <div
+                  style="
+                    position: absolute;
+                    left: 60%;
+                    top: 0;
+                    bottom: 0;
+                    width: 1px;
+                    background-color: black;
+                    transform: translateX(-50%);
+                  "
+                ></div>
+                <span class="td_border3" style="flex: 1; padding-left: 5px">стоимость</span>
+              </div>
+            </div>
+          </th>
+          <th style="border: 1px solid black">Цена за единицу, в KZT</th>
+          <th style="border: 1px solid black">Сумма с НДС, в KZT</th>
+          <th style="border: 1px solid black">Сумма НДС, в KZT</th>
         </tr>
-        <tr>
-          <th style="border: 1px solid black">подлежит отпуску</th>
-          <th style="border: 1px solid black">отпущено</th>
-        </tr>
+
         <tr>
           <td style="border: 1px solid black">1</td>
           <td style="border: 1px solid black">2</td>
           <td style="border: 1px solid black">3</td>
           <td style="border: 1px solid black">4</td>
-          <td style="border: 1px solid black">5</td>
-          <td style="border: 1px solid black">6</td>
+          <td style="border: 1px solid black">
+            <div
+              style="
+                display: -webkit-flex;
+                -webkit-justify-content: space-between;
+                text-align: center;
+                position: relative;
+              "
+            >
+              <span style="margin-left: 20px; text-align: center; padding-right: 5px">5</span>
+              <div
+                style="
+                  position: absolute;
+                  left: 60%;
+                  top: 0;
+                  height: 100%;
+                  bottom: 0;
+                  width: 1px;
+                  background-color: black;
+                  transform: translateX(-50%);
+                "
+              ></div>
+              <span style="margin-right: 20px; padding-left: 5px">6</span>
+            </div>
+          </td>
+
           <td style="border: 1px solid black">7</td>
           <td style="border: 1px solid black">8</td>
           <td style="border: 1px solid black">9</td>
@@ -129,11 +188,33 @@
           </td>
           <td style="border: 1px solid black"></td>
           <td style="border: 1px solid black">шт</td>
-          <td style="font-size: 10px; padding: 5px; border: 1px solid black">
-            <%= es.kol_vo %> шт
-          </td>
-          <td style="font-size: 10px; padding: 5px; border: 1px solid black">
-            <%= es.kol_vo %> шт
+          <td  style="font-size: 10px; height: 100%; padding: 5px; border: 1px solid black">
+            <div
+              style="
+                display: -webkit-flex;
+                -webkit-justify-content: space-between;
+                text-align: center;
+                position: relative;
+                height:200%;
+              "
+            >
+              <span style="margin-left: 20px; text-align: center; padding-right: 5px">
+                <%= es.kol_vo %> шт</span
+              >
+              <div
+                style="
+                  position: absolute;
+                  left: 60%;
+                  top: 0;
+                  bottom: 0;
+                  height: 100%;
+                  width: 1px;
+                  background-color: black;
+                  transform: translateX(-50%);
+                "
+              ></div>
+              <span style="margin-right: 20px; padding-left: 5px"> <%= es.kol_vo %> шт</span>
+            </div>
           </td>
           <td style="font-size: 10px; padding: 5px; border: 1px solid black"><%= es.efs1 %> тнг</td>
           <td style="font-size: 10px; padding: 5px; border: 1px solid black">
@@ -155,7 +236,7 @@
           <td style="border: 1px solid black">0,00</td>
         </tr>
       </table>
-      <div style="display: -webkit-flex; margin-top: 50px; width: 100%">
+      <div style="display: -webkit-flex; margin-top: 20px; width: 100%">
         <span>Всего отпущено количество запасов (прописью)</span>
         <div style="position: relative; left: 20px">
           <span>_________________________</span>
