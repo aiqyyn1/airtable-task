@@ -1,4 +1,114 @@
 const { base, path, pdf, ejs } = require('../../airtable');
+const numToWordsRU = (function () {
+  'use strict';
+
+  const units = ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'];
+  const teens = [
+    'десять',
+    'одиннадцать',
+    'двенадцать',
+    'тринадцать',
+    'четырнадцать',
+    'пятнадцать',
+    'шестнадцать',
+    'семнадцать',
+    'восемнадцать',
+    'девятнадцать',
+  ];
+  const tens = [
+    '',
+    '',
+    'двадцать',
+    'тридцать',
+    'сорок',
+    'пятьдесят',
+    'шестьдесят',
+    'семьдесят',
+    'восемьдесят',
+    'девяносто',
+  ];
+  const hundreds = [
+    '',
+    'сто',
+    'двести',
+    'триста',
+    'четыреста',
+    'пятьсот',
+    'шестьсот',
+    'семьсот',
+    'восемьсот',
+    'девятьсот',
+  ];
+  const thousands = ['', 'тысяча', 'тысячи', 'тысяч'];
+  const millions = ['миллион', 'миллиона', 'миллионов'];
+  const billions = ['миллиард', 'миллиарда', 'миллиардов'];
+
+  const numToWordsRU = function (n) {
+    if (n === 0) return 'ноль';
+
+    const makeGroup = function (group, index) {
+      let ones = group % 10;
+      let tensAndOnes = group % 100;
+      let hundredsPlace = Math.floor(group / 100);
+      let result = [];
+
+      if (hundredsPlace > 0) {
+        result.push(hundreds[hundredsPlace]);
+      }
+
+      if (tensAndOnes > 9 && tensAndOnes < 20) {
+        result.push(teens[tensAndOnes - 10]);
+      } else {
+        if (Math.floor(group / 10) % 10 > 1) {
+          result.push(tens[Math.floor(group / 10) % 10]);
+        }
+        if (ones > 0) {
+          result.push(units[ones]);
+        }
+      }
+
+      let word = result.join(' ');
+
+      if (index === 1) {
+        if (ones === 1) {
+          word += ` ${thousands[1]}`;
+        } else if (ones > 1 && ones < 5) {
+          word += ` ${thousands[2]}`;
+        } else {
+          word += ` ${thousands[3]}`;
+        }
+      } else if (index === 2) {
+        word += ` ${millions[getCase(ones)]}`;
+      } else if (index === 3) {
+        word += ` ${billions[getCase(ones)]}`;
+      }
+
+      return word;
+    };
+
+    const chunk = function (n, c = 3) {
+      let result = [];
+      while (n > 0) {
+        result.push(n % Math.pow(10, c));
+        n = Math.floor(n / Math.pow(10, c));
+      }
+      return result;
+    };
+
+    const getCase = function (ones) {
+      if (ones === 1) return 0;
+      if (ones > 1 && ones < 5) return 1;
+      return 2;
+    };
+
+    const chunks = chunk(n);
+    let words = chunks.map(makeGroup).reverse().filter(Boolean);
+    return words.join(' ');
+  };
+
+  return numToWordsRU;
+})();
+
 function findRecord(recordID) {
   const zakazy_obwee = 'Сатылым1';
   return new Promise((resolve, reject) => {
@@ -269,99 +379,7 @@ const splitTextByPoint = (number, text) => {
 
   return sections;
 };
-const units = ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'];
-const teens = [
-  'десять',
-  'одиннадцать',
-  'двенадцать',
-  'тринадцать',
-  'четырнадцать',
-  'пятнадцать',
-  'шестнадцать',
-  'семнадцать',
-  'восемнадцать',
-  'девятнадцать',
-];
-const tens = [
-  '',
-  '',
-  'двадцать',
-  'тридцать',
-  'сорок',
-  'пятьдесят',
-  'шестьдесят',
-  'семьдесят',
-  'восемьдесят',
-  'девяносто',
-];
-const hundreds = [
-  '',
-  'сто',
-  'двести',
-  'триста',
-  'четыреста',
-  'пятьсот',
-  'шестьсот',
-  'семьсот',
-  'восемьсот',
-  'девятьсот',
-];
-const thousands = [
-  'тысяч',
-  'одна тысяча',
-  'две тысячи',
-  'три тысячи',
-  'четыре тысячи',
-  'пять тысяч',
-  'шесть тысяч',
-  'семь тысяч',
-  'восемь тысяч',
-  'девять тысяч',
-];
 
-const numberToWordsRU = (number) => {
-  let result = '';
-
-  if (number >= 1000 && number < 2000) {
-    result += `одна тысяча `;
-    number %= 1000;
-  } else if (number >= 2000 && number < 5000) {
-    result += `${units[Math.floor(number / 1000)]} тысячи `;
-    number %= 1000;
-  } else if (number >= 5000 && number < 10000) {
-    result += `${units[Math.floor(number / 1000)]} тысяч `;
-    number %= 1000;
-  } else if (number >= 10000 && number < 20000) {
-    result += `${teens[Math.floor(number / 1000) % 10]} тысяч `;
-    number %= 1000;
-  } else if (number >= 20000 && number < 100000) {
-    result += `${tens[Math.floor(number / 10000) % 10]} ${
-      units[Math.floor(number / 1000) % 10]
-    } тысяч `;
-    number %= 1000;
-  } else if (number >= 100000 && number < 1000000) {
-    result += `${hundreds[Math.floor(number / 100000) % 10]} ${
-      tens[Math.floor(number / 10000) % 10]
-    } ${units[Math.floor(number / 1000) % 10]} тысяч `;
-    number %= 1000;
-  }
-
-  if (number >= 100) {
-    result += `${hundreds[Math.floor(number / 100)]} `;
-    number %= 100;
-  }
-
-  if (number >= 20) {
-    result += `${tens[Math.floor(number / 10)]} `;
-    number %= 10;
-  } else if (number >= 10) {
-    result += `${teens[number - 10]} `;
-    number = 0;
-  }
-
-  result += units[number];
-  return result.trim();
-};
 const getDocuments = (recordID) => {
   const documents = 'құжаттар';
   return new Promise((resolve, reject) => {
@@ -381,8 +399,8 @@ const getDocuments = (recordID) => {
 const convertDate = (avrDate) => {
   const dateSplit = String(avrDate).split('-');
   const dateAVR = dateSplit[2] + '.' + dateSplit[1] + '.' + dateSplit[0];
-  return dateAVR
-}
+  return dateAVR;
+};
 module.exports = {
   findRecord,
   fetchRecords,
@@ -393,7 +411,7 @@ module.exports = {
   tapsyrysZholdary,
   convertDate,
   tapsyrysZholdary1,
-  numberToWordsRU,
+  numToWordsRU,
   getDocuments,
   fetchSatylym2,
 };
