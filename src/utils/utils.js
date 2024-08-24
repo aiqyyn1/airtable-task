@@ -378,6 +378,11 @@ const getDocuments = (recordID) => {
       });
   });
 };
+const convertDate = (avrDate) => {
+  const dateSplit = String(avrDate).split('-');
+  const dateAVR = dateSplit[2] + '.' + dateSplit[1] + '.' + dateSplit[0];
+  return dateAVR
+}
 module.exports = {
   findRecord,
   fetchRecords,
@@ -386,6 +391,7 @@ module.exports = {
   splitTextByPoint,
   fetchData,
   tapsyrysZholdary,
+  convertDate,
   tapsyrysZholdary1,
   numberToWordsRU,
   getDocuments,
