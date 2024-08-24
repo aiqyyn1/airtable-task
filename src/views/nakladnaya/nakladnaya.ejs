@@ -188,14 +188,14 @@
           </td>
           <td style="border: 1px solid black"></td>
           <td style="border: 1px solid black">шт</td>
-          <td  style="font-size: 10px; height: 100%; padding: 5px; border: 1px solid black">
+          <td style="font-size: 10px; height: 100%; padding: 5px; border: 1px solid black">
             <div
               style="
                 display: -webkit-flex;
                 -webkit-justify-content: space-between;
                 text-align: center;
                 position: relative;
-                height:200%;
+                height: 200%;
               "
             >
               <span style="margin-left: 20px; text-align: center; padding-right: 5px">
@@ -225,12 +225,24 @@
         <% }) %>
         <tr style="text-align: center; border-left: 0 !important">
           <td style="border: none"></td>
+          <td style="border: none; position: relative"></td>
           <td style="border: none"></td>
-          <td style="border: none"></td>
-
           <td style="border: none">Итого</td>
-          <td style="border: 1px solid black"></td>
-          <td style="border: 1px solid black"></td>
+          <td style="border: 1px solid black; position: relative;">
+            <div
+              style="
+                position: absolute;
+                left: 59%;
+                top: 0;
+                bottom: 0;
+                height: 100%;
+                width: 1px;
+                background-color: black;
+                transform: translateX(-50%);
+              "
+            ></div>
+          </td>
+
           <td style="border: 1px solid black">x</td>
           <td style="border: 1px solid black"><%-reportdata.sum%></td>
           <td style="border: 1px solid black">0,00</td>
