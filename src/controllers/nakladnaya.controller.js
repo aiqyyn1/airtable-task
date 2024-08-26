@@ -36,8 +36,7 @@ const nakladnayaController = async (req, res) => {
         res.status(500).send('Error in rendering template');
       } else {
         const options = {
-          width: '297mm',
-          height: '270mm',
+          format: 'A4',
           orientation: 'landscape',
 
           base: 'file:///' + __dirname,
