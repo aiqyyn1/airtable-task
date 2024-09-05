@@ -14,6 +14,10 @@ const nakladnayaController = async (req, res) => {
 
     // const documents = await getDocuments(recordID);
     const satylym2 = await fetchSatylymDogovor(recordID);
+    let itogoSum = 0;
+    satylym2.forEach((item) => {
+      itogoSum += item.kol_vo;
+    });
 
     const nomer_zakaza = await fetchSatylym2(recordID);
     const nomer_nak = records[0].get('номер Нак');
@@ -35,6 +39,7 @@ const nakladnayaController = async (req, res) => {
       rukovaditel: rukovaditel,
       itogo: itogo,
       propisItogo: numToWordsRU(itogo),
+      itogoSum: itogoSum,
     };
     const templatePath = path.resolve(__dirname, '../views/nakladnaya/nakladnaya.ejs');
     ejs.renderFile(templatePath, { reportdata: airtableData }, (err, data) => {
