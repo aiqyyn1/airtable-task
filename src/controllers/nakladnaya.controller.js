@@ -1,4 +1,10 @@
-const { findRecord, convertDate, fetchSatylymDogovor, fetchSatylym2 } = require('../utils/utils');
+const {
+  findRecord,
+  convertDate,
+  fetchSatylymDogovor,
+  fetchSatylym2,
+  numToWordsRU,
+} = require('../utils/utils');
 const { path, pdf, ejs } = require('../../airtable');
 const nakladnayaController = async (req, res) => {
   const recordID = req.query.recordID;
@@ -28,6 +34,7 @@ const nakladnayaController = async (req, res) => {
       nazvanie_firmy_3,
       rukovaditel: rukovaditel,
       itogo: itogo,
+      propisItogo: numToWordsRU(itogo),
     };
     const templatePath = path.resolve(__dirname, '../views/nakladnaya/nakladnaya.ejs');
     ejs.renderFile(templatePath, { reportdata: airtableData }, (err, data) => {
