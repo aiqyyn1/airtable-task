@@ -51,7 +51,7 @@
           <span>Организация (индивидуальный предприниматель)</span>
         </div>
         <div style="position: relative; left: 20px">
-          <span>___________________________________________________________</span>
+          <span>_____________________________________________________________________________________________________________________________________________________</span>
           <span style="position: absolute; left: 40%"><%-reportdata.ip%></span>
         </div>
        
@@ -101,46 +101,8 @@
           <th style="border: 1px solid black">Наименование, характеристика</th>
           <th style="border: 1px solid black">Номенклатурный номер</th>
           <th style="border: 1px solid black">Единица измерения</th>
-          <th>
-            <div style="border-top: 1px solid black; position: relative">
-              <span style="margin-top: 30px"> Количество </span>
-            </div>
-            <div style="position: relative; width: 150px; margin-top: 17px">
-              <div
-                style="
-                  position: absolute;
-                  width: 143%;
-                  top: -2px;
-                  transform: translateY(-50%);
-                  margin: 0;
-                  height: 1px;
-                  background-color: black;
-                "
-              ></div>
-              <div
-                style="
-                  display: -webkit-flex;
-                  -webkit-justify-content: space-between;
-                  position: relative;
-                "
-              >
-                <span  style=" padding-right: 5px">подлежит отпуску</span>
-                <div
-                  style="
-                    position: absolute;
-                    left: 72%;
-                    top: 0;
-                    bottom: 0;
-                    width: 1px;
-                    height: 120%;
-                    background-color: black;
-                    transform: translateX(-50%);
-                  "
-                ></div>
-                <span class="td_border3" style="flex: 1; padding-left: 5px">отпущено</span>
-              </div>
-            </div>
-          </th>
+          <th style="border: 1px solid black">Количество подлежит отпуску</th>
+          <th style="border: 1px solid black">Количество отпущено</th>
           <th style="border: 1px solid black">Цена за единицу, в KZT</th>
           <th style="border: 1px solid black">Сумма с НДС, в KZT</th>
           <th style="border: 1px solid black">Сумма НДС, в KZT</th>
@@ -152,30 +114,13 @@
           <td style="border: 1px solid black">3</td>
           <td style="border: 1px solid black">4</td>
           <td style="border: 1px solid black">
-            <div
-              style="
-                display: -webkit-flex;
-                -webkit-justify-content: space-between;
-                text-align: center;
-                position: relative;
-              "
-            >
-              <span style="margin-left: 30px; text-align: center; padding-right: 5px">5</span>
-              <div
-                style="
-                  position: absolute;
-                  left: 50.5%;
-                  top: 0;
-                  height: 120%;
-                  bottom: 0;
-                  width: 1px;
-                  background-color: black;
-                  transform: translateX(-50%);
-                "
-              ></div>
-              <span style="margin-right: 30px; padding-left: 5px">6</span>
-            </div>
+         
+          5
           </td>
+          <td style="border: 1px solid black">
+         
+            6
+            </td>
 
           <td style="border: 1px solid black">7</td>
           <td style="border: 1px solid black">8</td>
@@ -189,37 +134,19 @@
           </td>
           <td style="border: 1px solid black"></td>
           <td style="border: 1px solid black">шт</td>
-          <td style="font-size: 5px; height: 100%; padding: 5px; border: 1px solid black">
-            <div
-              style="
-                display: -webkit-flex;
-                -webkit-justify-content: space-between;
-                text-align: center;
-                position: relative;
-                height: 200%;
-              "
-            >
-              <span style="margin-left: 20px; text-align: center; padding-right: 5px">
-                <%= es.kol_vo %> шт</span
-              >
-              <div
-                style="
-                  position: absolute;
-                  left: 50.5%;
-                  top: -100%;
-                  bottom: 0;
-                  height: 300%;
-                  width: 1px;
-                  background-color: black;
-                  transform: translateX(-50%);
-                "
-              ></div>
-              <span style="margin-right: 20px; padding-left: 5px"> <%= es.kol_vo %> шт</span>
-            </div>
+          <td style=" border: 1px solid black">
+           
+            <%= es.kol_vo %> шт
+      
           </td>
-          <td style="font-size: 5px; padding: 5px; border: 1px solid black"><%= es.efs1 %> тнг</td>
+          <td style=" border: 1px solid black">
+           
+            <%= es.kol_vo %> шт
+      
+          </td>
+          <td style="font-size: 5px; padding: 5px; border: 1px solid black"><%= es.efs1 %> </td>
           <td style="font-size: 5px; padding: 5px; border: 1px solid black">
-            <%= es.summa %> тнг
+            <%= es.summa %> 
           </td>
           <td style="font-size: 5px; padding: 5px; border: 1px solid black">0,0</td>
         </tr>
@@ -230,20 +157,11 @@
           <td style="border: none"></td>
           <td style="border: none">Итого</td>
           <td style="border: 1px solid black; position: relative;">
-            <div
-              style="
-                position: absolute;
-                left: 50.5%;
-                top: 0;
-                bottom: 0;
-                height: 100%;
-                width: 1px;
-                background-color: black;
-                transform: translateX(-50%);
-              "
-            ></div>
+       
           </td>
-
+          <td style="border: 1px solid black; position: relative;">
+       
+          </td>
           <td style="border: 1px solid black">x</td>
           <td style="border: 1px solid black"><%-reportdata.sum%></td>
           <td style="border: 1px solid black">0,00</td>
