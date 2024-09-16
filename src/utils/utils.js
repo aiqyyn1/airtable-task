@@ -190,23 +190,20 @@ const fetchSatylymDogovor = (recordID) => {
         function page(records, fetchNextPage) {
           try {
             records.forEach((item) => {
-              const nak = item.get('Накладная');
-              if (nak) {
-                const naimenovanie = item.get('ТауарАты1');
-                const esfCena = item.get('Баға') ? item.get('Баға').toLocaleString() : '';
-                const kol_vo = item.get('Саны');
-                const n = item.get('№');
+              const naimenovanie = item.get('ТауарАты1');
+              const esfCena = item.get('Баға') ? item.get('Баға').toLocaleString() : '';
+              const kol_vo = item.get('Саны');
+              const n = item.get('№');
 
-                let summa = item.get('Сомасы').toLocaleString();
+              let summa = item.get('Сомасы').toLocaleString();
 
-                esf.push({
-                  Наименование: naimenovanie,
-                  n: n,
-                  efs1: esfCena,
-                  kol_vo: kol_vo,
-                  summa: summa,
-                });
-              }
+              esf.push({
+                Наименование: naimenovanie,
+                n: n,
+                efs1: esfCena,
+                kol_vo: kol_vo,
+                summa: summa,
+              });
             });
 
             fetchNextPage();
