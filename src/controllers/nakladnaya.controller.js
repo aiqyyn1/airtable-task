@@ -14,7 +14,6 @@ const nakladnayaController = async (req, res) => {
 
     // const documents = await getDocuments(recordID);
     const satylym2 = await fetchNakladanaya(recordID);
-    console.log(satylym2)
     let itogoSum = 0;
     satylym2.forEach((item) => {
       itogoSum += item.kol_vo;
