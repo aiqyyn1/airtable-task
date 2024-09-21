@@ -190,7 +190,7 @@ const fetchNakladanaya = (recordID) => {
         function page(records, fetchNextPage) {
           try {
             records.forEach((item) => {
-              const nak = item.get('Нак');
+              const nak = item.get('Накладная');
               if (nak) {
                 const naimenovanie = item.get('ТауарАты1');
                 const esfCena = item.get('Баға') ? item.get('Баға').toLocaleString() : '';
@@ -460,5 +460,5 @@ module.exports = {
   numToWordsRU,
   getDocuments,
   fetchSatylym2,
-  fetchNakladanaya
+  fetchNakladanaya,
 };
