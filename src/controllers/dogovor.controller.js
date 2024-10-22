@@ -100,9 +100,9 @@ const dogovorController = async (req, res) => {
     const iik = zakazy_obwee[0].get('счет (from ИП)');
     const biik_from_ip = zakazy_obwee[0].get('БИК (from ИП)');
     const bank_from_ip = zakazy_obwee[0].get('Банк (from ИП)');
-    const rukovoditel = zakazy_obwee[0].get('Руководитель');
+    const rukovoditel = zakazy_obwee[0].get('руководитель (from ИП)');
     const kbe = zakazy_obwee[0].get('Кбе (from ИП)');
-    console.log(biik_from_ip)
+    console.log(biik_from_ip);
     const airtableData = {
       pechat: zakazy_obwee[0].get('печать (from ИП)')[0].url,
       rospis: zakazy_obwee[0].get('роспись (from ИП)')[0].url,
