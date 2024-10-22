@@ -102,7 +102,22 @@ const dogovorController = async (req, res) => {
     const bank_from_ip = zakazy_obwee[0].get('Банк (from ИП)');
     const rukovoditel = zakazy_obwee[0].get('руководитель (from ИП)');
     const kbe = zakazy_obwee[0].get('Кбе (from ИП)');
-    console.log(biik_from_ip);
+    const card = {
+      ip,
+      bank_from_ip,
+      biik_from_ip,
+      address_from_ip,
+      biin_from_ip,
+      iik,
+      rukovoditel,
+      kbe,
+    };
+
+    Object.keys(card).forEach((key) => {
+      card[key] = String(card[key]);
+    });
+
+    console.log(card);
     const airtableData = {
       pechat: zakazy_obwee[0].get('печать (from ИП)')[0].url,
       rospis: zakazy_obwee[0].get('роспись (from ИП)')[0].url,
@@ -130,16 +145,7 @@ const dogovorController = async (req, res) => {
       sections6: sections6,
       sections7: sections7,
       sections8: sections8,
-      card: {
-        ip,
-        bank_from_ip,
-        biik_from_ip,
-        address_from_ip,
-        biin_from_ip,
-        iik,
-        rukovoditel,
-        kbe,
-      },
+      card: card
     };
 
     const filename = `${airtableData.name}.pdf`;
