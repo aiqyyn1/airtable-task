@@ -103,15 +103,14 @@
           </tr>
           <tr>
             <td style="position: relative;">
-              <span style="font-weight: bold">ИП «Сымбат» </span><br />Адрес: город Нур-Султан,
-              район Есиль, Сығанақ 54а,<br />офис 1007<br />
-              Тел: +77029028442<br />
-              БИН/ИИН: 910515450944 <br />
-              ИИК KZ38722S000018578247 <br />
-              БИК CASPKZKA АО “Kaspi Bank”<br />
-              Кбе 19<br />
+              <span style="font-weight: bold"><%-reportdata.card.ip%></span> <br/>
+        
+              БИН/ИИН: <%-reportdata.card.biin_from_ip%> <br />
+              ИИК <%-reportdata.card.iik%> <br />
+              БИК <%-reportdata.card.biik_from_ip%><br />
+              Кбе <%-reportdata.card.kbe%><br />
               <span style="font-weight: bold">Директор</span><br />
-              ____________________ Аймаганова М.С.<br />
+              ____________________ <%-reportdata.rukovoditel%><br />
               <% if (reportdata.checkbox) { %>
               <img src="<%-reportdata.rospis%>" style="position: absolute; bottom:0px; left: 30px; width: 50px; height: 30px;">
               <% } %>

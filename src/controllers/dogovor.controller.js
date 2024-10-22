@@ -1,5 +1,10 @@
 const { base, path, pdf, ejs } = require('../../airtable');
-const { findRecord, fetchSatylymDogovor, splitTextByPoint, numToWordsRU } = require('../utils/utils');
+const {
+  findRecord,
+  fetchSatylymDogovor,
+  splitTextByPoint,
+  numToWordsRU,
+} = require('../utils/utils');
 const { getInDetail } = require('./avr.controller');
 const getSections = async (ID) => {
   try {
@@ -89,7 +94,15 @@ const dogovorController = async (req, res) => {
     const split_date = date && String(date).split('-');
     const new_date = split_date ? split_date[2] + '.' + split_date[1] + '.' + split_date[0] : '';
     const name_of_firm = zakazy_obwee[0].get('название фирмы 3');
-
+    const ip = zakazy_obwee[0].get('ИП имя (from ИП)');
+    const address_from_ip = zakazy_obwee[0].get('адрес (from ИП)');
+    const biin_from_ip = zakazy_obwee[0].get('БИН (from ИП)');
+    const iik = zakazy_obwee[0].get('счет (from ИП)');
+    const biik_from_ip = zakazy_obwee[0].get('БИК (from ИП)');
+    const bank_from_ip = zakazy_obwee[0].get('Банк (from ИП)');
+    const rukovoditel = zakazy_obwee[0].get('Руководитель');
+    const kbe = zakazy_obwee[0].get('Кбе (from ИП)');
+    console.log(biik_from_ip)
     const airtableData = {
       pechat: zakazy_obwee[0].get('печать (from ИП)')[0].url,
       rospis: zakazy_obwee[0].get('роспись (from ИП)')[0].url,
@@ -117,6 +130,16 @@ const dogovorController = async (req, res) => {
       sections6: sections6,
       sections7: sections7,
       sections8: sections8,
+      card: {
+        ip,
+        bank_from_ip,
+        biik_from_ip,
+        address_from_ip,
+        biin_from_ip,
+        iik,
+        rukovoditel,
+        kbe,
+      },
     };
 
     const filename = `${airtableData.name}.pdf`;
