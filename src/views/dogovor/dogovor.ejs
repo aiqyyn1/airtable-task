@@ -93,7 +93,7 @@
         </div>
       </div>
       <div>
-        <div style="text-align: left; font-weight: bold;  margin-top: 300px; text-align: center;">
+        <div style="text-align: left; font-weight: bold;  margin-top: 30px; text-align: center;">
           9. Место нахождения, реквизиты и подписи Сторон
         </div>
         <table style="width: 100%">
@@ -130,11 +130,11 @@
             </td>
           </tr>
         </table>
-        <div style="text-align: center; margin-top: 50px; font-size: 10px ; font-weight: bold;">
+        <div style="text-align: center; margin-top: 120px; font-size: 10px ; font-weight: bold;">
           Приложение 1 к договору № <%- reportdata.dogovor_dlya_schet_oplaty %> от <%-reportdata.data_dogovara%>
           <%- reportdata.dogovor %>
         </div>
-        <div>между ИП «Сымбат» (qadamloft) и заказчик <%- reportdata.name_of_firm %></div>
+        <div>между <%- reportdata.card.ip %>  (qadamloft) и заказчик <%- reportdata.name_of_firm %></div>
         <table style="width: 100%; margin-top: 20px; font-size: 10px;">
           <tr>
             <th>№</th>
@@ -154,7 +154,7 @@
     
             <div style="display:  -webkit-flex; margin-top: 70px;">
             <div style="padding: 5px; position: relative; width: 200px; border: 1px solid black; height: 100px;">
-              <span style="text-align: center">ИП "СЫМБАТ"</span>
+              <span style="text-align: center"><%- reportdata.name_of_firm %></span>
              <br> Руководитель _____________ Аймаганова М.С
               <% if (reportdata.checkbox) { %>
               <img src="<%-reportdata.rospis%>" style="position: absolute; top: 5px; left: 60px; width: 50px; height: 30px;">
@@ -164,7 +164,7 @@
               <% } %>
               </div>
             <div style="padding: 5px; border: 1px solid black; width: 200px; height: 100px; margin-left: 10px;">
-              <%- reportdata.name_of_firm %> </br> Руководитель _____________ Заказы
+              <%- reportdata.name_of_firm %> </br> Руководитель _____________ 
               <%- reportdata.director_from_client %>
             </div>
           </div>

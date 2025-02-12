@@ -117,7 +117,6 @@ const dogovorController = async (req, res) => {
       card[key] = String(card[key]);
     });
 
-    console.log(card);
     const airtableData = {
       pechat: zakazy_obwee[0].get('печать (from ИП)')[0].url,
       rospis: zakazy_obwee[0].get('роспись (from ИП)')[0].url,
