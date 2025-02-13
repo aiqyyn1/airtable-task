@@ -102,6 +102,7 @@ const dogovorController = async (req, res) => {
     const bank_from_ip = zakazy_obwee[0].get('Банк (from ИП)');
     const rukovoditel = zakazy_obwee[0].get('руководитель (from ИП)');
     const kbe = zakazy_obwee[0].get('Кбе (from ИП)');
+    console.log(req.body.checkbox, 'check')
     const card = {
       ip,
       bank_from_ip,

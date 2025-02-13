@@ -116,7 +116,7 @@
               <% } %>
               м.п.
               <% if (reportdata.checkbox) { %>
-                <img style="position: absolute; top: 130px; left: 0px; width: 100px;" src="<%- reportdata.pechat %>" alt="Печать">
+                <img style="position: absolute; top: 3px; left: 155px; width: 100px;" src="<%- reportdata.pechat %>" alt="Печать">
               <% } %>
             </td>
             <td>
@@ -154,8 +154,8 @@
     
             <div style="display:  -webkit-flex; margin-top: 70px;">
             <div style="padding: 5px; position: relative; width: 200px; border: 1px solid black; height: 100px;">
-              <span style="text-align: center"><%- reportdata.name_of_firm %></span>
-             <br> Руководитель _____________ Аймаганова М.С
+              <span style="text-align: center"><%- reportdata.card.ip %></span>
+             <br> Руководитель _____________  <%-reportdata.card.rukovoditel%>
               <% if (reportdata.checkbox) { %>
               <img src="<%-reportdata.rospis%>" style="position: absolute; top: 5px; left: 60px; width: 50px; height: 30px;">
               <% } %>
