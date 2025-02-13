@@ -112,11 +112,11 @@
               <span style="font-weight: bold">Директор</span><br />
               ____________________ <%-reportdata.card.rukovoditel%><br />
               <% if (reportdata.checkbox) { %>
-              <img src="<%-reportdata.rospis%>" style="position: absolute; bottom:0px; left: 30px; width: 50px; height: 30px;">
+              <img src="<%-reportdata.rospis%>" style="position: absolute; bottom:10px; left: 30px; width: 50px; height: 30px;">
               <% } %>
               м.п.
               <% if (reportdata.checkbox) { %>
-                <img style="position: absolute; top: 3px; left: 155px; width: 100px;" src="<%- reportdata.pechat %>" alt="Печать">
+                <img style="position: absolute; top: 75px; left: 0px; width: 100px;" src="<%- reportdata.pechat %>" alt="Печать">
               <% } %>
             </td>
             <td>
@@ -130,7 +130,7 @@
             </td>
           </tr>
         </table>
-        <div style="text-align: center; margin-top: 120px; font-size: 10px ; font-weight: bold;">
+        <div style="text-align: center; margin-top: 200px; font-size: 10px ; font-weight: bold;">
           Приложение 1 к договору № <%- reportdata.dogovor_dlya_schet_oplaty %> от <%-reportdata.data_dogovara%>
           <%- reportdata.dogovor %>
         </div>
